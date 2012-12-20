@@ -1,0 +1,17 @@
+Pour les fichiers CSV:
+
+	- GO CHECK UML !
+
+	- Tu stock la premiere ligne dans une List (_dataNames dans EntityManager) en excluant les deux premieres cellules
+
+	- Pour chaques cellules (en excluant les 2 premieres) de chaques lignes du fichier tu appelle addInfoToEntity (de EntityManager)
+
+	- Si il n'y as pas de valeur dans la cellule ou une mauvaise valeur (lettres, ...) tu envoie "Float.NaN"
+
+	- Braveau ! Tu as finis !
+
+Pour les fichies ODF:
+
+	- Tu apprends a utiliser JOpenDocument
+
+	- Meme chose que pour CSV ..
