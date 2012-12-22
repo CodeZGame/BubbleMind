@@ -1,9 +1,13 @@
+This file is related to the project BubbleMind hosted on github.
+========
+INFOS
 
 
+This file indicates how to greatly format your file in order to use the application correctly and
+how to add an extra support for specific file format.
 
-
-
-
+========
+FILE FORMAT
 
 CSV File:
 	- The first column must contain the name of the "entity"
@@ -15,3 +19,18 @@ CSV File:
 	- Each lines must formated as the first line with no value in a column if necessary
 
 	(see example file: "csvExemple.csv")
+
+ODF File:
+	- //TODO
+
+
+	(see example file: "odfExample.odf")
+
+
+========
+ADD AN EXTRA FILE FORMAT SUPPORT
+
+If you want to add an extra file format support for BubbleMind, that's simple.
+You're file must extend ALoaderFile class, and then add every single data to manager (DataEntryManager).
+In order to do that you must call the method AddInfoToDataEntry of the manager.
+You can also take a look at the UML (parsing.moo) or directly look into the source file.

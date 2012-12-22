@@ -1,0 +1,5 @@
+This file is related to the project BubbleMind hosted on github.
+
+This file contain some tests that could be necessary to do before the first release of the project.
+
+- Try to add another file format support (and describe HOW TO)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{42A79179-FC22-45B2-9994-9560AAE54AF1}" Label="" LastModificationDate="1356026549" Name="parsing" Objects="48" Symbols="25" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{42A79179-FC22-45B2-9994-9560AAE54AF1}" Label="" LastModificationDate="1356198965" Name="parsing" Objects="45" Symbols="22" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -2533,9 +2533,9 @@ Shadow=0</a:DisplayPreferences>
 </o:RoundRectangleSymbol>
 <o:AssociationSymbol Id="o7">
 <a:CreationDate>1356016391</a:CreationDate>
-<a:ModificationDate>1356025896</a:ModificationDate>
-<a:Rect>((4079,12864), (8127,22888))</a:Rect>
-<a:ListOfPoints>((6103,22888),(6103,12864))</a:ListOfPoints>
+<a:ModificationDate>1356198965</a:ModificationDate>
+<a:Rect>((4271,12864), (8319,23188))</a:Rect>
+<a:ListOfPoints>((6295,23188),(6295,12864))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>3592</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -2555,8 +2555,8 @@ MULA 0 Arial,8,N</a:FontList>
 <o:GeneralizationSymbol Id="o11">
 <a:CreationDate>1356016454</a:CreationDate>
 <a:ModificationDate>1356025948</a:ModificationDate>
-<a:Rect>((637,360), (1637,10485))</a:Rect>
-<a:ListOfPoints>((1137,360),(1137,10485))</a:ListOfPoints>
+<a:Rect>((291,360), (1291,10485))</a:Rect>
+<a:ListOfPoints>((791,360),(791,10485))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>7</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -2575,8 +2575,8 @@ MULA 0 Arial,8,N</a:FontList>
 <o:GeneralizationSymbol Id="o14">
 <a:CreationDate>1356016458</a:CreationDate>
 <a:ModificationDate>1356025938</a:ModificationDate>
-<a:Rect>((22798,3338), (23798,8280))</a:Rect>
-<a:ListOfPoints>((23298,3338),(23298,8280))</a:ListOfPoints>
+<a:Rect>((23114,3338), (24114,8280))</a:Rect>
+<a:ListOfPoints>((23614,3338),(23614,8280))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>7</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -2594,9 +2594,9 @@ MULA 0 Arial,8,N</a:FontList>
 </o:GeneralizationSymbol>
 <o:AssociationSymbol Id="o17">
 <a:CreationDate>1356016660</a:CreationDate>
-<a:ModificationDate>1356025909</a:ModificationDate>
-<a:Rect>((-17360,17838), (-13462,22850))</a:Rect>
-<a:ListOfPoints>((-15486,22850),(-15486,17838))</a:ListOfPoints>
+<a:ModificationDate>1356198965</a:ModificationDate>
+<a:Rect>((-17444,17838), (-13546,23150))</a:Rect>
+<a:ListOfPoints>((-15570,23150),(-15570,17838))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>3592</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -2615,9 +2615,9 @@ MULA 0 Arial,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:AssociationSymbol Id="o20">
 <a:CreationDate>1356016879</a:CreationDate>
-<a:ModificationDate>1356025893</a:ModificationDate>
-<a:Rect>((1549,14959), (5597,24611))</a:Rect>
-<a:ListOfPoints>((3573,14959),(3573,24611))</a:ListOfPoints>
+<a:ModificationDate>1356198965</a:ModificationDate>
+<a:Rect>((1608,14959), (5656,24911))</a:Rect>
+<a:ListOfPoints>((3632,14959),(3632,24911))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>3336</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -2636,9 +2636,9 @@ MULA 0 Arial,8,N</a:FontList>
 </o:AssociationSymbol>
 <o:ClassSymbol Id="o8">
 <a:CreationDate>1356016038</a:CreationDate>
-<a:ModificationDate>1356025893</a:ModificationDate>
+<a:ModificationDate>1356198965</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-24831,22842), (8255,27636))</a:Rect>
+<a:Rect>((-25415,23142), (9139,27936))</a:Rect>
 <a:LineColor>128</a:LineColor>
 <a:FillColor>8637161</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2661,7 +2661,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:CreationDate>1356016038</a:CreationDate>
 <a:ModificationDate>1356019322</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((419,8217), (25007,15108))</a:Rect>
+<a:Rect>((-315,8217), (25741,15108))</a:Rect>
 <a:LineColor>128</a:LineColor>
 <a:FillColor>8637161</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3335,11 +3335,11 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <c:Operations>
 <o:Operation Id="o46">
 <a:ObjectID>B123ED8F-D353-48E5-BD65-57264A7A8C0A</a:ObjectID>
-<a:Name>addInfoToEntity</a:Name>
-<a:Code>addInfoToEntity</a:Code>
+<a:Name>addInfoToDataEntry</a:Name>
+<a:Code>addInfoToDataEntry</a:Code>
 <a:CreationDate>1356016132</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356025888</a:ModificationDate>
+<a:ModificationDate>1356198962</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:ReturnType>void</a:ReturnType>
 <a:TemplateBody>%DefaultBody%</a:TemplateBody>
@@ -3834,7 +3834,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <a:Code>Java</a:Code>
 <a:CreationDate>1356015997</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356015997</a:ModificationDate>
+<a:ModificationDate>1356198781</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:TargetModelURL>file:///%_OBJLANG%/java5-j2ee14.xol</a:TargetModelURL>
 <a:TargetModelID>0DEDDB90-46E2-45A0-886E-411709DA0DC9</a:TargetModelID>
@@ -3849,7 +3849,7 @@ DISPNAME 0 Arial,8,U</a:FontList>
 <a:Code>WSDLJava</a:Code>
 <a:CreationDate>1356015997</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356015997</a:ModificationDate>
+<a:ModificationDate>1356198781</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:TargetModelURL>file:///%_XEM%/WSDLJ2EE.xem</a:TargetModelURL>
 <a:TargetModelID>C8F5F7B2-CF9D-4E98-8301-959BB6E86C8A</a:TargetModelID>

@@ -1,0 +1,20 @@
+This file is related to the project BubbleMind hosted on github.
+
+This file contain the objectives of the project and
+some good stuff that could be done in some future release of BubbleMind.
+
+Will be done:
+
+- Support of CSV and ODF files
+
+- Basic printing of bubbles
+
+- GUI
+
+Could be done:
+
+- A bubble historic (see trendalyzer)
+
+- Recalculate data between years in order to draw more approximative values
+
+-

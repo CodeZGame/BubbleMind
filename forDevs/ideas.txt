@@ -1,0 +1,10 @@
+This file is related to the project BubbleMind hosted on github.
+
+This file contain ideas that may be implemented soon or later.
+If the idea is approved by a majority of devs, it will be implemented as soon as possible,
+and if the major part of the project is already done.
+
+
+	- Bubbles color could be define in the file
+
+	-

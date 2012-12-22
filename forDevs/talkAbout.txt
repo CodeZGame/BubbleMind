@@ -1,0 +1,6 @@
+This file is related to the project BubbleMind hosted on github.
+
+This file contain info that devs need to talk about.
+
+- Color bubbles ? (each different ?
+  gather in some order / random / calculate between min-max numbers of bubbles)
