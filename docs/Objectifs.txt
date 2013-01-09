@@ -1,6 +1,0 @@
-
-
-May be done:
-
-	- Recalcul entre les annees pour afficher des valeurs plus pproximatives
-	-

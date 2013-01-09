@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{594118D7-BB9B-43F7-B366-9A96A274307D}" Label="" LastModificationDate="1357399964" Name="ModeleOrienteObjet_1" Objects="41" Symbols="35" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{594118D7-BB9B-43F7-B366-9A96A274307D}" Label="" LastModificationDate="1357750685" Name="UsesCases" Objects="41" Symbols="35" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -8,12 +8,12 @@
 <c:Children>
 <o:Model Id="o2">
 <a:ObjectID>594118D7-BB9B-43F7-B366-9A96A274307D</a:ObjectID>
-<a:Name>ModeleOrienteObjet_1</a:Name>
-<a:Code>ModeleOrienteObjet_1</a:Code>
+<a:Name>UsesCases</a:Name>
+<a:Code>UsesCases</a:Code>
 <a:CreationDate>1357398338</a:CreationDate>
 <a:Creator>salido_m</a:Creator>
-<a:ModificationDate>1357399872</a:ModificationDate>
-<a:Modifier>salido_m</a:Modifier>
+<a:ModificationDate>1357750679</a:ModificationDate>
+<a:Modifier>franco_d</a:Modifier>
 <a:PackageOptionsText>[FolderOptions]
 
 [FolderOptions\Class Diagram Objects]
@@ -981,12 +981,12 @@ NameToCode=No</a:ModelOptionsText>
 <c:UseCaseDiagrams>
 <o:UseCaseDiagram Id="o5">
 <a:ObjectID>05EF0F8E-565C-41D2-BBAD-4187D103E29A</a:ObjectID>
-<a:Name>DiagrammeCasUtilisation_1</a:Name>
-<a:Code>DiagrammeCasUtilisation_1</a:Code>
+<a:Name>UsesCases</a:Name>
+<a:Code>UsesCases</a:Code>
 <a:CreationDate>1357398338</a:CreationDate>
 <a:Creator>salido_m</a:Creator>
-<a:ModificationDate>1357399872</a:ModificationDate>
-<a:Modifier>salido_m</a:Modifier>
+<a:ModificationDate>1357750685</a:ModificationDate>
+<a:Modifier>franco_d</a:Modifier>
 <a:DisplayPreferences>[DisplayPreferences]
 
 [DisplayPreferences\UCD]
@@ -1399,7 +1399,7 @@ Shadow=0</a:DisplayPreferences>
 <o:GeneralizationSymbol Id="o25">
 <a:CreationDate>1357398864</a:CreationDate>
 <a:ModificationDate>1357399377</a:ModificationDate>
-<a:Rect>((-6405,-5140), (-5369,8775))</a:Rect>
+<a:Rect>((-6387,-5140), (-5387,8775))</a:Rect>
 <a:ListOfPoints>((-6300,8775),(-6300,4575),(-5475,7350),(-5925,-5140))</a:ListOfPoints>
 <a:ArrowStyle>7</a:ArrowStyle>
 <a:LineColor>8421504</a:LineColor>

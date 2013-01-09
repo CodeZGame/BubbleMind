@@ -1,5 +1,7 @@
 This file is related to the project BubbleMind hosted on github.
 
+This file contain infos for devs.
+
 Pour les fichiers CSV:
 
 	- GO CHECK UML !

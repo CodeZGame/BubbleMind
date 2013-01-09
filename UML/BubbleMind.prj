@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{FB343A4C-7D9D-4ED7-8D32-21E3A5835E6D}" Label="" LastModificationDate="1356026854" Name="BubbleMind" Objects="14" Symbols="12" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" signature="PRJ_MODEL_XML" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{FB343A4C-7D9D-4ED7-8D32-21E3A5835E6D}" Label="" LastModificationDate="1357753416" Name="BubbleMind" Objects="7" Symbols="2" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" signature="PRJ_MODEL_XML" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -12,7 +12,7 @@
 <a:Code>BubbleMind</a:Code>
 <a:CreationDate>1356015781</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026841</a:ModificationDate>
+<a:ModificationDate>1357753307</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:ModelOptionsText>[ModelOptions]
 
@@ -173,7 +173,7 @@ ConvTablePath=%_HOME%\Fichiers de ressources\Tables de conversion</a:ModelOption
 <a:Code>root</a:Code>
 <a:CreationDate>1356015781</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026841</a:ModificationDate>
+<a:ModificationDate>1357750884</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:DisplayPreferences>[DisplayPreferences]
 
@@ -445,86 +445,11 @@ Shadow=0</a:DisplayPreferences>
 <a:PageOrientation>1</a:PageOrientation>
 <a:PaperSource>15</a:PaperSource>
 <c:Symbols>
-<o:ExtendedDependencySymbol Id="o4">
-<a:CreationDate>1356026837</a:CreationDate>
-<a:ModificationDate>1356026837</a:ModificationDate>
-<a:Rect>((-3225,13537), (4050,14137))</a:Rect>
-<a:ListOfPoints>((-3225,13837),(4050,13837))</a:ListOfPoints>
-<a:ArrowStyle>8</a:ArrowStyle>
-<a:LineColor>0</a:LineColor>
-<a:ShadowColor>16777215</a:ShadowColor>
-<a:FontList>OBJXSTR 0 Arial,8,N</a:FontList>
-<c:SourceSymbol>
-<o:ModelDocumentSymbol Ref="o5"/>
-</c:SourceSymbol>
-<c:DestinationSymbol>
-<o:ModelDocumentSymbol Ref="o6"/>
-</c:DestinationSymbol>
-<c:Object>
-<o:ExtendedDependency Ref="o7"/>
-</c:Object>
-</o:ExtendedDependencySymbol>
-<o:ExtendedDependencySymbol Id="o8">
-<a:CreationDate>1356026839</a:CreationDate>
-<a:ModificationDate>1356026839</a:ModificationDate>
-<a:Rect>((-3075,7087), (6225,13537))</a:Rect>
-<a:ListOfPoints>((-3075,13537),(6225,7087))</a:ListOfPoints>
-<a:ArrowStyle>8</a:ArrowStyle>
-<a:LineColor>0</a:LineColor>
-<a:ShadowColor>16777215</a:ShadowColor>
-<a:FontList>OBJXSTR 0 Arial,8,N</a:FontList>
-<c:SourceSymbol>
-<o:ModelDocumentSymbol Ref="o5"/>
-</c:SourceSymbol>
-<c:DestinationSymbol>
-<o:ModelDocumentSymbol Ref="o9"/>
-</c:DestinationSymbol>
-<c:Object>
-<o:ExtendedDependency Ref="o10"/>
-</c:Object>
-</o:ExtendedDependencySymbol>
-<o:ExtendedDependencySymbol Id="o11">
-<a:CreationDate>1356026840</a:CreationDate>
-<a:ModificationDate>1356026854</a:ModificationDate>
-<a:Rect>((-3975,4837), (-2400,14587))</a:Rect>
-<a:ListOfPoints>((-3975,14587),(-2400,4837))</a:ListOfPoints>
-<a:ArrowStyle>8</a:ArrowStyle>
-<a:LineColor>0</a:LineColor>
-<a:ShadowColor>16777215</a:ShadowColor>
-<a:FontList>OBJXSTR 0 Arial,8,N</a:FontList>
-<c:SourceSymbol>
-<o:ModelDocumentSymbol Ref="o5"/>
-</c:SourceSymbol>
-<c:DestinationSymbol>
-<o:ModelDocumentSymbol Ref="o12"/>
-</c:DestinationSymbol>
-<c:Object>
-<o:ExtendedDependency Ref="o13"/>
-</c:Object>
-</o:ExtendedDependencySymbol>
-<o:ExtendedDependencySymbol Id="o14">
-<a:CreationDate>1356026841</a:CreationDate>
-<a:ModificationDate>1356026841</a:ModificationDate>
-<a:Rect>((-11175,4837), (-3825,14662))</a:Rect>
-<a:ListOfPoints>((-3825,14662),(-11175,4837))</a:ListOfPoints>
-<a:ArrowStyle>8</a:ArrowStyle>
-<a:LineColor>0</a:LineColor>
-<a:ShadowColor>16777215</a:ShadowColor>
-<a:FontList>OBJXSTR 0 Arial,8,N</a:FontList>
-<c:SourceSymbol>
-<o:ModelDocumentSymbol Ref="o5"/>
-</c:SourceSymbol>
-<c:DestinationSymbol>
-<o:ModelDocumentSymbol Ref="o15"/>
-</c:DestinationSymbol>
-<c:Object>
-<o:ExtendedDependency Ref="o16"/>
-</c:Object>
-</o:ExtendedDependencySymbol>
-<o:ModelDocumentSymbol Id="o15">
-<a:ModificationDate>1356026620</a:ModificationDate>
+<o:ModelDocumentSymbol Id="o4">
+<a:CreationDate>1357750669</a:CreationDate>
+<a:ModificationDate>1357750886</a:ModificationDate>
 <a:IconMode>2</a:IconMode>
-<a:Rect>((-12262,3488), (-9863,5887))</a:Rect>
+<a:Rect>((3449,6227), (5848,8626))</a:Rect>
 <a:LineColor>12034707</a:LineColor>
 <a:FillColor>16437422</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -538,13 +463,14 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
-<o:ModelDocument Ref="o17"/>
+<o:ModelDocument Ref="o5"/>
 </c:Object>
 </o:ModelDocumentSymbol>
 <o:ModelDocumentSymbol Id="o6">
-<a:ModificationDate>1356026834</a:ModificationDate>
+<a:CreationDate>1357750884</a:CreationDate>
+<a:ModificationDate>1357750884</a:ModificationDate>
 <a:IconMode>2</a:IconMode>
-<a:Rect>((3225,12938), (5624,15337))</a:Rect>
+<a:Rect>((-8287,6338), (-5888,8737))</a:Rect>
 <a:LineColor>12034707</a:LineColor>
 <a:FillColor>16437422</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -558,196 +484,82 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
-<o:ModelDocument Ref="o18"/>
-</c:Object>
-</o:ModelDocumentSymbol>
-<o:ModelDocumentSymbol Id="o12">
-<a:ModificationDate>1356026854</a:ModificationDate>
-<a:IconMode>2</a:IconMode>
-<a:Rect>((-3300,3413), (-901,5812))</a:Rect>
-<a:LineColor>12034707</a:LineColor>
-<a:FillColor>16437422</a:FillColor>
-<a:ShadowColor>12632256</a:ShadowColor>
-<a:FontList>OBJSTRN 0 Arial,8,N
-DISPNAME 0 Arial,8,N
-LABL 0 Arial,8,N</a:FontList>
-<a:BrushStyle>6</a:BrushStyle>
-<a:GradientFillMode>65</a:GradientFillMode>
-<a:CustomPictureType>4</a:CustomPictureType>
-<a:CustomTextMode>1</a:CustomTextMode>
-<a:GradientEndColor>16777215</a:GradientEndColor>
-<a:KeepAspect>1</a:KeepAspect>
-<c:Object>
-<o:ModelDocument Ref="o19"/>
-</c:Object>
-</o:ModelDocumentSymbol>
-<o:ModelDocumentSymbol Id="o9">
-<a:ModificationDate>1356026617</a:ModificationDate>
-<a:IconMode>2</a:IconMode>
-<a:Rect>((5400,6263), (7799,8662))</a:Rect>
-<a:LineColor>12034707</a:LineColor>
-<a:FillColor>16437422</a:FillColor>
-<a:ShadowColor>12632256</a:ShadowColor>
-<a:FontList>OBJSTRN 0 Arial,8,N
-DISPNAME 0 Arial,8,N
-LABL 0 Arial,8,N</a:FontList>
-<a:BrushStyle>6</a:BrushStyle>
-<a:GradientFillMode>65</a:GradientFillMode>
-<a:CustomPictureType>4</a:CustomPictureType>
-<a:CustomTextMode>1</a:CustomTextMode>
-<a:GradientEndColor>16777215</a:GradientEndColor>
-<a:KeepAspect>1</a:KeepAspect>
-<c:Object>
-<o:ModelDocument Ref="o20"/>
-</c:Object>
-</o:ModelDocumentSymbol>
-<o:ModelDocumentSymbol Id="o5">
-<a:ModificationDate>1356026833</a:ModificationDate>
-<a:IconMode>2</a:IconMode>
-<a:Rect>((-4725,13088), (-2326,15487))</a:Rect>
-<a:LineColor>12034707</a:LineColor>
-<a:FillColor>16437422</a:FillColor>
-<a:ShadowColor>12632256</a:ShadowColor>
-<a:FontList>OBJSTRN 0 Arial,8,N
-DISPNAME 0 Arial,8,N
-LABL 0 Arial,8,N</a:FontList>
-<a:BrushStyle>6</a:BrushStyle>
-<a:GradientFillMode>65</a:GradientFillMode>
-<a:CustomPictureType>4</a:CustomPictureType>
-<a:CustomTextMode>1</a:CustomTextMode>
-<a:GradientEndColor>16777215</a:GradientEndColor>
-<a:KeepAspect>1</a:KeepAspect>
-<c:Object>
-<o:ModelDocument Ref="o21"/>
+<o:ModelDocument Ref="o7"/>
 </c:Object>
 </o:ModelDocumentSymbol>
 </c:Symbols>
 </o:ProjectDiagram>
 </c:ProjectDiagrams>
+<c:Folders>
+<o:ProjectFolder Id="o8">
+<a:ObjectID>014F9D1E-2CDF-4010-8F92-C6D5AF7E5333</a:ObjectID>
+<a:Name>Sequences</a:Name>
+<a:Code>Sequences</a:Code>
+<a:CreationDate>1357753301</a:CreationDate>
+<a:Creator>franco_d</a:Creator>
+<a:ModificationDate>1357753307</a:ModificationDate>
+<a:Modifier>franco_d</a:Modifier>
+<c:ModelsAndFiles>
+<o:ModelDocument Id="o9">
+<a:ObjectID>FAF50F18-C8DD-4AF7-A8C7-BD6822977914</a:ObjectID>
+<a:Name>LoadFile</a:Name>
+<a:Code>LoadFile</a:Code>
+<a:CreationDate>1357751006</a:CreationDate>
+<a:Creator>franco_d</a:Creator>
+<a:ModificationDate>1357753321</a:ModificationDate>
+<a:Modifier>franco_d</a:Modifier>
+<a:Location>file:///%[PRJ_ROOT_DIR]%/Sequences.moo</a:Location>
+<a:Extension>moo</a:Extension>
+<a:ModelDocument.ModelID>1FEB1EFD-5EEC-4F14-8EA8-F7C4E912790D</a:ModelDocument.ModelID>
+<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
+</o:ModelDocument>
+<o:ModelDocument Id="o10">
+<a:ObjectID>6B24DB11-F0D2-439B-82CD-91CA4A6E5929</a:ObjectID>
+<a:Name>SetAxe (by User)</a:Name>
+<a:Code>SetAxe__by_User_</a:Code>
+<a:CreationDate>1357753324</a:CreationDate>
+<a:Creator>franco_d</a:Creator>
+<a:ModificationDate>1357753416</a:ModificationDate>
+<a:Modifier>franco_d</a:Modifier>
+<a:Location>file:///%[PRJ_ROOT_DIR]%/SetAxe (by User).moo</a:Location>
+<a:Extension>moo</a:Extension>
+<a:ModelDocument.ModelID>F4A5F8D8-924B-4AFA-A98A-4CD5309E87CF</a:ModelDocument.ModelID>
+<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
+</o:ModelDocument>
+</c:ModelsAndFiles>
+</o:ProjectFolder>
+</c:Folders>
 <c:DefaultDiagram>
 <o:ProjectDiagram Ref="o3"/>
 </c:DefaultDiagram>
 <c:ModelsAndFiles>
-<o:ModelDocument Id="o17">
-<a:ObjectID>29D23A03-728F-44FA-A04A-34C2299A23E2</a:ObjectID>
-<a:Name>parsing</a:Name>
-<a:Code>parsing</a:Code>
-<a:CreationDate>1356015997</a:CreationDate>
+<o:ModelDocument Id="o7">
+<a:ObjectID>7ED1BBBE-DD47-44B4-8D09-2D53E57B36D6</a:ObjectID>
+<a:Name>BubbleMind</a:Name>
+<a:Code>BubbleMind</a:Code>
+<a:CreationDate>1357749681</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356016007</a:ModificationDate>
+<a:ModificationDate>1357750145</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/parsing.moo</a:Location>
+<a:Location>file:///%[PRJ_ROOT_DIR]%/BubbleMind.moo</a:Location>
 <a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>42A79179-FC22-45B2-9994-9560AAE54AF1</a:ModelDocument.ModelID>
+<a:ModelDocument.ModelID>824A2BBD-ED3A-49E3-9BC4-D6158BA97E3F</a:ModelDocument.ModelID>
 <a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
 </o:ModelDocument>
-<o:ModelDocument Id="o18">
-<a:ObjectID>73081E73-AF59-4880-9457-68200BE77369</a:ObjectID>
-<a:Name>GUI</a:Name>
-<a:Code>GUI</a:Code>
-<a:CreationDate>1356026570</a:CreationDate>
+<o:ModelDocument Id="o5">
+<a:ObjectID>52DB130B-8BC2-4DB3-800C-9909CA7A12D0</a:ObjectID>
+<a:Name>UsesCases</a:Name>
+<a:Code>UsesCases</a:Code>
+<a:CreationDate>1357750669</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026663</a:ModificationDate>
+<a:ModificationDate>1357750888</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/GUI.moo</a:Location>
+<a:Location>file:///%[PRJ_ROOT_DIR]%/usecase.moo</a:Location>
 <a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>8FBEFFCA-7309-4406-86B5-9326742C1983</a:ModelDocument.ModelID>
-<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
-</o:ModelDocument>
-<o:ModelDocument Id="o19">
-<a:ObjectID>272B5075-131E-4007-A39E-58EF6AE2DB6C</a:ObjectID>
-<a:Name>Completor</a:Name>
-<a:Code>Completor</a:Code>
-<a:CreationDate>1356026590</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026665</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/Completor.moo</a:Location>
-<a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>75CC013E-9853-4EB1-B47A-A223654FBDB1</a:ModelDocument.ModelID>
-<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
-</o:ModelDocument>
-<o:ModelDocument Id="o20">
-<a:ObjectID>0C36EC14-427A-4757-9D03-96C9EFFC10A1</a:ObjectID>
-<a:Name>Draw</a:Name>
-<a:Code>Draw</a:Code>
-<a:CreationDate>1356026598</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026672</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/Draw.moo</a:Location>
-<a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>E75AC87F-4303-48E3-8F64-69DCED225BD3</a:ModelDocument.ModelID>
-<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
-</o:ModelDocument>
-<o:ModelDocument Id="o21">
-<a:ObjectID>59C6425D-1031-408D-B58D-9C6E63BCF8DF</a:ObjectID>
-<a:Name>Core</a:Name>
-<a:Code>Core</a:Code>
-<a:CreationDate>1356026809</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026850</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/Core.moo</a:Location>
-<a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>AF74A971-DA84-4708-96E9-E4325D21F8CC</a:ModelDocument.ModelID>
+<a:ModelDocument.ModelID>594118D7-BB9B-43F7-B366-9A96A274307D</a:ModelDocument.ModelID>
 <a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
 </o:ModelDocument>
 </c:ModelsAndFiles>
-<c:ChildExtendedDependencies>
-<o:ExtendedDependency Id="o7">
-<a:ObjectID>0D3B91EC-39DC-435C-BD39-29266306F054</a:ObjectID>
-<a:CreationDate>1356026837</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026837</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<c:Object1>
-<o:ModelDocument Ref="o18"/>
-</c:Object1>
-<c:Object2>
-<o:ModelDocument Ref="o21"/>
-</c:Object2>
-</o:ExtendedDependency>
-<o:ExtendedDependency Id="o10">
-<a:ObjectID>92046D1C-F023-47BE-A2F9-279BE41A13C9</a:ObjectID>
-<a:CreationDate>1356026839</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026839</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<c:Object1>
-<o:ModelDocument Ref="o20"/>
-</c:Object1>
-<c:Object2>
-<o:ModelDocument Ref="o21"/>
-</c:Object2>
-</o:ExtendedDependency>
-<o:ExtendedDependency Id="o13">
-<a:ObjectID>5D26EA40-3B61-4EAB-A071-B9B63BF2D219</a:ObjectID>
-<a:CreationDate>1356026840</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026840</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<c:Object1>
-<o:ModelDocument Ref="o19"/>
-</c:Object1>
-<c:Object2>
-<o:ModelDocument Ref="o21"/>
-</c:Object2>
-</o:ExtendedDependency>
-<o:ExtendedDependency Id="o16">
-<a:ObjectID>6ED8F356-7099-4527-B89F-4DDFAF3B970A</a:ObjectID>
-<a:CreationDate>1356026841</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1356026841</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<c:Object1>
-<o:ModelDocument Ref="o17"/>
-</c:Object1>
-<c:Object2>
-<o:ModelDocument Ref="o21"/>
-</c:Object2>
-</o:ExtendedDependency>
-</c:ChildExtendedDependencies>
 </o:Project>
 </c:Children>
 </o:RootObject>
