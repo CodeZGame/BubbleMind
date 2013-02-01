@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="processing-1.3.6.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/vader/jquery-ui.css"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<script>
+// create an object to hold variables controlled by the UI
+var uivars = {
+	theWord: "JBB DE LOL",  // set initial values
+	selectedLetter: 2
+};
+</script>
+
+<canvas id="Processing_textdemo" data-processing-sources="text_demo.pde"></canvas>
+
+<script type="text/javascript" src="text_demo_ui.js"></script>
+
+<div class="proc_ui">
+	<div class="labeledslider">
+		<div id="slider_selectedLetter" class="uislider"></div>
+		<div id="label_selectedLetter" class="textlabel"></div>
+	</div>
+	<input type="text" id="word_textbox"/>
+</div>
+	
+</body>
+</html>
