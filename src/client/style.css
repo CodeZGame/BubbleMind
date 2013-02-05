@@ -1,0 +1,69 @@
+html, body {
+    background: #EEE;
+    font-family: Arial;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+}
+
+h1 a {
+    color: #FFF;
+}
+
+h2 {
+    padding-left: 20px;
+    margin-bottom: 0px;
+}
+
+p {
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+
+p a {
+    color: #385C85;
+}
+
+canvas {
+    margin: 0 20px 0 20px;
+    float: left;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    width: 800px;
+}
+
+div.ProcessingUi {
+}
+
+
+.sliderWithScale {
+    display:inline-block;
+    width:450px;
+    float:left;
+    margin-left: 100px;
+}
+
+
+/*
+.proc_ui .textlabel {
+        padding-left:10px;
+}
+
+.proc_ui .uibutton{
+    width:150px;
+        float: left;
+        margin-right:10px;
+}
+
+.proc_ui #textSearchResult {
+        padding-top:8px;
+        font-weight:bold;
+        font-size:14px;
+}
+
+.labeledslider {
+        padding:5px 0 5px 0;
+}*/
