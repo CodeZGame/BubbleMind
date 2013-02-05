@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{FB343A4C-7D9D-4ED7-8D32-21E3A5835E6D}" Label="" LastModificationDate="1357753416" Name="BubbleMind" Objects="7" Symbols="2" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" signature="PRJ_MODEL_XML" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{FB343A4C-7D9D-4ED7-8D32-21E3A5835E6D}" Label="" LastModificationDate="1357753416" Name="BubbleMind" Objects="6" Symbols="1" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" signature="PRJ_MODEL_XML" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -446,27 +446,6 @@ Shadow=0</a:DisplayPreferences>
 <a:PaperSource>15</a:PaperSource>
 <c:Symbols>
 <o:ModelDocumentSymbol Id="o4">
-<a:CreationDate>1357750669</a:CreationDate>
-<a:ModificationDate>1357750886</a:ModificationDate>
-<a:IconMode>2</a:IconMode>
-<a:Rect>((3449,6227), (5848,8626))</a:Rect>
-<a:LineColor>12034707</a:LineColor>
-<a:FillColor>16437422</a:FillColor>
-<a:ShadowColor>12632256</a:ShadowColor>
-<a:FontList>OBJSTRN 0 Arial,8,N
-DISPNAME 0 Arial,8,N
-LABL 0 Arial,8,N</a:FontList>
-<a:BrushStyle>6</a:BrushStyle>
-<a:GradientFillMode>65</a:GradientFillMode>
-<a:CustomPictureType>4</a:CustomPictureType>
-<a:CustomTextMode>1</a:CustomTextMode>
-<a:GradientEndColor>16777215</a:GradientEndColor>
-<a:KeepAspect>1</a:KeepAspect>
-<c:Object>
-<o:ModelDocument Ref="o5"/>
-</c:Object>
-</o:ModelDocumentSymbol>
-<o:ModelDocumentSymbol Id="o6">
 <a:CreationDate>1357750884</a:CreationDate>
 <a:ModificationDate>1357750884</a:ModificationDate>
 <a:IconMode>2</a:IconMode>
@@ -484,14 +463,14 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
-<o:ModelDocument Ref="o7"/>
+<o:ModelDocument Ref="o5"/>
 </c:Object>
 </o:ModelDocumentSymbol>
 </c:Symbols>
 </o:ProjectDiagram>
 </c:ProjectDiagrams>
 <c:Folders>
-<o:ProjectFolder Id="o8">
+<o:ProjectFolder Id="o6">
 <a:ObjectID>014F9D1E-2CDF-4010-8F92-C6D5AF7E5333</a:ObjectID>
 <a:Name>Sequences</a:Name>
 <a:Code>Sequences</a:Code>
@@ -500,7 +479,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:ModificationDate>1357753307</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <c:ModelsAndFiles>
-<o:ModelDocument Id="o9">
+<o:ModelDocument Id="o7">
 <a:ObjectID>FAF50F18-C8DD-4AF7-A8C7-BD6822977914</a:ObjectID>
 <a:Name>LoadFile</a:Name>
 <a:Code>LoadFile</a:Code>
@@ -513,7 +492,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:ModelDocument.ModelID>1FEB1EFD-5EEC-4F14-8EA8-F7C4E912790D</a:ModelDocument.ModelID>
 <a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
 </o:ModelDocument>
-<o:ModelDocument Id="o10">
+<o:ModelDocument Id="o8">
 <a:ObjectID>6B24DB11-F0D2-439B-82CD-91CA4A6E5929</a:ObjectID>
 <a:Name>SetAxe (by User)</a:Name>
 <a:Code>SetAxe__by_User_</a:Code>
@@ -533,7 +512,7 @@ LABL 0 Arial,8,N</a:FontList>
 <o:ProjectDiagram Ref="o3"/>
 </c:DefaultDiagram>
 <c:ModelsAndFiles>
-<o:ModelDocument Id="o7">
+<o:ModelDocument Id="o5">
 <a:ObjectID>7ED1BBBE-DD47-44B4-8D09-2D53E57B36D6</a:ObjectID>
 <a:Name>BubbleMind</a:Name>
 <a:Code>BubbleMind</a:Code>
@@ -544,19 +523,6 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Location>file:///%[PRJ_ROOT_DIR]%/BubbleMind.moo</a:Location>
 <a:Extension>moo</a:Extension>
 <a:ModelDocument.ModelID>824A2BBD-ED3A-49E3-9BC4-D6158BA97E3F</a:ModelDocument.ModelID>
-<a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
-</o:ModelDocument>
-<o:ModelDocument Id="o5">
-<a:ObjectID>52DB130B-8BC2-4DB3-800C-9909CA7A12D0</a:ObjectID>
-<a:Name>UsesCases</a:Name>
-<a:Code>UsesCases</a:Code>
-<a:CreationDate>1357750669</a:CreationDate>
-<a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1357750888</a:ModificationDate>
-<a:Modifier>franco_d</a:Modifier>
-<a:Location>file:///%[PRJ_ROOT_DIR]%/usecase.moo</a:Location>
-<a:Extension>moo</a:Extension>
-<a:ModelDocument.ModelID>594118D7-BB9B-43F7-B366-9A96A274307D</a:ModelDocument.ModelID>
 <a:ModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:ModelClassID>
 </o:ModelDocument>
 </c:ModelsAndFiles>
