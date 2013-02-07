@@ -11,6 +11,7 @@ void setup() {
   frameRate(30);
   bd.drawDate(1956);
   ct.drawBubbles();
+  mainBuffer.textFont(createFont("Verdana", 36, true));
   mainBuffer.imageMode(CENTER);
   mainBuffer.ellipseMode(CENTER);
   mainBuffer.stroke(0);
@@ -28,11 +29,11 @@ void draw() {
 }
 
 void mouseClicked() {
-  ct.clickOnPlot(mouseX, mouseY);
+  if (mouseButton == LEFT)
+	ct.clickOnPlot(mouseX, mouseY);
 }
 
-class    BubbleDrawer
-{
+class    BubbleDrawer {
   private color  _bgColor = #FFFFFF;
   private int alphaValue = 220;
 
@@ -56,7 +57,6 @@ class    BubbleDrawer
   }
 
   void  drawDate(int date) {
-    mainBuffer.textFont(createFont("Verdana", 36, true));
     mainBuffer.textSize(300);
     String year = str(date);
     float yearWidth = (width - mainBuffer.textWidth(year)) / 2;
@@ -152,8 +152,10 @@ class    Controller {
       bd.drawHighlightBubble(_bubbles[res].posX, _bubbles[res].posY, _bubbles[res].size, _bubbles[res].col, false);
       this.drawName(_bubbles[res]);
     }
-    else
+    else {
+	  ct.highlighted = -1;
       image(mainBuffer, 0, 0);
+	  }
   }
 
   boolean overCircle(int mX, int mY, int x, int y, int diameter) {
