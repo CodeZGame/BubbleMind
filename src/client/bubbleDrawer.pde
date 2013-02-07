@@ -1,36 +1,46 @@
+// /!\ IMPORTANT /!\
+// EVERY MOUSEX MUST HAVE [- 25] VALUE BECAUSE THE IMAGE
+// MOVE BY 25 INCH ON X AXIS FOR THE GRID BUFFER
+
 PGraphics mainBuffer;
+PGraphics gridBuffer;
 BubbleDrawer bd;
 Controller ct;
 
+int width = 1024;
+int height = 768;
+
 void setup() {
-  size(1024, 768);
-  mainBuffer = createGraphics(1024, 768);
+  size(width, height);
+  mainBuffer = createGraphics(width - 25, height - 25);
+  gridBuffer = createGraphics(width, height);
   bd = new BubbleDrawer();
   ct = new Controller();
   bd.clear();
-  frameRate(30);
+  frameRate(2);
   bd.drawDate(1956);
   ct.drawBubbles();
-  mainBuffer.textFont(createFont("Verdana", 36, true));
-  mainBuffer.imageMode(CENTER);
+  mainBuffer.textFont(createFont("Verdana", 20, true));
+  gridBuffer.background(bd._bgColor);
   mainBuffer.ellipseMode(CENTER);
   mainBuffer.stroke(0);
-  mainBuffer.smooth(8);
+  mainBuffer.smooth(4);
   mainBuffer.strokeWeight(0.5);
-  noLoop();
+  bd.drawScale();
+  //noLoop();
 
   // FOR JS
-  window.setInterval(runTest, 40);
-  runTest();
+  //window.setInterval(runTest, 40);
 }
 
 // Needed even if empty
 void draw() {
+  runTest();
 }
 
 void mouseClicked() {
   if (mouseButton == LEFT)
-	ct.clickOnPlot(mouseX, mouseY);
+	ct.clickOnPlot(mouseX - 25, mouseY);
 }
 
 class    BubbleDrawer {
@@ -57,7 +67,7 @@ class    BubbleDrawer {
   }
 
   void  drawDate(int date) {
-    mainBuffer.textSize(300);
+    mainBuffer.textSize(height * 30 / 100);
     String year = str(date);
     float yearWidth = (width - mainBuffer.textWidth(year)) / 2;
     float yearHeight = (height + mainBuffer.textDescent()) / 2;
@@ -83,6 +93,13 @@ class    BubbleDrawer {
     mainBuffer.line(beginX, beginY, endX, endY);
   }
 
+  void	drawScale() {
+    gridBuffer.strokeWeight(2);
+	gridBuffer.line(24, height - 24, width, height - 24);
+	gridBuffer.line(24, 0, 24, height - 25);
+	gridBuffer.strokeWeight(0.5);
+  }
+  
   void  clear() {
     mainBuffer.background(this._bgColor);
   }
@@ -145,27 +162,25 @@ class    Controller {
 
     for (i = 0; i < _nbBubbles; ++i)
       if (_bubbles[i].size < resSize
-        && overCircle(mX, mY, _bubbles[i].posX, _bubbles[i].posY, _bubbles[i].size))
+        && overCircle(mX, mY, _bubbles[i].posX, _bubbles[i].posY, _bubbles[i].size / 2))
         res = i;
     if (res >= 0) {
       ct.highlighted = res;
       bd.drawHighlightBubble(_bubbles[res].posX, _bubbles[res].posY, _bubbles[res].size, _bubbles[res].col, false);
       this.drawName(_bubbles[res]);
     }
-    else {
+    else
 	  ct.highlighted = -1;
-      image(mainBuffer, 0, 0);
-	  }
   }
 
-  boolean overCircle(int mX, int mY, int x, int y, int diameter) {
+  boolean overCircle(int mX, int mY, int x, int y, int radius) {
     float disX = x - mX;
     float disY = y - mY;
-    if (mX < x - (diameter / 2) || mX > x + (diameter / 2))
+    if (mX < x - radius || mX > x + radius)
       return false;
-    if (mY < y - (diameter / 2) || mY > y + (diameter / 2))
+    if (mY < y - radius || mY > y + radius)
       return false;
-    if (sqrt(sq(disX) + sq(disY)) < diameter / 2)
+    if (sqrt(sq(disX) + sq(disY)) < radius)
       return true;
     return false;
   }
@@ -195,9 +210,9 @@ void  runTest() {
   bd.drawDate(1956);
   bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
   ct.drawBubbles();
-  ct.overOnPlot(mouseX, mouseY);
+  ct.overOnPlot(mouseX - 25, mouseY);
   mainBuffer.endDraw();
-  image(mainBuffer, 0, 0);
-  redraw();
+  image(gridBuffer, 0, 0);
+  image(mainBuffer, 25, 0);
 }
 
