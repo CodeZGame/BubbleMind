@@ -28,7 +28,6 @@ function build_slider(slider_id)
 
     var nb_step = ($("#slider").slider( "option" , "max") - $("#slider").slider( "option" , "min")) / step;
 
-    alert(nb_step);
     var gap = $("#slider").width() / (nb_step);
 
     s = $(scale);
