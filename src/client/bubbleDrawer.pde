@@ -7,17 +7,19 @@ PGraphics gridBuffer;
 BubbleDrawer bd;
 Controller ct;
 
-int width = 1024;
+int width = 1366;
 int height = 768;
+int bubbleWidth = width - 25;
+int bubbleHeight = height - 25;
 
 void setup() {
   size(width, height);
-  mainBuffer = createGraphics(width - 25, height - 25);
+  mainBuffer = createGraphics(bubbleWidth, bubbleHeight);
   gridBuffer = createGraphics(width, height);
   bd = new BubbleDrawer();
   ct = new Controller();
   bd.clear();
-  frameRate(2);
+  frameRate(20);
   bd.drawDate(1956);
   ct.drawBubbles();
   mainBuffer.textFont(createFont("Verdana", 20, true));
@@ -26,7 +28,8 @@ void setup() {
   mainBuffer.stroke(0);
   mainBuffer.smooth(4);
   mainBuffer.strokeWeight(0.5);
-  bd.drawScale();
+  bd.drawScale(1, 0, 1000, 10);
+  bd.drawScale(0, 0, 1000, 10);
   //noLoop();
 
   // FOR JS
@@ -93,15 +96,31 @@ class    BubbleDrawer {
     mainBuffer.line(beginX, beginY, endX, endY);
   }
 
-  void	drawScale() {
-    gridBuffer.strokeWeight(2);
-	gridBuffer.line(24, height - 24, width, height - 24);
-	gridBuffer.line(24, 0, 24, height - 25);
+  void	drawScale(int axis, float min, float max, int steps) {
+	int	stepSize;
+	if (axis == 0) {			// X AXIS
+		stepSize = bubbleWidth / steps;
+		gridBuffer.strokeWeight(2);
+		gridBuffer.line(24, height - 24, width, height - 24);
+		gridBuffer.strokeWeight(0.5);
+		for (int i = 1; i < steps; ++i) {
+			gridBuffer.line(24 + i * stepSize, 0, 24 + i * stepSize, height - 24);
+		}
+	}
+	else {						// Y AXIS
+		stepSize = bubbleHeight / steps;
+	    gridBuffer.strokeWeight(2);
+		gridBuffer.line(24, 0, 24, bubbleHeight);
+		gridBuffer.strokeWeight(0.5);
+		for (int i = 1; i < steps; ++i) {
+			gridBuffer.line(24, i * stepSize, width, i * stepSize);
+		}
+	}
 	gridBuffer.strokeWeight(0.5);
   }
   
   void  clear() {
-    mainBuffer.background(this._bgColor);
+    mainBuffer.background(this._bgColor, 0);
   }
 }
 
