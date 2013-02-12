@@ -1,5 +1,5 @@
 // /!\ IMPORTANT /!\
-// EVERY MOUSEX MUST HAVE [- 25] VALUE BECAUSE THE IMAGE
+// EVERY "mouseX" MUST HAVE [- 25] VALUE BECAUSE THE IMAGE
 // MOVE BY 25 INCH ON X AXIS FOR THE GRID BUFFER
 
 PGraphics mainBuffer;
@@ -7,10 +7,25 @@ PGraphics gridBuffer;
 BubbleDrawer bd;
 Controller ct;
 
-int width = 1366;
-int height = 768;
+boolean init = false;
+int width = 800;
+int height = 600;
 int bubbleWidth = width - 25;
 int bubbleHeight = height - 25;
+int year;
+Array bullesList;
+
+interface JavaScript {
+	int scriptYear;
+	
+	ArrayList getBulles();
+}
+
+JavaScript javascript = null;
+
+void bindJavascript(JavaScript js) {
+	javascript = js;
+}
 
 void setup() {
   size(width, height);
@@ -18,27 +33,26 @@ void setup() {
   gridBuffer = createGraphics(width, height);
   bd = new BubbleDrawer();
   ct = new Controller();
-  bd.clear();
-  frameRate(20);
-  bd.drawDate(1956);
-  ct.drawBubbles();
   mainBuffer.textFont(createFont("Verdana", 20, true));
   gridBuffer.background(bd._bgColor);
   mainBuffer.ellipseMode(CENTER);
   mainBuffer.stroke(0);
   mainBuffer.smooth(4);
   mainBuffer.strokeWeight(0.5);
+  bd.clear();
+  frameRate(20);
+  //bd.drawDate(year);
+  //ct.drawBubbles();
   bd.drawScale(1, 0, 1000, 10);
   bd.drawScale(0, 0, 1000, 10);
-  //noLoop();
-
-  // FOR JS
-  //window.setInterval(runTest, 40);
+  noLoop();
 }
 
-// Needed even if empty
 void draw() {
-  runTest();
+	if (init)
+		runTest();
+	else
+		init = true;
 }
 
 void mouseClicked() {
@@ -132,6 +146,7 @@ class    Bubble {
   public int  size;
   public int  col;
   public String name;
+  public boolean isClicked = false;
 
   Bubble(int x, int y, int size, int col, String name) {
     this.posX = x;
@@ -215,21 +230,35 @@ class    Controller {
   }
 }
 
+void beginTest() {
+	if (javascript) {
+		year = javascript.scriptYear;
+		bullesList = javascript.getBulles();
+		}
+	else
+		year = 2000;
+	loop();
+}
+
 void  runTest() {
-  for (int i = 0; i < ct._nbBubbles; ++i) {
+  /*for (int i = 0; i < ct._nbBubbles; ++i) {
     ct._bubbles[i].posX += random(7);
     ct._bubbles[i].posY += random(5);
     if (ct._bubbles[i].posX > width || ct._bubbles[i].posY > height) {
       ct._bubbles[i].posY = 0;
       ct._bubbles[i].posX = 0;
     }
-  }
+  }*/
   mainBuffer.beginDraw();
   bd.clear();
-  bd.drawDate(1956);
-  bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
-  ct.drawBubbles();
-  ct.overOnPlot(mouseX - 25, mouseY);
+  bd.drawDate(year);
+  
+  for (int nb = 0; nb < bullesList.length; ++nb)
+	bd.drawBubble(bullesList[nb].posX, bullesList[nb].posY, bullesList[nb].size, bullesList[nb].col, false);
+  
+  //bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
+  //ct.drawBubbles();
+  //ct.overOnPlot(mouseX - 25, mouseY);
   mainBuffer.endDraw();
   image(gridBuffer, 0, 0);
   image(mainBuffer, 25, 0);
