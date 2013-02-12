@@ -21,10 +21,14 @@ interface JavaScript {
 	ArrayList getBulles();
 }
 
-JavaScript javascript = null;
+JavaScript js = null;
 
-void bindJavascript(JavaScript js) {
-	javascript = js;
+void bindJavascript(JavaScript jsBind) {
+	js = jsBind;
+}
+
+BubbleDrawer getBubbleDrawer() {
+	return bd;
 }
 
 void setup() {
@@ -231,9 +235,9 @@ class    Controller {
 }
 
 void beginTest() {
-	if (javascript) {
-		year = javascript.scriptYear;
-		bullesList = javascript.getBulles();
+	if (js) {
+		year = js.scriptYear;
+		bullesList = js.getBubbles();
 		}
 	else
 		year = 2000;
@@ -253,8 +257,11 @@ void  runTest() {
   bd.clear();
   bd.drawDate(year);
   
+  // CORE JS
   for (int nb = 0; nb < bullesList.length; ++nb)
 	bd.drawBubble(bullesList[nb].posX, bullesList[nb].posY, bullesList[nb].size, bullesList[nb].col, false);
+  js.overOnPlot(mouseX - 25, mouseY);
+  
   
   //bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
   //ct.drawBubbles();
