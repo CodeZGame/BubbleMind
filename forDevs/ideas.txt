@@ -6,5 +6,3 @@ and if the major part of the project is already done.
 
 
 	- Bubbles color could be define in the file
-
-	- Use array of Object instead of List may be faster (or may be set)

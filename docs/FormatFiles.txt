@@ -10,19 +10,18 @@ how to add an extra support for specific file format.
 FILE FORMAT
 
 CSV File:
-	- The first column must contain the name of the "entity"
+	- A column must contain the name of the "entity"
 
-	- The second column must contain the year
+	- A second column must contain the year
 
-	- The first line contain all the name of the column
+	- The first line must contain all the name of the column
 
-	- Each lines must formated as the first line with no value in a column if necessary
+	- Each lines must be formated as the first line with no value in a column if necessary
 
 	(see example file: "csvExemple.csv")
 
 ODF File:
 	- //TODO
-
 
 	(see example file: "odfExample.odf")
 
