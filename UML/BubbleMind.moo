@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{824A2BBD-ED3A-49E3-9BC4-D6158BA97E3F}" Label="" LastModificationDate="1360855829" Name="BubbleMind" Objects="139" Symbols="35" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{824A2BBD-ED3A-49E3-9BC4-D6158BA97E3F}" Label="" LastModificationDate="1360868572" Name="BubbleMind" Objects="135" Symbols="32" Target="Java" TargetLink="Reference" Type="{18112060-1A4B-11D1-83D9-444553540000}" signature="CLD_OBJECT_MODEL" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -4079,7 +4079,7 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>Java</a:Code>
 <a:CreationDate>1357749684</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1360665830</a:ModificationDate>
+<a:ModificationDate>1360868572</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:TargetModelURL>file:///%_OBJLANG%/java5-j2ee14.xol</a:TargetModelURL>
 <a:TargetModelID>0DEDDB90-46E2-45A0-886E-411709DA0DC9</a:TargetModelID>
@@ -4094,7 +4094,7 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>WSDLJava</a:Code>
 <a:CreationDate>1357749684</a:CreationDate>
 <a:Creator>franco_d</a:Creator>
-<a:ModificationDate>1360665830</a:ModificationDate>
+<a:ModificationDate>1360868572</a:ModificationDate>
 <a:Modifier>franco_d</a:Modifier>
 <a:TargetModelURL>file:///%_XEM%/WSDLJ2EE.xem</a:TargetModelURL>
 <a:TargetModelID>C8F5F7B2-CF9D-4E98-8301-959BB6E86C8A</a:TargetModelID>

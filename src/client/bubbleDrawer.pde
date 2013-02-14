@@ -84,15 +84,37 @@ class    BubbleDrawer {
     mainBuffer.text(year, yearWidth, yearHeight);
   }
 
-  void  drawBubbleName(int posX, int posY, int col, String name) {
+  void  drawBubbleName(int posX, int posY, int size, int col, String name) {
+  	// NEED CHECK FOR WINDOW BORDER
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
     mainBuffer.fill(255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
-    mainBuffer.rect(posX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
-    mainBuffer.fill(150);
-    mainBuffer.text(name, posX - mainBuffer.textWidth(name), posY);
+	//Normal position (upper left corner)
+	if (posX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
+		mainBuffer.rect(posX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
+		mainBuffer.fill(150);
+		mainBuffer.text(name, posX - mainBuffer.textWidth(name), posY);
+	}
+	//Upper right corner
+	else if (posX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
+		mainBuffer.rect(posX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
+		mainBuffer.fill(150);
+		mainBuffer.text(name, posX + size, posY);
+	}
+	//Downer left corner
+	else if (posX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
+		mainBuffer.rect(posX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
+		mainBuffer.fill(150);
+		mainBuffer.text(name, posX - mainBuffer.textWidth(name), posY + size + nameHeight);
+	}
+	//Downer right corner
+	else {
+		mainBuffer.rect(posX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
+		mainBuffer.fill(150);
+		mainBuffer.text(name, posX + size, posY + size + nameHeight);
+	}
     mainBuffer.strokeWeight(0.5);
     mainBuffer.stroke(0);
   }

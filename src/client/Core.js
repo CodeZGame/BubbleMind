@@ -15,22 +15,14 @@ var highlightedBubble = -1;
  }
  
  function	runProcessing() {
-	bubbles.push(new Bubble(100, 100, 12, 20, "Bubble1"));
-	bubbles.push(new Bubble(50, 10, 15, 50, "Ghostbusters"));
-	bubbles.push(new Bubble(70, 40, 20, 80, "Toto"));
-	bubbles.push(new Bubble(0, 50, 14, 130, "TF2"));
-	bubbles.push(new Bubble(30, 30, 18, 150, "Medic!"));
-	bubbles.push(new Bubble(50, 10, 16, 180, "Mmhhh!"));
-	bubbles.push(new Bubble(50, 10, 19, 220, "Over 9000!"));
-	bubbles.push(new Bubble(15, 10, 29, 255, "Wei Shen"));
-	/*bubbles.push(new Bubble(100, 100, 12, 0xAA4444FF, "Bubble1"));
-	bubbles.push(new Bubble(50, 10, 15, 0xAAAA3333, "Ghostbusters"));
-	bubbles.push(new Bubble(70, 40, 20, 0x0000FF00, "Toto"));
-	bubbles.push(new Bubble(0, 50, 14, 0xAA22BB88, "TF2"));
-	bubbles.push(new Bubble(30, 30, 18, 0xAAA0A0A0, "Medic!"));
-	bubbles.push(new Bubble(50, 10, 16, 0xAA4040B0, "Mmhhh!"));
-	bubbles.push(new Bubble(50, 10, 19, 0xAA555555, "Over 9000!"));
-	bubbles.push(new Bubble(15, 10, 29, 0xFFFF1111, "Wei Shen"));*/
+	bubbles.push(new Bubble(100, 510, 12, 20, "Bubble1"));
+	bubbles.push(new Bubble(50, 580, 15, 50, "Ghostbusters"));
+	bubbles.push(new Bubble(70, 565, 20, 80, "Toto"));
+	bubbles.push(new Bubble(0, 550, 14, 130, "TF2"));
+	bubbles.push(new Bubble(30, 580, 18, 150, "Medic!"));
+	bubbles.push(new Bubble(50, 600, 16, 180, "Mmhhh!"));
+	bubbles.push(new Bubble(50, 600, 19, 220, "Over 9000!"));
+	bubbles.push(new Bubble(15, 590, 29, 255, "Wei Shen"));
 	initProcessing();
  }
  
@@ -63,8 +55,7 @@ var highlightedBubble = -1;
   }
   
   function  drawName(b) {
-	// NEED CHECK FOR WINDOW BORDER
-    p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), 
+    p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
     b.col, b.name);
   }
   
@@ -113,9 +104,9 @@ var highlightedBubble = -1;
 	// TMP MOVE BUBBLES RANDOMLY
 	for (i = 0; i < bubbles.length; ++i) {
 		bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
-		bubbles[i].posY += Math.floor(Math.random() * 5 + 1);
+		bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
 		if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
-			bubbles[i].posY = 0;
+			bubbles[i].posY = 600;
 			bubbles[i].posX = 0;
 		}
 	}
