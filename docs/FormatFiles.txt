@@ -9,28 +9,21 @@ how to add an extra support for specific file format.
 ========
 FILE FORMAT
 
-CSV File:
-	- The first column must contain the name of the "entity"
+	- A column must contain the name of the "entity"
 
-	- The second column must contain the year
+	- A second column must contain the year
 
-	- The first line contain all the name of the column
+	- The first line contain all the names of the column
 
 	- Each lines must formated as the first line with no value in a column if necessary
 
 	(see example file: "csvExemple.csv")
 
-ODF File:
-	- //TODO
-
-
-	(see example file: "odfExample.odf")
-
 
 ========
-ADD AN EXTRA FILE FORMAT SUPPORT
+ADD AN EXTRA FILE FORMAT SUPPORT (need to be done again)
 
 If you want to add an extra file format support for BubbleMind, that's simple.
-You're file must extend ALoaderFile class, and then add every single data to manager (DataEntryManager).
+Your file must extend ALoaderFile class, and then add every single data to manager (DataEntryManager).
 In order to do that you must call the method AddInfoToDataEntry of the manager.
 You can also take a look at the UML (parsing.moo) or directly look into the source file.

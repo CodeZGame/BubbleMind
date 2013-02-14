@@ -1,7 +1,7 @@
 This file is related to the project BubbleMind hosted on github.
 
-This file contain the objectives of the project and
-some good stuff that could be done in some future release of BubbleMind.
+This file contain the objectives of the project and some good stuff
+that could be done in some future release of BubbleMind.
 
 Will be done:
 
@@ -17,4 +17,4 @@ Could be done:
 
 - Recalculate data between years in order to draw more approximative values
 
--
+- Support of XLS (Microsoft Excel files)
