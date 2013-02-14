@@ -27,11 +27,11 @@ p a {
 }
 
 canvas {
-    margin: 0 20px 0 20px;
+    margin: 20px 20px 0 20px;
     float: left;
-    -webkit-border-radius: 25px;
+    /*-webkit-border-radius: 25px;
     -moz-border-radius: 25px;
-    border-radius: 25px;
+    border-radius: 25px;*/
 }
 
 div.ProcessingUi {

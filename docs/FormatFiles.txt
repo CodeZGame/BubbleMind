@@ -9,16 +9,32 @@ how to add an extra support for specific file format.
 ========
 FILE FORMAT
 
+<<<<<<< HEAD
+=======
+CSV File:
+>>>>>>> 0b53d4454f29d777d5568bbc1e2d187a353f8ddb
 	- A column must contain the name of the "entity"
 
 	- A second column must contain the year
 
+<<<<<<< HEAD
 	- The first line contain all the names of the column
+=======
+	- The first line must contain all the name of the column
+>>>>>>> 0b53d4454f29d777d5568bbc1e2d187a353f8ddb
 
-	- Each lines must formated as the first line with no value in a column if necessary
+	- Each lines must be formated as the first line with no value in a column if necessary
 
 	(see example file: "csvExemple.csv")
 
+<<<<<<< HEAD
+=======
+ODF File:
+	- //TODO
+
+	(see example file: "odfExample.odf")
+
+>>>>>>> 0b53d4454f29d777d5568bbc1e2d187a353f8ddb
 
 ========
 ADD AN EXTRA FILE FORMAT SUPPORT (need to be done again)

@@ -1,38 +1,70 @@
+// /!\ IMPORTANT /!\
+// EVERY "mouseX" MUST HAVE [- 25] VALUE BECAUSE THE IMAGE
+// MOVE BY 25 INCH ON X AXIS FOR THE GRID BUFFER
+
 PGraphics mainBuffer;
+PGraphics gridBuffer;
 BubbleDrawer bd;
 Controller ct;
 
-void setup() {
-  size(1024, 768);
-  mainBuffer = createGraphics(1024, 768);
-  bd = new BubbleDrawer();
-  ct = new Controller();
-  bd.clear();
-  frameRate(30);
-  bd.drawDate(1956);
-  ct.drawBubbles();
-  mainBuffer.imageMode(CENTER);
-  mainBuffer.ellipseMode(CENTER);
-  mainBuffer.stroke(0);
-  mainBuffer.smooth(8);
-  mainBuffer.strokeWeight(0.5);
-  noLoop();
+boolean init = false;
+int width = 800;
+int height = 600;
+int bubbleWidth = width - 25;
+int bubbleHeight = height - 25;
+int year;
+Array bullesList;
 
-  // FOR JS
-  window.setInterval(runTest, 40);
-  runTest();
+interface JavaScript {
+	int scriptYear;
+	
+	ArrayList getBulles();
 }
 
-// Needed even if empty
+JavaScript js = null;
+
+void bindJavascript(JavaScript jsBind) {
+	js = jsBind;
+}
+
+BubbleDrawer getBubbleDrawer() {
+	return bd;
+}
+
+void setup() {
+  size(width, height);
+  mainBuffer = createGraphics(bubbleWidth, bubbleHeight);
+  gridBuffer = createGraphics(width, height);
+  bd = new BubbleDrawer();
+  ct = new Controller();
+  mainBuffer.textFont(createFont("Verdana", 20, true));
+  gridBuffer.background(bd._bgColor);
+  mainBuffer.ellipseMode(CENTER);
+  mainBuffer.stroke(0);
+  mainBuffer.smooth(4);
+  mainBuffer.strokeWeight(0.5);
+  bd.clear();
+  frameRate(20);
+  //bd.drawDate(year);
+  //ct.drawBubbles();
+  bd.drawScale(1, 0, 1000, 10);
+  bd.drawScale(0, 0, 1000, 10);
+  noLoop();
+}
+
 void draw() {
+	if (init)
+		runTest();
+	else
+		init = true;
 }
 
 void mouseClicked() {
-  ct.clickOnPlot(mouseX, mouseY);
+  if (mouseButton == LEFT)
+	ct.clickOnPlot(mouseX - 25, mouseY);
 }
 
-class    BubbleDrawer
-{
+class    BubbleDrawer {
   private color  _bgColor = #FFFFFF;
   private int alphaValue = 220;
 
@@ -56,8 +88,7 @@ class    BubbleDrawer
   }
 
   void  drawDate(int date) {
-    mainBuffer.textFont(createFont("Verdana", 36, true));
-    mainBuffer.textSize(300);
+    mainBuffer.textSize(height * 30 / 100);
     String year = str(date);
     float yearWidth = (width - mainBuffer.textWidth(year)) / 2;
     float yearHeight = (height + mainBuffer.textDescent()) / 2;
@@ -83,8 +114,31 @@ class    BubbleDrawer
     mainBuffer.line(beginX, beginY, endX, endY);
   }
 
+  void	drawScale(int axis, float min, float max, int steps) {
+	int	stepSize;
+	if (axis == 0) {			// X AXIS
+		stepSize = bubbleWidth / steps;
+		gridBuffer.strokeWeight(2);
+		gridBuffer.line(24, height - 24, width, height - 24);
+		gridBuffer.strokeWeight(0.5);
+		for (int i = 1; i < steps; ++i) {
+			gridBuffer.line(24 + i * stepSize, 0, 24 + i * stepSize, height - 24);
+		}
+	}
+	else {						// Y AXIS
+		stepSize = bubbleHeight / steps;
+	    gridBuffer.strokeWeight(2);
+		gridBuffer.line(24, 0, 24, bubbleHeight);
+		gridBuffer.strokeWeight(0.5);
+		for (int i = 1; i < steps; ++i) {
+			gridBuffer.line(24, i * stepSize, width, i * stepSize);
+		}
+	}
+	gridBuffer.strokeWeight(0.5);
+  }
+  
   void  clear() {
-    mainBuffer.background(this._bgColor);
+    mainBuffer.background(this._bgColor, 0);
   }
 }
 
@@ -96,6 +150,7 @@ class    Bubble {
   public int  size;
   public int  col;
   public String name;
+  public boolean isClicked = false;
 
   Bubble(int x, int y, int size, int col, String name) {
     this.posX = x;
@@ -145,7 +200,7 @@ class    Controller {
 
     for (i = 0; i < _nbBubbles; ++i)
       if (_bubbles[i].size < resSize
-        && overCircle(mX, mY, _bubbles[i].posX, _bubbles[i].posY, _bubbles[i].size))
+        && overCircle(mX, mY, _bubbles[i].posX, _bubbles[i].posY, _bubbles[i].size / 2))
         res = i;
     if (res >= 0) {
       ct.highlighted = res;
@@ -153,17 +208,17 @@ class    Controller {
       this.drawName(_bubbles[res]);
     }
     else
-      image(mainBuffer, 0, 0);
+	  ct.highlighted = -1;
   }
 
-  boolean overCircle(int mX, int mY, int x, int y, int diameter) {
+  boolean overCircle(int mX, int mY, int x, int y, int radius) {
     float disX = x - mX;
     float disY = y - mY;
-    if (mX < x - (diameter / 2) || mX > x + (diameter / 2))
+    if (mX < x - radius || mX > x + radius)
       return false;
-    if (mY < y - (diameter / 2) || mY > y + (diameter / 2))
+    if (mY < y - radius || mY > y + radius)
       return false;
-    if (sqrt(sq(disX) + sq(disY)) < diameter / 2)
+    if (sqrt(sq(disX) + sq(disY)) < radius)
       return true;
     return false;
   }
@@ -179,23 +234,40 @@ class    Controller {
   }
 }
 
+void beginTest() {
+	if (js) {
+		year = js.scriptYear;
+		bullesList = js.getBubbles();
+		}
+	else
+		year = 2000;
+	loop();
+}
+
 void  runTest() {
-  for (int i = 0; i < ct._nbBubbles; ++i) {
+  /*for (int i = 0; i < ct._nbBubbles; ++i) {
     ct._bubbles[i].posX += random(7);
     ct._bubbles[i].posY += random(5);
     if (ct._bubbles[i].posX > width || ct._bubbles[i].posY > height) {
       ct._bubbles[i].posY = 0;
       ct._bubbles[i].posX = 0;
     }
-  }
+  }*/
   mainBuffer.beginDraw();
   bd.clear();
-  bd.drawDate(1956);
-  bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
-  ct.drawBubbles();
-  ct.overOnPlot(mouseX, mouseY);
+  bd.drawDate(year);
+  
+  // CORE JS
+  for (int nb = 0; nb < bullesList.length; ++nb)
+	bd.drawBubble(bullesList[nb].posX, bullesList[nb].posY, bullesList[nb].size, bullesList[nb].col, false);
+  js.overOnPlot(mouseX - 25, mouseY);
+  
+  
+  //bd.drawLine(ct._bubbles[6].posX, ct._bubbles[6].posY, ct._bubbles[7].posX, ct._bubbles[7].posY, 0);
+  //ct.drawBubbles();
+  //ct.overOnPlot(mouseX - 25, mouseY);
   mainBuffer.endDraw();
-  image(mainBuffer, 0, 0);
-  redraw();
+  image(gridBuffer, 0, 0);
+  image(mainBuffer, 25, 0);
 }
 
