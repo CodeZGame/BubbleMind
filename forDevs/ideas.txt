@@ -5,10 +5,4 @@ If the idea is approved by a majority of devs, it will be implemented as soon as
 and if the major part of the project is already done.
 
 
-<<<<<<< HEAD
 	- Bubbles color could be define in the file
-
-	- Use array of Object instead of List may be faster (or may be set)
-=======
-	- Bubbles color could be define in the file
->>>>>>> 0b53d4454f29d777d5568bbc1e2d187a353f8ddb
