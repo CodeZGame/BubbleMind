@@ -15,14 +15,22 @@ var highlightedBubble = -1;
  }
  
  function	runProcessing() {
-	bubbles.push(new Bubble(100, 100, 12, 100, "Bubble1"));
-	bubbles.push(new Bubble(50, 10, 15, 25, "Ghostbusters"));
-	bubbles.push(new Bubble(70, 40, 20, 75, "Toto"));
-	bubbles.push(new Bubble(0, 50, 14, 168, "TF2"));
-	bubbles.push(new Bubble(30, 30, 18, 130, "Medic!"));
+	bubbles.push(new Bubble(100, 100, 12, 20, "Bubble1"));
+	bubbles.push(new Bubble(50, 10, 15, 50, "Ghostbusters"));
+	bubbles.push(new Bubble(70, 40, 20, 80, "Toto"));
+	bubbles.push(new Bubble(0, 50, 14, 130, "TF2"));
+	bubbles.push(new Bubble(30, 30, 18, 150, "Medic!"));
 	bubbles.push(new Bubble(50, 10, 16, 180, "Mmhhh!"));
-	bubbles.push(new Bubble(50, 10, 19, 55, "Over 9000!"));
-	bubbles.push(new Bubble(15, 10, 29, 235, "Wei Shen"));
+	bubbles.push(new Bubble(50, 10, 19, 220, "Over 9000!"));
+	bubbles.push(new Bubble(15, 10, 29, 255, "Wei Shen"));
+	/*bubbles.push(new Bubble(100, 100, 12, 0xAA4444FF, "Bubble1"));
+	bubbles.push(new Bubble(50, 10, 15, 0xAAAA3333, "Ghostbusters"));
+	bubbles.push(new Bubble(70, 40, 20, 0x0000FF00, "Toto"));
+	bubbles.push(new Bubble(0, 50, 14, 0xAA22BB88, "TF2"));
+	bubbles.push(new Bubble(30, 30, 18, 0xAAA0A0A0, "Medic!"));
+	bubbles.push(new Bubble(50, 10, 16, 0xAA4040B0, "Mmhhh!"));
+	bubbles.push(new Bubble(50, 10, 19, 0xAA555555, "Over 9000!"));
+	bubbles.push(new Bubble(15, 10, 29, 0xFFFF1111, "Wei Shen"));*/
 	initProcessing();
  }
  

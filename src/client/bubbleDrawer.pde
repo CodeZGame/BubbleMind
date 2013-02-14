@@ -36,6 +36,7 @@ void setup() {
   mainBuffer.stroke(0);
   mainBuffer.smooth(4);
   mainBuffer.strokeWeight(0.5);
+  mainBuffer.colorMode(HSB, 255);
   mainBuffer.beginDraw();
   bd.clear();
   noLoop();
@@ -52,20 +53,22 @@ void mouseClicked() {
 class    BubbleDrawer {
   private color	_bgColor = #FFFFFF;
   private int 	_alphaValue = 220;
+  private int	_defaultSaturation = 255;
+  private int	_defaultBrightness = 255;
 
   BubbleDrawer() {
   }
 
   void drawBubble(int posX, int posY, int size, int col, boolean crossed) {
-    mainBuffer.fill(col, _alphaValue);
+    mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.ellipse(posX, posY, size, size);
   }
 
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
-    mainBuffer.fill(col, _alphaValue);
+    mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.ellipse(posX, posY, size, size);
     mainBuffer.strokeWeight(7);
-    mainBuffer.stroke(col, 75);
+    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 75);
     mainBuffer.noFill();
     mainBuffer.ellipse(posX, posY, size + 15, size + 15);
     mainBuffer.strokeWeight(0.5);
@@ -77,13 +80,13 @@ class    BubbleDrawer {
     String year = str(date);
     float yearWidth = (width - mainBuffer.textWidth(year)) / 2;
     float yearHeight = (height + mainBuffer.textDescent()) / 2;
-    mainBuffer.fill(150);
+    mainBuffer.fill(180);
     mainBuffer.text(year, yearWidth, yearHeight);
   }
 
   void  drawBubbleName(int posX, int posY, int col, String name) {
     mainBuffer.strokeWeight(3);
-    mainBuffer.stroke(col);
+    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
     mainBuffer.fill(255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
@@ -94,8 +97,8 @@ class    BubbleDrawer {
     mainBuffer.stroke(0);
   }
 
-  void  drawLine(int beginX, int beginY, int endX, int endY, int col) {
-    mainBuffer.fill(col, _alphaValue);
+  void  drawLine(int beginX, int beginY, int endX, int endY) {
+    mainBuffer.fill(215);
     mainBuffer.line(beginX, beginY, endX, endY);
   }
 
