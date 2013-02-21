@@ -7,7 +7,7 @@ PGraphics gridBuffer;
 BubbleDrawer bd;
 
 int width = 800;
-int height = 525;
+int height = 555;
 int bubbleWidth = width - 25;
 int bubbleHeight = height - 25;
 

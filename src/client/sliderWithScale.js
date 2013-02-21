@@ -18,10 +18,15 @@ function build_slider(slider_id)
 
     $("#slider").slider(
     {
-        value: 100,
+        value: 0,
+        range: "min",
         min: 0,
         max: 100,
-        step: 1
+        step: 1,
+		animate: "fast",
+		/*slide: function( event, ui ) {
+                        MoveCursor( ui.value );
+						}*/
     })
     
     var step = 10;

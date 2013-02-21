@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
+	    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" type="text/css" media="all"/>
         <script src="processing-1.3.6.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/vader/jquery-ui.css"/>
         <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript" src="sliderWithScale.js"></script>
         <script type="text/javascript" src="ui.js"></script>
         <script type="text/javascript" src="Core.js"></script>
         <script type="text/javascript">
             $(function() {
-                build_slider('#SpeedSlider');
-            });
-			window.onload = runProcessing();
-		</script>
+				runProcessing();
+				build_slider('#timeSlider');
+                $( "#speedSlider" ).slider({
+                    orientation: "vertical",
+                    min: 1,
+                    max: 25,
+                    value: 5,
+					animate: "slow"
+//                    slide: function( event, ui ) {
+//                        $( "#amount" ).val( ui.value );
+//                    }
+                });
+            }
+        );
+        </script>
     </head>
 
     <body>
@@ -31,17 +42,18 @@
             </div>
 
             <div id="bottom_div">
-                <select name="selectAxeXValue" onchange="fonction(this);">
+                <select id="selectAxeXValue" onchange="fonction(this);">
                     <option value="population">Population</option>
                     <option value="voitures">Nombre de voitures</option>
                     <option value="autre">Autres..</option>
                 </select>
-                <select name="selectAxeXType" onchange="fonction(this);">
+                <select id="selectAxeXType" onchange="fonction(this);">
                     <option value="lin">lin</option>
                     <option value="log">log</option>
                 </select>
 				<input type="button" value="Play" onclick="SetPlayState()" id="playButton"/>
-                <div id="SpeedSlider" class="sliderWithScale"></div>
+                <div id="timeSlider" class="sliderWithScale"></div>
+                <div id="speedSlider"></div>
             </div>
         </div>
     </body>

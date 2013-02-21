@@ -58,43 +58,43 @@ var isPlaying = false;
   }
   
   function  drawName(b) {
-    p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
-    b.col, b.name);
+	p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
+	b.col, b.name);
   }
   
   function	overOnPlot(mX, mY) {
-    var  	i;
-    var  	res = -1;
-    var  	resSize = 999999;
+	var  	i;
+	var  	res = -1;
+	var  	resSize = 999999;
 
-    for (i = 0; i < bubbles.length; ++i)
-      if (bubbles[i].size < resSize
-        && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2))
-        res = i;
-    if (res >= 0) {
-      highlightedBubble = res;
-      p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
-      drawName(bubbles[res]);
-    }
-    else
+	for (i = 0; i < bubbles.length; ++i)
+	  if (bubbles[i].size < resSize
+		&& overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2))
+		res = i;
+	if (res >= 0) {
+	  highlightedBubble = res;
+	  p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
+	  drawName(bubbles[res]);
+	}
+	else
 	  highlightedBubble = -1;
   }
 
   function	overCircle(mX, mY, x, y, radius) {
-    var		disX = x - mX;
-    var		disY = y - mY;
-    if (mX < x - radius || mX > x + radius)
-      return false;
-    if (mY < y - radius || mY > y + radius)
-      return false;
-    if (Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2)) < radius)
-      return true;
-    return false;
+	var		disX = x - mX;
+	var		disY = y - mY;
+	if (mX < x - radius || mX > x + radius)
+	  return false;
+	if (mY < y - radius || mY > y + radius)
+	  return false;
+	if (Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2)) < radius)
+	  return true;
+	return false;
   }
   
   function	clickOnPlot() {
-    if (highlightedBubble >= 0)
-      bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
+	if (highlightedBubble >= 0)
+	  bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
   }
   
   function	unselectAll() {
@@ -120,8 +120,8 @@ var isPlaying = false;
 	drawBubbles();
 	overOnPlot(p.mouseX - 25, p.mouseY);
 	p.getBubbleDrawer().display();
-	if (isPlaying)
-		setTimeout(refreshDisplay, cursorSpeed);
+	/*if (isPlaying)
+		setTimeout(refreshDisplay, cursorSpeed);*/
 		//$( "#SpeedSlider" ).slider().slider("option",  "value" )
   }
   
@@ -138,7 +138,11 @@ var isPlaying = false;
   }
   
   function MoveCursor(pos) {
-	cursorPos = pos;
+  	cursorPos = pos;
+	if (isPlaying) {
+		$("#timeSlider").slider().slider("value", pos+1);
+		$("#timeSlider").slider().slider().data("slider")._change();
+		}
   }
   
   function SetBubbleSize(size) {
@@ -154,13 +158,26 @@ var isPlaying = false;
 	
 	// TMP
 	isPlaying = !isPlaying;
-	if (isPlaying == true)
-		document.getElementById("playButton").value = "Stop";
-	else
-		document.getElementById("playButton").value = "Play";
-	refreshDisplay();
+	if (!isPlaying)			// STOP
+		$("#playButton").attr("value", "Play");
+	else {					// PLAY
+		$("#playButton").attr("value", "Stop");
+		Loop();
+		}
   }
   
   function AxeChanged(axe, idx) {
   // TODO
+  }
+  
+  function Loop() {
+	if (isPlaying) {
+		if ($("#timeSlider").slider().slider("value") == $("#timeSlider").slider().slider("option", "max")) {
+			SetPlayState();
+			return ;
+			}
+		refreshDisplay();
+		setTimeout(Loop, $("#speedSlider").slider("value"));
+		$("#timeSlider").slider().slider("value", $("#timeSlider").slider().slider("value") + 1);
+		}
   }
