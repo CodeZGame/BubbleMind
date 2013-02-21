@@ -117,7 +117,7 @@ var highlightedBubble = -1;
 	drawBubbles();
 	overOnPlot(p.mouseX - 25, p.mouseY);
 	p.getBubbleDrawer().display();
-	setTimeout(refreshDisplay, 30);
+	setTimeout(refreshDisplay, $( "#SpeedSlider" ).slider().slider("option",  "value" ));
   }
   
   function sortBubbles(b1, b2) {
