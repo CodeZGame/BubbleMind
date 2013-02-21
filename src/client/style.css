@@ -24,14 +24,14 @@ html, body {
 #left_div {
     float:left;
     width:50px;
-    height:525px;
+    height:555px;
     background-color:#FFCC00;
     position:absolute;
 }
 
 #center_div {
     width:800px;
-    height:525px;
+    height:555px;
     margin-left:51px;
     background-color:#00CCFF;
     position:absolute;
@@ -47,26 +47,46 @@ html, body {
 
 #bottom_div {
     width:851px;
-    height:122px;
+    height:92px;
     background-color:#FF00CC;
-    margin-top: 528px;
+    margin-top: 558px;
     position:absolute;
 }
 
+#playButton {
+    width: 50px;
+    top: 35px;
+    left: 30px;
+    position: absolute;
+}
+
+#speedSlider {
+    display:inline-block;
+    width:750px;
+    top: 40px;
+    left: 85px;
+    position: absolute;
+}
+
+#selectAxeXValue {
+    width:700px;
+    top: 10px;
+    left: 85px;
+    position: absolute;    
+}
+
+#selectAxeXType {
+    width:50px;
+    top: 10px;
+    left: 790px;
+    position: absolute;
+
+}
+
 canvas {
-    margin: 20px 20px 0 20px;
-    float: left;
+    /*    margin: 20px 20px 0 20px;
+        float: left;*/
     /*-webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     border-radius: 25px;*/
-}
-
-div.ProcessingUi {
-}
-
-
-.sliderWithScale {
-    display:inline-block;
-    width:750px;
-    text-align: center;
 }

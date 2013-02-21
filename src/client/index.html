@@ -11,7 +11,7 @@
         <script type="text/javascript" src="Core.js"></script>
         <script>
             $(function() {
-                build_slider('#SpeedSlider');
+                build_slider('#speedSlider');
             });
         </script>
     </head>
@@ -30,17 +30,17 @@
             </div>
 
             <div id="bottom_div">
-                <select name="selectAxeXValue" onchange="fonction(this);">
+                <select id="selectAxeXValue" onchange="fonction(this);">
                     <option value="population">Population</option>
                     <option value="voitures">Nombre de voitures</option>
                     <option value="autre">Autres..</option>
                 </select>
-                <select name="selectAxeXType" onchange="fonction(this);">
+                <select id="selectAxeXType" onchange="fonction(this);">
                     <option value="lin">lin</option>
                     <option value="log">log</option>
                 </select>
-				<button type="button" onclick="runProcessingTest()">Play</button>
-                <div id="SpeedSlider" class="sliderWithScale"></div>
+                <button id="playButton" type="button" onclick="runProcessingTest()">Play</button>
+                <div id="speedSlider" class="sliderWithScale"></div>
             </div>
         </div>
     </body>
