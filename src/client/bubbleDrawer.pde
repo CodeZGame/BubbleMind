@@ -7,7 +7,7 @@ PGraphics gridBuffer;
 BubbleDrawer bd;
 
 int width = 800;
-int height = 625;
+int height = 525;
 int bubbleWidth = width - 25;
 int bubbleHeight = height - 25;
 
@@ -85,7 +85,6 @@ class    BubbleDrawer {
   }
 
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
-  	// NEED CHECK FOR WINDOW BORDER
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
@@ -127,7 +126,8 @@ class    BubbleDrawer {
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
 	gridBuffer.beginDraw();
-	if (axis == 0) {			// X AXIS
+	// X AXIS
+	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
 		gridBuffer.strokeWeight(2);
 		gridBuffer.line(24, height - 24, width, height - 24);
@@ -136,7 +136,8 @@ class    BubbleDrawer {
 			gridBuffer.line(24 + i * stepSize, 0, 24 + i * stepSize, height - 24);
 		}
 	}
-	else {						// Y AXIS
+	// Y AXIS
+	else {
 		stepSize = bubbleHeight / steps;
 	    gridBuffer.strokeWeight(2);
 		gridBuffer.line(24, 0, 24, bubbleHeight);

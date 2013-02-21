@@ -3,6 +3,9 @@ var bounded = false;
 var bubbles = new Array();
 var p = null;
 var highlightedBubble = -1;
+var cursorPos = 0;
+var cursorSpeed = 25;
+var isPlaying = false;
  
  function	Bubble(posX, posY, size, col, name) {
 	this.posX = posX;
@@ -15,14 +18,14 @@ var highlightedBubble = -1;
  }
  
  function	runProcessing() {
-	bubbles.push(new Bubble(100, 510, 12, 20, "Bubble1"));
-	bubbles.push(new Bubble(50, 580, 15, 50, "Ghostbusters"));
-	bubbles.push(new Bubble(70, 565, 20, 80, "Toto"));
-	bubbles.push(new Bubble(0, 550, 14, 130, "TF2"));
-	bubbles.push(new Bubble(30, 580, 18, 150, "Medic!"));
-	bubbles.push(new Bubble(50, 600, 16, 180, "Mmhhh!"));
-	bubbles.push(new Bubble(50, 600, 19, 220, "Over 9000!"));
-	bubbles.push(new Bubble(15, 590, 29, 255, "Wei Shen"));
+	bubbles.push(new Bubble(100, 470, 12, 20, "Bubble1"));
+	bubbles.push(new Bubble(50, 480, 15, 50, "Ghostbusters"));
+	bubbles.push(new Bubble(70, 465, 20, 80, "Toto"));
+	bubbles.push(new Bubble(0, 450, 14, 130, "TF2"));
+	bubbles.push(new Bubble(30, 480, 18, 150, "Medic!"));
+	bubbles.push(new Bubble(50, 500, 16, 180, "Mmhhh!"));
+	bubbles.push(new Bubble(50, 500, 19, 220, "Over 9000!"));
+	bubbles.push(new Bubble(15, 490, 29, 255, "Wei Shen"));
 	initProcessing();
  }
  
@@ -106,7 +109,7 @@ var highlightedBubble = -1;
 		bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
 		bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
 		if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
-			bubbles[i].posY = 600;
+			bubbles[i].posY = 525;
 			bubbles[i].posX = 0;
 		}
 	}
@@ -117,7 +120,9 @@ var highlightedBubble = -1;
 	drawBubbles();
 	overOnPlot(p.mouseX - 25, p.mouseY);
 	p.getBubbleDrawer().display();
-	setTimeout(refreshDisplay, $( "#SpeedSlider" ).slider().slider("option",  "value" ));
+	if (isPlaying)
+		setTimeout(refreshDisplay, cursorSpeed);
+		//$( "#SpeedSlider" ).slider().slider("option",  "value" )
   }
   
   function sortBubbles(b1, b2) {
@@ -127,6 +132,35 @@ var highlightedBubble = -1;
 		return 1;
   }
 
+  // Methods from UI
   function changeScale(axe, min, max, steps) {
 	p.getBubbleDrawer().drawScale(axe, min, max, steps);
+  }
+  
+  function MoveCursor(pos) {
+	cursorPos = pos;
+  }
+  
+  function SetBubbleSize(size) {
+	bubbleSize = size;
+  }
+  
+  function SetSpeed(speed) {
+	cursorSpeed = speed;
+  }
+  
+  function SetPlayState() {
+	//isPlaying = playing;
+	
+	// TMP
+	isPlaying = !isPlaying;
+	if (isPlaying == true)
+		document.getElementById("playButton").value = "Stop";
+	else
+		document.getElementById("playButton").value = "Play";
+	refreshDisplay();
+  }
+  
+  function AxeChanged(axe, idx) {
+  // TODO
   }

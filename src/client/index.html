@@ -9,11 +9,12 @@
         <script type="text/javascript" src="sliderWithScale.js"></script>
         <script type="text/javascript" src="ui.js"></script>
         <script type="text/javascript" src="Core.js"></script>
-        <script>
+        <script type="text/javascript">
             $(function() {
                 build_slider('#SpeedSlider');
             });
-        </script>
+			window.onload = runProcessing();
+		</script>
     </head>
 
     <body>
@@ -23,7 +24,7 @@
             </div>
 
             <div id="center_div">
-                <!--                <canvas id="ProcessingCanvas" data-processing-sources="bubbleDrawer.pde"></canvas>    -->
+            <canvas id="ProcessingCanvas" data-processing-sources="bubbleDrawer.pde"></canvas>
             </div>
 
             <div id="right_div">
@@ -39,7 +40,7 @@
                     <option value="lin">lin</option>
                     <option value="log">log</option>
                 </select>
-				<button type="button" onclick="runProcessingTest()">Play</button>
+				<input type="button" value="Play" onclick="SetPlayState()" id="playButton"/>
                 <div id="SpeedSlider" class="sliderWithScale"></div>
             </div>
         </div>
