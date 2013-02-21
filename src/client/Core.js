@@ -1,4 +1,4 @@
-var scriptYear = 1955;
+var year = 1955;
 var bounded = false;
 var bubbles = new Array();
 var p = null;
@@ -10,29 +10,56 @@ var highlightedBubble = -1;
 	this.size = size;
 	this.col = col;
 	this.name = name;
- }
- 
- function	runProcessingTest() {
-	bubbles.push(new Bubble(100, 100, 100, 100, "Bubble1"));
-	bubbles.push(new Bubble(50, 10, 25, 25, "Foo"));
-	bubbles.push(new Bubble(70, 40, 35, 75, "Fu"));
-	bubbles.push(new Bubble(0, 50, 55, 168, "Fui"));
-	bubbles.push(new Bubble(50, 10, 70, 215, "Feu"));
-	runProcessing();
+	this.isClicked = false;
+	this.crossed = false;
  }
  
  function	runProcessing() {
+	bubbles.push(new Bubble(100, 510, 12, 20, "Bubble1"));
+	bubbles.push(new Bubble(50, 580, 15, 50, "Ghostbusters"));
+	bubbles.push(new Bubble(70, 565, 20, 80, "Toto"));
+	bubbles.push(new Bubble(0, 550, 14, 130, "TF2"));
+	bubbles.push(new Bubble(30, 580, 18, 150, "Medic!"));
+	bubbles.push(new Bubble(50, 600, 16, 180, "Mmhhh!"));
+	bubbles.push(new Bubble(50, 600, 19, 220, "Over 9000!"));
+	bubbles.push(new Bubble(15, 590, 29, 255, "Wei Shen"));
+	initProcessing();
+ }
+ 
+ function	initProcessing() {
 	p = Processing.getInstanceById('ProcessingCanvas');
 	if (p) {
 		p.bindJavascript(this);
 		bounded = true;
-		p.beginTest();
+		runApplication();
 		}
 	if (!bounded)
-		setTimeout(runProcessing, 250);	 //send data to timeout ??
+		setTimeout(initProcessing, 250);	 //send data to timeout ??
 }
 
-function	overOnPlot(mX, mY) {
+  function	runApplication() {
+	changeScale(1, 0, 1000, 10);
+	changeScale(0, 0, 1000, 10);
+	refreshDisplay();
+  }
+
+  function	drawBubbles() {
+	for (i = 0; i < bubbles.length; ++i) {
+	if (bubbles[i].isClicked) {
+		p.getBubbleDrawer().drawHighlightBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
+		drawName(bubbles[i]);
+	}
+	else
+		p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
+	}
+  }
+  
+  function  drawName(b) {
+    p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
+    b.col, b.name);
+  }
+  
+  function	overOnPlot(mX, mY) {
     var  	i;
     var  	res = -1;
     var  	resSize = 999999;
@@ -43,14 +70,14 @@ function	overOnPlot(mX, mY) {
         res = i;
     if (res >= 0) {
       highlightedBubble = res;
-      p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, false);
-      //p.bd.drawName(bubbles[res]);
+      p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
+      drawName(bubbles[res]);
     }
     else
 	  highlightedBubble = -1;
   }
 
-function	overCircle(mX, mY, x, y, radius) {
+  function	overCircle(mX, mY, x, y, radius) {
     var		disX = x - mX;
     var		disY = y - mY;
     if (mX < x - radius || mX > x + radius)
@@ -62,6 +89,44 @@ function	overCircle(mX, mY, x, y, radius) {
     return false;
   }
   
-function	getBubbles() {
-	return bubbles;
-}
+  function	clickOnPlot() {
+    if (highlightedBubble >= 0)
+      bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
+  }
+  
+  function	unselectAll() {
+	for (i = 0; i < bubbles.length; ++i) {
+		bubbles[i].isClicked = false;
+	}
+  }
+  
+  function	refreshDisplay() {
+	// TMP MOVE BUBBLES RANDOMLY
+	for (i = 0; i < bubbles.length; ++i) {
+		bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
+		bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
+		if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
+			bubbles[i].posY = 600;
+			bubbles[i].posX = 0;
+		}
+	}
+	
+	bubbles.sort(sortBubbles);
+	p.getBubbleDrawer().clear();
+	p.getBubbleDrawer().drawDate(year);
+	drawBubbles();
+	overOnPlot(p.mouseX - 25, p.mouseY);
+	p.getBubbleDrawer().display();
+	setTimeout(refreshDisplay, 30);
+  }
+  
+  function sortBubbles(b1, b2) {
+	if (b1.size > b2.size)
+		return -1;
+	else
+		return 1;
+  }
+
+  function changeScale(axe, min, max, steps) {
+	p.getBubbleDrawer().drawScale(axe, min, max, steps);
+  }
