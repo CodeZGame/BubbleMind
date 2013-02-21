@@ -1,29 +1,56 @@
 html, body {
-    background: #EEE;
+    background: white;
     font-family: Arial;
     font-size: 13px;
     margin: 0;
     padding: 0;
 }
 
-h1 a {
-    color: #FFF;
+#main_div{
+    width: 1053px;
+    height: 650px;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+    margin-left: -526.5px;
+    margin-top: -325px;
 }
 
-h2 {
-    padding-left: 20px;
-    margin-bottom: 0px;
+#left_div, #center_div, #right_div, #bottom_div {
+    padding:1px 0;
 }
 
-p {
-    padding-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 30px;
+#left_div {
+    float:left;
+    width:50px;
+    height:525px;
+    background-color:#FFCC00;
+    position:absolute;
 }
 
+#center_div {
+    width:800px;
+    height:525px;
+    margin-left:51px;
+    background-color:#00CCFF;
+    position:absolute;
+}
 
-p a {
-    color: #385C85;
+#right_div {
+    width:200px;
+    height:650px;
+    margin-left:852px;
+    background-color:#CCFF00;
+    position:absolute;
+}
+
+#bottom_div {
+    width:851px;
+    height:122px;
+    background-color:#FF00CC;
+    margin-top: 528px;
+    position:absolute;
 }
 
 canvas {
@@ -40,29 +67,6 @@ div.ProcessingUi {
 
 .sliderWithScale {
     display:inline-block;
-    width:450px;
-    float:left;
-    margin-left: 100px;
+    width:750px;
+    text-align: center;
 }
-
-
-/*
-.proc_ui .textlabel {
-        padding-left:10px;
-}
-
-.proc_ui .uibutton{
-    width:150px;
-        float: left;
-        margin-right:10px;
-}
-
-.proc_ui #textSearchResult {
-        padding-top:8px;
-        font-weight:bold;
-        font-size:14px;
-}
-
-.labeledslider {
-        padding:5px 0 5px 0;
-}*/

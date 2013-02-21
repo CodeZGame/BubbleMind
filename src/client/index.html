@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="style.css"/>
         <script type="text/javascript" src="sliderWithScale.js"></script>
         <script type="text/javascript" src="ui.js"></script>
-		<script type="text/javascript" src="Core.js"></script>
+        <script type="text/javascript" src="Core.js"></script>
         <script>
             $(function() {
                 build_slider('#SpeedSlider');
@@ -17,18 +17,33 @@
     </head>
 
     <body>
-        <div id="plot_div">
-            <canvas id="ProcessingCanvas" data-processing-sources="bubbleDrawer.pde"></canvas>    
-        </div>
+        <div id="main_div">
+            <div id="left_div">
 
-        <div id="time_div">
-            <div id="SpeedSlider" class="sliderWithScale"></div>
-			<button type="button" onclick="runProcessingTest()">Play</button>
-        </div>
-        <div id="entries_div">
+            </div>
 
-        </div>
+            <div id="center_div">
+                <!--                <canvas id="ProcessingCanvas" data-processing-sources="bubbleDrawer.pde"></canvas>    -->
+            </div>
 
+            <div id="right_div">
+            </div>
+
+            <div id="bottom_div">
+                <!--
+                <button type="button" onclick="runProcessingTest()">Play</button>-->
+                <select name="selectAxeXValue" onchange="fonction(this);">
+                    <option value="population">Population</option>
+                    <option value="voitures">Nombre de voitures</option>
+                    <option value="autre">Autres..</option>
+                </select>
+                <select name="selectAxeXType" onchange="fonction(this);">
+                    <option value="lin">lin</option>
+                    <option value="log">log</option>
+                </select>
+                <div id="SpeedSlider" class="sliderWithScale"></div>
+            </div>
+        </div>
     </body>
 </html>
 
