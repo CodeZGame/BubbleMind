@@ -19,6 +19,7 @@ function build_slider(slider_id)
     $("#slider").slider(
     {
         value: 100,
+        range: "min",
         min: 0,
         max: 100,
         step: 1

@@ -11,8 +11,19 @@
         <script type="text/javascript" src="Core.js"></script>
         <script>
             $(function() {
-                build_slider('#speedSlider');
-            });
+                build_slider('#timeSlider');
+
+                $( "#speedSlider" ).slider({
+                    orientation: "vertical",
+                    min: 0,
+                    max: 10,
+                    value: 5,
+//                    slide: function( event, ui ) {
+//                        $( "#amount" ).val( ui.value );
+//                    }
+                });
+            }
+        );
         </script>
     </head>
 
@@ -40,7 +51,8 @@
                     <option value="log">log</option>
                 </select>
                 <button id="playButton" type="button" onclick="runProcessingTest()">Play</button>
-                <div id="speedSlider" class="sliderWithScale"></div>
+                <div id="timeSlider" class="sliderWithScale"></div>
+                <div id="speedSlider"></div>
             </div>
         </div>
     </body>
