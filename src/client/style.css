@@ -67,7 +67,7 @@ canvas {
 #timeSlider {
     width:750px;
     top: 40px;
-    left: 85px;
+    left: 90px;
     position: absolute;
 }
 
@@ -93,6 +93,28 @@ canvas {
 
 }
 
+#selectAxeYValue {
+    -webkit-transform: rotate(-90deg);  
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);  
+    /*    width:700px;*/
+    top: 0px;
+    left: 0px;
+    position: absolute;
+
+}
+
+/*#selectAxeYType {
+    width:50px;
+    top: 10px;
+    left: 790px;
+    position: absolute;
+
+}*/
+
 canvas {
-        float: left;
+    float: left;
 }
