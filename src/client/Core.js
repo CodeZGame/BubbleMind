@@ -179,6 +179,6 @@ var isPlaying = false;
 		
 		refreshDisplay();
 		setTimeout(Loop, $("#speedSlider").slider("value"));
-		//$("#timeSlider").slider().slider("value", $("#timeSlider").slider().slider("value") + 1);
+		$("#timeSlider").slider().slider("value", $("#timeSlider").slider().slider("value") + 1);
 		}
   }

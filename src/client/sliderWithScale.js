@@ -24,9 +24,9 @@ function build_slider(slider_id)
         max: 100,
         step: 1,
 		animate: "fast",
-		slide: function( event, ui ) {
+		/*slide: function( event, ui ) {
                         MoveCursor( ui.value );
-						}
+						}*/
     })
     
     var step = 10;
