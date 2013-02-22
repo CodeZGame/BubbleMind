@@ -97,6 +97,11 @@ var isPlaying = false;
 	  bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
   }
   
+  function mouveMove() {
+	refreshDisplay();
+	setTimeout(Loop, $("#speedSlider").slider("value"));
+  }
+  
   function	unselectAll() {
 	for (i = 0; i < bubbles.length; ++i) {
 		bubbles[i].isClicked = false;
@@ -104,25 +109,12 @@ var isPlaying = false;
   }
   
   function	refreshDisplay() {
-	// TMP MOVE BUBBLES RANDOMLY
-	for (i = 0; i < bubbles.length; ++i) {
-		bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
-		bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
-		if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
-			bubbles[i].posY = 525;
-			bubbles[i].posX = 0;
-		}
-	}
-	
 	bubbles.sort(sortBubbles);
 	p.getBubbleDrawer().clear();
 	p.getBubbleDrawer().drawDate(year);
 	drawBubbles();
 	overOnPlot(p.mouseX - 25, p.mouseY);
 	p.getBubbleDrawer().display();
-	/*if (isPlaying)
-		setTimeout(refreshDisplay, cursorSpeed);*/
-		//$( "#SpeedSlider" ).slider().slider("option",  "value" )
   }
   
   function sortBubbles(b1, b2) {
@@ -139,10 +131,7 @@ var isPlaying = false;
   
   function MoveCursor(pos) {
   	cursorPos = pos;
-	if (isPlaying) {
-		$("#timeSlider").slider().slider("value", pos+1);
-		$("#timeSlider").slider().slider().data("slider")._change();
-		}
+	$("#timeSlider").slider().slider("value", pos);
   }
   
   function SetBubbleSize(size) {
@@ -176,8 +165,20 @@ var isPlaying = false;
 			SetPlayState();
 			return ;
 			}
+		
+		// TMP -> Make bubbles to move randomly while playing	
+		for (i = 0; i < bubbles.length; ++i) {
+			bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
+			bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
+			if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
+				bubbles[i].posY = 525;
+				bubbles[i].posX = 0;
+			}
+		}
+		// END TMP
+		
 		refreshDisplay();
 		setTimeout(Loop, $("#speedSlider").slider("value"));
-		$("#timeSlider").slider().slider("value", $("#timeSlider").slider().slider("value") + 1);
+		//$("#timeSlider").slider().slider("value", $("#timeSlider").slider().slider("value") + 1);
 		}
   }
