@@ -11,7 +11,9 @@ int height = 555;
 int bubbleWidth = width - 25;
 int bubbleHeight = height - 25;
 
-interface JavaScript {	
+interface JavaScript {
+	boolean isPlaying;
+	void	mouseMoved();
 	void	clickOnPlot();
 }
 
@@ -43,6 +45,12 @@ void setup() {
 }
 
 void draw() {
+}
+
+void mouseMoved() {
+	if (js.isPlaying != true) {
+		js.mouveMove();
+	}
 }
 
 void mouseClicked() {
