@@ -198,11 +198,11 @@ class    BubbleDrawer {
   void	display() {
 	mainBuffer.endDraw();
 	image(gridBuffer, 0, 0);
-	//image(mainBuffer, offsetX, 0);
+	image(mainBuffer, offsetX, 0);
 	mainBuffer.beginDraw();
   }
   
   void  clear() {
-    //mainBuffer.background(this._bgColor, 0);
+    mainBuffer.background(this._bgColor, 0);
   }
 }
