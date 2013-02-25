@@ -8,8 +8,10 @@ BubbleDrawer bd;
 
 int width = 800;
 int height = 555;
-int bubbleWidth = width - 25;
-int bubbleHeight = height - 25;
+int offsetX = 75;
+int offsetY = 25;
+int bubbleWidth = width - offsetX;
+int bubbleHeight = height - offsetY;
 
 interface JavaScript {
 	boolean isPlaying;
@@ -28,24 +30,34 @@ BubbleDrawer getBubbleDrawer() {
 }
 
 void setup() {
-  size(width, height);
-  mainBuffer = createGraphics(bubbleWidth, bubbleHeight);
-  gridBuffer = createGraphics(width, height);
-  bd = new BubbleDrawer();
-  mainBuffer.textFont(createFont("Verdana", 20, true));
-  gridBuffer.background(bd._bgColor);
-  gridBuffer.textFont(createFont("Verdana", 20, true));
-  mainBuffer.ellipseMode(CENTER);
-  mainBuffer.stroke(0);
-  mainBuffer.smooth(4);
-  mainBuffer.strokeWeight(0.5);
-  mainBuffer.colorMode(HSB, 255);
-  mainBuffer.beginDraw();
-  bd.clear();
-  noLoop();
+	size(width, height);
+	mainBuffer = createGraphics(bubbleWidth, bubbleHeight);
+	gridBuffer = createGraphics(width, height);
+	bd = new BubbleDrawer();
+	mainBuffer.textFont(createFont("Verdana", 20, true));
+	gridBuffer.background(bd._bgColor);
+	gridBuffer.textFont(createFont("Verdana", 20, true));
+	gridBuffer.textSize(13);
+	gridBuffer.textAlign(CENTER, CENTER);
+	mainBuffer.ellipseMode(CENTER);
+	mainBuffer.stroke(0);
+	mainBuffer.smooth(4);
+	mainBuffer.strokeWeight(0.5);
+	mainBuffer.colorMode(HSB, 255);
+	mainBuffer.beginDraw();
+	bd.clear();
+	noLoop();
 }
 
 void draw() {
+}
+
+int getMouseX() {
+	return mouseX - offsetX;
+}
+  
+int getMouseY() {
+	return mouseY;
 }
 
 void mouseMoved() {
@@ -134,30 +146,49 @@ class    BubbleDrawer {
 
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
+	String value;
+	int valueStep = (max - min) / steps;
 	gridBuffer.beginDraw();
-	// X AXIS
+	// X AXIS - Y GRID
 	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
 		gridBuffer.strokeWeight(2);
-		gridBuffer.line(24, height - 24, width, height - 24);
+		gridBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
 		gridBuffer.strokeWeight(0.2);
 		gridBuffer.fill(215, 30);
-		gridBuffer.textSize(20);
 		for (int i = 1; i < steps; ++i) {
-			gridBuffer.line(24 + i * stepSize, 0, 24 + i * stepSize, height - 24);
-			gridBuffer.text("testtttt", 0, 10);
+			gridBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
+			value = ceil(valueStep * i);
+			gridBuffer.fill(30, 70);
+			if (i == 1)
+				gridBuffer.text(min, stepSize, height - textAscent() - textDescent());
+			gridBuffer.text(value, (i + 1) * stepSize, height - textAscent() - textDescent());
 		}
 	}
-	// Y AXIS
+	// Y AXIS - X GRID
 	else {
 		stepSize = bubbleHeight / steps;
 	    gridBuffer.strokeWeight(2);
-		gridBuffer.line(24, 0, 24, bubbleHeight);
+		gridBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
 		gridBuffer.strokeWeight(0.2);
 		gridBuffer.fill(215, 30);
-		gridBuffer.textSize(20);
 		for (int i = 1; i < steps; ++i) {
-			gridBuffer.line(24, i * stepSize, width, i * stepSize);
+			gridBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
+			value = ceil(max - (valueStep * i));
+			gridBuffer.fill(30, 70);
+			gridBuffer.pushMatrix();
+			gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * i);
+			gridBuffer.rotate(-0.6);
+			gridBuffer.text(value, 0, 0);
+			gridBuffer.popMatrix();
+			if (i == steps - 1)
+			{
+				gridBuffer.pushMatrix();	
+				gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
+				gridBuffer.rotate(-0.6);
+				gridBuffer.text(min, 0, 0);
+				gridBuffer.popMatrix();
+			}
 		}
 	}
 	gridBuffer.strokeWeight(0.5);
@@ -167,7 +198,7 @@ class    BubbleDrawer {
   void	display() {
 	mainBuffer.endDraw();
 	image(gridBuffer, 0, 0);
-	//image(mainBuffer, 25, 0);
+	//image(mainBuffer, offsetX, 0);
 	mainBuffer.beginDraw();
   }
   
