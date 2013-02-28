@@ -41,8 +41,9 @@ function	initProcessing() {
 }
 
 function	runApplication() {
-    changeScale(1, 0, 12563, 15);
-    changeScale(0, 42, 4000000, 10);
+    //changeScale(1, 0, 12563, 15);
+    changeScale(1, 0, 50, 15);
+    changeScale(0, 42, 30563891, 10);
     refreshDisplay();
 }
 

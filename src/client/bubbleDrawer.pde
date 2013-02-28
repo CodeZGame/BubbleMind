@@ -143,8 +143,8 @@ class    BubbleDrawer {
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
 	String value;
-	int valueStep = (max - min) / steps;
-	int maxUp = max * 5 / 100 + max;
+	float maxUp = max * 5 / 100 + max;
+	int valueStep = (maxUp - min) / steps;
 	gridBuffer.beginDraw();
 	// X AXIS - Y GRID
 	if (axis == 0) {
@@ -155,7 +155,7 @@ class    BubbleDrawer {
 		gridBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			gridBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
-			value = ceil(valueStep * i);
+			value = calcValue(maxUp, valueStep, i);
 			gridBuffer.fill(30, 70);
 			if (i == 1)
 				gridBuffer.text(0, stepSize - gridBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
@@ -171,7 +171,7 @@ class    BubbleDrawer {
 		gridBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			gridBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
-			value = ceil(max - (valueStep * i));
+			value = calcValue(maxUp, valueStep, i);
 			gridBuffer.fill(30, 70);
 			gridBuffer.pushMatrix();
 			gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * i);
@@ -192,6 +192,33 @@ class    BubbleDrawer {
 	gridBuffer.endDraw();
   }
   
+  float calcValue(float max, int valueStep, int i) {
+  	float value;
+  	int valueLength;
+  	float tmp;
+
+  	if (max < 100) {
+  		value = ceil(max - (valueStep * i));
+  	}
+  	else {
+  		value = ceil(valueStep * i);
+  		valueLength = nbLength(value);
+  		tmp = pow(10, ceil(valueLength / 2));
+  		value = ceil(value / tmp) * tmp;
+  	}
+  	return value;
+  }
+
+  int nbLength(float nb) {
+  	float tmp = nb;
+  	int number = 1;
+  	while (tmp >= 10) {
+  		tmp /= 10;
+  		++number;
+  	}
+  	return number;
+  }
+
   void	display() {
 	mainBuffer.endDraw();
 	image(gridBuffer, 0, 0);
