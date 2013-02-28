@@ -1,14 +1,10 @@
-// /!\ IMPORTANT /!\
-// EVERY "mouseX" MUST HAVE [- 25] VALUE BECAUSE THE IMAGE
-// MOVE BY 25 INCH ON X AXIS FOR THE GRID BUFFER
-
 PGraphics mainBuffer;
 PGraphics gridBuffer;
 BubbleDrawer bd;
 
 int width = 800;
 int height = 555;
-int offsetX = 75;
+int offsetX = 50;
 int offsetY = 25;
 int bubbleWidth = width - offsetX;
 int bubbleHeight = height - offsetY;
@@ -35,13 +31,14 @@ void setup() {
 	gridBuffer = createGraphics(width, height);
 	bd = new BubbleDrawer();
 	mainBuffer.textFont(createFont("Verdana", 20, true));
-	gridBuffer.background(bd._bgColor);
+	gridBuffer.colorMode(HSB, 255);
+	gridBuffer.background(0, 0, 255, 255);
 	gridBuffer.textFont(createFont("Verdana", 20, true));
 	gridBuffer.textSize(13);
 	gridBuffer.textAlign(CENTER, CENTER);
 	mainBuffer.ellipseMode(CENTER);
 	mainBuffer.stroke(0);
-	mainBuffer.smooth(4);
+	mainBuffer.smooth(8);
 	mainBuffer.strokeWeight(0.5);
 	mainBuffer.colorMode(HSB, 255);
 	mainBuffer.beginDraw();
@@ -72,7 +69,6 @@ void mouseClicked() {
 }
 
 class    BubbleDrawer {
-  private color	_bgColor = #FFFFFF;
   private int 	_alphaValue = 220;
   private int	_defaultSaturation = 255;
   private int	_defaultBrightness = 255;
@@ -148,6 +144,7 @@ class    BubbleDrawer {
 	int	stepSize;
 	String value;
 	int valueStep = (max - min) / steps;
+	int maxUp = max * 5 / 100 + max;
 	gridBuffer.beginDraw();
 	// X AXIS - Y GRID
 	if (axis == 0) {
@@ -161,8 +158,8 @@ class    BubbleDrawer {
 			value = ceil(valueStep * i);
 			gridBuffer.fill(30, 70);
 			if (i == 1)
-				gridBuffer.text(min, stepSize, height - textAscent() - textDescent());
-			gridBuffer.text(value, (i + 1) * stepSize, height - textAscent() - textDescent());
+				gridBuffer.text(0, stepSize - gridBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+			gridBuffer.text(value, (i + 1) * stepSize - gridBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 		}
 	}
 	// Y AXIS - X GRID
@@ -183,10 +180,10 @@ class    BubbleDrawer {
 			gridBuffer.popMatrix();
 			if (i == steps - 1)
 			{
-				gridBuffer.pushMatrix();	
+				gridBuffer.pushMatrix();
 				gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
 				gridBuffer.rotate(-0.6);
-				gridBuffer.text(min, 0, 0);
+				gridBuffer.text(0, 0, 0);
 				gridBuffer.popMatrix();
 			}
 		}
@@ -203,6 +200,6 @@ class    BubbleDrawer {
   }
   
   void  clear() {
-    mainBuffer.background(this._bgColor, 0);
+    mainBuffer.background(0, 0, 0, 0);
   }
 }
