@@ -18,7 +18,7 @@ function	Bubble(posX, posY, size, col, name) {
 }
  
 function	runProcessing() {
-    bubbles.push(new Bubble(100, 470, 12, 20, "Bubble1"));
+    bubbles.push(new Bubble(100, 470, 12, 20, "Shellman"));
     bubbles.push(new Bubble(50, 480, 15, 50, "Ghostbusters"));
     bubbles.push(new Bubble(70, 465, 20, 80, "Toto"));
     bubbles.push(new Bubble(0, 450, 14, 130, "TF2"));
@@ -41,9 +41,8 @@ function	initProcessing() {
 }
 
 function	runApplication() {
-    //changeScale(1, 0, 12563, 15);
-    changeScale(1, 0, 50, 15);
-    changeScale(0, 42, 30563891, 10);
+    //changeScale(1, 0, 50, 15);
+    //changeScale(0, 42, 30563891, 10);
     refreshDisplay();
 }
 
@@ -112,6 +111,11 @@ function	unselectAll() {
 function	refreshDisplay() {
     bubbles.sort(sortBubbles);
     p.getBubbleDrawer().clear();
+
+    // TMP CHROME BUG
+    changeScale(1, 0, 50, 15);
+    changeScale(0, 42, 30563891, 10);
+    // END TMP
     p.getBubbleDrawer().drawDate(year);
     drawBubbles();
     overOnPlot(p.getMouseX(), p.getMouseY());
@@ -173,7 +177,7 @@ function Loop() {
         for (i = 0; i < bubbles.length; ++i) {
             bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
             bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
-            if (bubbles[i].posX > p.width || bubbles[i].posY > p.height) {
+            if (bubbles[i].posX > p.width - 50 || bubbles[i].posY < 0) {
                 bubbles[i].posY = 525;
                 bubbles[i].posX = 0;
             }

@@ -1,5 +1,4 @@
 PGraphics mainBuffer;
-PGraphics gridBuffer;
 BubbleDrawer bd;
 
 int width = 800;
@@ -27,26 +26,26 @@ BubbleDrawer getBubbleDrawer() {
 
 void setup() {
 	size(width, height);
-	mainBuffer = createGraphics(bubbleWidth, bubbleHeight);
-	gridBuffer = createGraphics(width, height);
+	frameRate(30);
+	mainBuffer = createGraphics(width, height);
 	bd = new BubbleDrawer();
 	mainBuffer.textFont(createFont("Verdana", 20, true));
-	gridBuffer.colorMode(HSB, 255);
-	gridBuffer.background(0, 0, 255, 255);
-	gridBuffer.textFont(createFont("Verdana", 20, true));
-	gridBuffer.textSize(13);
-	gridBuffer.textAlign(CENTER, CENTER);
+	mainBuffer.beginDraw();
+	mainBuffer.background(0, 0, 0, 0);
+	mainBuffer.textAlign(CENTER, CENTER);
 	mainBuffer.ellipseMode(CENTER);
 	mainBuffer.stroke(0);
 	mainBuffer.smooth(8);
 	mainBuffer.strokeWeight(0.5);
 	mainBuffer.colorMode(HSB, 255);
-	mainBuffer.beginDraw();
 	bd.clear();
 	noLoop();
 }
 
 void draw() {
+	mainBuffer.endDraw();
+	image(mainBuffer, 0, 0);
+	mainBuffer.beginDraw();
 }
 
 int getMouseX() {
@@ -78,16 +77,16 @@ class    BubbleDrawer {
 
   void drawBubble(int posX, int posY, int size, int col, boolean crossed) {
     mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
-    mainBuffer.ellipse(posX, posY, size, size);
+    mainBuffer.ellipse(posX + offsetX, posY, size, size);
   }
 
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
     mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
-    mainBuffer.ellipse(posX, posY, size, size);
+    mainBuffer.ellipse(posX + offsetX, posY, size, size);
     mainBuffer.strokeWeight(7);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 75);
     mainBuffer.noFill();
-    mainBuffer.ellipse(posX, posY, size + 15, size + 15);
+    mainBuffer.ellipse(posX + offsetX, posY, size + 15, size + 15);
     mainBuffer.strokeWeight(0.5);
     mainBuffer.stroke(0);
   }
@@ -95,44 +94,46 @@ class    BubbleDrawer {
   void  drawDate(int date) {
     mainBuffer.textSize(height * 30 / 100);
     String year = str(date);
-    float yearWidth = (width - mainBuffer.textWidth(year)) / 2;
-    float yearHeight = (height + mainBuffer.textDescent()) / 2;
+    float yearWidth = width / 2;
+    float yearHeight = height / 2;
     mainBuffer.fill(180);
     mainBuffer.text(year, yearWidth, yearHeight);
   }
 
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
+  	mainBuffer.textAlign(LEFT, TOP);
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
     mainBuffer.fill(255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
-	if (posX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
-		mainBuffer.rect(posX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
+	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
+		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX - mainBuffer.textWidth(name), posY);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + 2);
 	}
 	//Upper right corner
-	else if (posX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
-		mainBuffer.rect(posX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
+	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
+		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + size, posY);
+		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + 2);
 	}
 	//Downer left corner
-	else if (posX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
-		mainBuffer.rect(posX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
+	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
+		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX - mainBuffer.textWidth(name), posY + size + nameHeight);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + 2);
 	}
 	//Downer right corner
 	else {
-		mainBuffer.rect(posX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
+		mainBuffer.rect(posX + offsetX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + size, posY + size + nameHeight);
+		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + 2);
 	}
     mainBuffer.strokeWeight(0.5);
     mainBuffer.stroke(0);
+   	mainBuffer.textAlign(CENTER, CENTER);
   }
 
   void  drawLine(int beginX, int beginY, int endX, int endY) {
@@ -145,53 +146,52 @@ class    BubbleDrawer {
 	String value;
 	float maxUp = max * 5 / 100 + max;
 	int valueStep = (maxUp - min) / steps;
-	gridBuffer.beginDraw();
-	// X AXIS - Y GRID
+	mainBuffer.textSize(13);
+	// X AXIS -- Y GRID
 	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
-		gridBuffer.strokeWeight(2);
-		gridBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
-		gridBuffer.strokeWeight(0.2);
-		gridBuffer.fill(215, 30);
+		mainBuffer.strokeWeight(2);
+		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
+		mainBuffer.strokeWeight(0.2);
+		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			gridBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
+			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
 			value = calcValue(maxUp, valueStep, i);
-			gridBuffer.fill(30, 70);
+			mainBuffer.fill(30, 70);
 			if (i == 1)
-				gridBuffer.text(0, stepSize - gridBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
-			gridBuffer.text(value, (i + 1) * stepSize - gridBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+				mainBuffer.text(0, stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+			mainBuffer.text(value, (i + 1) * stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 		}
 	}
-	// Y AXIS - X GRID
+	// Y AXIS -- X GRID
 	else {
 		stepSize = bubbleHeight / steps;
-	    gridBuffer.strokeWeight(2);
-		gridBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
-		gridBuffer.strokeWeight(0.2);
-		gridBuffer.fill(215, 30);
+	    mainBuffer.strokeWeight(2);
+		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
+		mainBuffer.strokeWeight(0.2);
+		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			gridBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
+			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
 			value = calcValue(maxUp, valueStep, i);
-			gridBuffer.fill(30, 70);
-			gridBuffer.pushMatrix();
-			gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * i);
-			gridBuffer.rotate(-0.6);
-			gridBuffer.text(value, 0, 0);
-			gridBuffer.popMatrix();
+			mainBuffer.fill(30, 70);
+			mainBuffer.pushMatrix();
+			mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, stepSize * i);
+			mainBuffer.rotate(-0.6);
+			mainBuffer.text(value, 0, 0);
+			mainBuffer.popMatrix();
 			if (i == steps - 1)
 			{
-				gridBuffer.pushMatrix();
-				gridBuffer.translate(offsetX - gridBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
-				gridBuffer.rotate(-0.6);
-				gridBuffer.text(0, 0, 0);
-				gridBuffer.popMatrix();
+				mainBuffer.pushMatrix();
+				mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
+				mainBuffer.rotate(-0.6);
+				mainBuffer.text(0, 0, 0);
+				mainBuffer.popMatrix();
 			}
 		}
 	}
-	gridBuffer.strokeWeight(0.5);
-	gridBuffer.endDraw();
+	mainBuffer.strokeWeight(0.5);
   }
-  
+
   float calcValue(float max, int valueStep, int i) {
   	float value;
   	int valueLength;
@@ -220,13 +220,10 @@ class    BubbleDrawer {
   }
 
   void	display() {
-	mainBuffer.endDraw();
-	image(gridBuffer, 0, 0);
-	image(mainBuffer, offsetX, 0);
-	mainBuffer.beginDraw();
+	redraw();
   }
   
   void  clear() {
-    mainBuffer.background(0, 0, 0, 0);
+    mainBuffer.background(255, 0, 255, 255); // alpha value to 110 for speed effect
   }
 }
