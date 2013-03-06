@@ -6,40 +6,30 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="style.css"/>
+        <script type="text/javascript" src="Combobox.js"></script>
         <script type="text/javascript" src="sliderWithScale.js"></script>
         <script type="text/javascript" src="ui.js"></script>
         <script type="text/javascript" src="Core.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                runProcessing();
-                build_slider('#timeSlider');
-                $( "#speedSlider" ).slider({
-                    orientation: "vertical",
-                    min: 1,
-                    max: 25,
-                    value: 5,
-                    animate: "slow"
-                    //                    slide: function( event, ui ) {
-                    //                        $( "#amount" ).val( ui.value );
-                    //                    }
-                });
-            }
-        );
-        </script>
     </head>
 
     <body>
         <div id="main_div">
             <div id="left_div">
-                <select id="selectAxeYValue" onchange="fonction(this);">
-                    <option value="population">Population</option>
-                    <option value="voitures">Nombre de voitures</option>
-                    <option value="autre">Autres..</option>
-                </select>
-<!--                <select id="selectAxeYType" onchange="fonction(this);">
-                    <option value="lin">lin</option>
-                    <option value="log">log</option>
-                </select>-->
+
+                <div id="selectAxeYValueDiv">
+                    <select id="selectAxeYValue" style="width:465px;" onchange="fonction(this);">
+                        <option value="population">Population</option>
+                        <option value="voitures">Nombre de voitures</option>
+                        <option value="autre">Autres..</option>
+                    </select>
+                </div>
+
+                <div id="selectAxeYTypeDiv" >
+                    <select id="selectAxeYType" style="width:60px;" onchange="fonction(this);">
+                        <option value="lin">lin</option>
+                        <option value="log">log</option>
+                    </select>
+                </div>
             </div>
 
             <div id="center_div">
@@ -50,18 +40,24 @@
             </div>
 
             <div id="bottom_div">
-                <select id="selectAxeXValue" onchange="fonction(this);">
-                    <option value="population">Population</option>
-                    <option value="voitures">Nombre de voitures</option>
-                    <option value="autre">Autres..</option>
-                </select>
-                <select id="selectAxeXType" onchange="fonction(this);">
-                    <option value="lin">lin</option>
-                    <option value="log">log</option>
-                </select>
-                <input type="button" value="Play" onclick="SetPlayState()" id="playButton"/>
-                <div id="timeSlider" class="sliderWithScale"></div>
-                <div id="speedSlider"></div>
+                <div style="width:100px; float: left;">
+                    <input type="button" value="Play" onclick="SetPlayState()" id="playButton"/>
+                    <div id="speedSlider"></div>
+                </div>
+                <div id="selectAxeXValueDiv">
+                    <select id="selectAxeXValue" style="width:665px;" onchange="fonction(this);">
+                        <option value="population">Population</option>
+                        <option value="voitures">Nombre de voitures</option>
+                        <option value="autre">Autres..</option>
+                    </select>
+                </div>
+                <div id="selectAxeXTypeDiv">
+                    <select id="selectAxeXType" style="width:70px;" onchange="fonction(this);">
+                        <option value="lin">lin</option>
+                        <option value="log">log</option>
+                    </select>
+                </div>
+                <div id="timeSlider"></div>
             </div>
         </div>
     </body>

@@ -2,109 +2,110 @@ html, body {
     background: white;
     font-family: Arial;
     font-size: 13px;
-    margin: 0;
-    padding: 0;
 }
 
 #main_div{
-    width: 1053px;
+    width: 1050px;
     height: 650px;
     position: absolute;
 
     left: 50%;
     top: 50%;
-    margin-left: -526.5px;
+    margin-left: -525px;
     margin-top: -325px;
 }
 
-#left_div, #center_div, #right_div, #bottom_div {
-    padding:1px 0;
-}
-
 #left_div {
-    float:left;
     width:50px;
-    height:555px;
+    height:550px;
     background-color:#FFCC00;
-    position:absolute;
+    float: left;
 }
 
 #center_div {
     width:800px;
-    height:555px;
-    margin-left:51px;
+    height:550px;
     background-color:#00CCFF;
-    position:absolute;
+    float: left;
 }
 
 #right_div {
     width:200px;
     height:650px;
-    margin-left:852px;
     background-color:#CCFF00;
-    position:absolute;
+    float: right;
 }
 
 #bottom_div {
-    width:851px;
-    height:92px;
+    width:850px;
+    height:100px;
     background-color:#FF00CC;
-    margin-top: 558px;
-    position:absolute;
+    float: left;
 }
 
 canvas {
-    float: left;
 }
 
 #playButton {
     width: 50px;
     top: 35px;
     left: 30px;
-    position: absolute;
-}
-
-#timeSlider {
-    width:750px;
-    top: 40px;
-    left: 90px;
-    position: absolute;
+    float: left;
+    position: relative;
 }
 
 #speedSlider {
-    top: 10px;
+    top: 5px;
     left: 10px;
     height: 60px;
+    /*    float: left;*/
+    position: relative;
+}
+
+#timeSlider {
+    width: 740px;
+    left: 100px;
+    top: 600px;
     position: absolute;
 }
 
-#selectAxeXValue {
-    width:700px;
+#selectAxeXValueDiv {
+    top:10px;
+    width:670px;
+    height: 25px;
+    float: left;
+    position: relative;
+}
+
+#selectAxeXTypeDiv {
+    width: 75px;
+    float: left;
     top: 10px;
-    left: 85px;
-    position: absolute;    
+    position: relative;
 }
 
-#selectAxeXType {
-    width:50px;
-    top: 10px;
-    left: 790px;
-    position: absolute;
+#selectAxeYValueDiv {
+    transform: rotate(270deg);
+    -moz-transform:rotate(270deg);
+    -ms-transform:rotate(-90deg);
+    -webkit-transform:rotate(270deg);
+    -o-transform:rotate(270deg);
 
+    width: 470px;
+    left: -210px;
+    bottom: -295px;
+    position: relative; 
 }
 
-#selectAxeYValue {
+#selectAxeYTypeDiv {
+    transform: rotate(270deg);
+    -moz-transform:rotate(270deg);
+    -ms-transform:rotate(-90deg);
+    -webkit-transform:rotate(270deg);
+    -o-transform:rotate(270deg);
 
-    top: 0px;
-    left: 0px;
-    position: absolute;
-
+    width: 65px;
+    bottom: -5px;
+    left: -7px;
+    position: relative; 
 }
-
-/*#selectAxeYType {
-    width:50px;
-    top: 10px;
-    left: 790px;
-    position: absolute;
-
-}*/
