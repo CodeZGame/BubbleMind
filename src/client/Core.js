@@ -6,6 +6,9 @@ var highlightedBubble = -1;
 var cursorPos = 0;
 var cursorSpeed = 25;
 var isPlaying = false;
+var mins = new Array();
+var maxs = new Array();
+var steps = new Array();
  
 function	Bubble(posX, posY, size, col, name) {
     this.posX = posX;
@@ -26,6 +29,12 @@ function	runProcessing() {
     bubbles.push(new Bubble(50, 500, 16, 180, "Mmhhh!"));
     bubbles.push(new Bubble(50, 500, 19, 220, "Over 9000!"));
     bubbles.push(new Bubble(15, 490, 29, 255, "Wei Shen"));
+    mins[1] = 0;
+    mins[0] = -4200;
+    maxs[1] = 50;
+    maxs[0] = 30563891;
+    steps[1] = 15;
+    steps[0] = 10;
     initProcessing();
 }
  
@@ -37,12 +46,10 @@ function	initProcessing() {
         runApplication();
     }
     if (!bounded)
-        setTimeout(initProcessing, 250);	 //send data to timeout ??
+        setTimeout(initProcessing, 250);
 }
 
 function	runApplication() {
-    //changeScale(1, 0, 50, 15);
-    //changeScale(0, 42, 30563891, 10);
     refreshDisplay();
 }
 
@@ -57,7 +64,7 @@ function	drawBubbles() {
     }
 }
   
-function  drawName(b) {
+function    drawName(b) {
     p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
         b.col, b.name);
 }
@@ -97,11 +104,16 @@ function	clickOnPlot() {
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
 }
   
-function mouveMove() {
+function    mouveMove() {
     refreshDisplay();
-    setTimeout(Loop, $("#speedSlider").slider("value"));
+    //setTimeout(Loop, $("#speedSlider").slider("value"));          // WHY ?
 }
   
+function    drawScales() {
+    p.getBubbleDrawer().drawScale(1, mins[1], maxs[1], steps[1]);
+    p.getBubbleDrawer().drawScale(0, mins[0], maxs[0], steps[0]);
+}
+
 function	unselectAll() {
     for (i = 0; i < bubbles.length; ++i) {
         bubbles[i].isClicked = false;
@@ -111,43 +123,54 @@ function	unselectAll() {
 function	refreshDisplay() {
     bubbles.sort(sortBubbles);
     p.getBubbleDrawer().clear();
-
-    // TMP CHROME BUG
-    changeScale(1, 0, 50, 15);
-    changeScale(0, 42, 30563891, 10);
-    // END TMP
+    drawScales();
     p.getBubbleDrawer().drawDate(year);
     drawBubbles();
     overOnPlot(p.getMouseX(), p.getMouseY());
     p.getBubbleDrawer().display();
 }
-  
-function sortBubbles(b1, b2) {
+
+function    adjustValueToWindow() {
+
+}
+
+function    sortBubbles(b1, b2) {
     if (b1.size > b2.size)
         return -1;
     else
         return 1;
 }
 
+//DB comm
+function    retrieveEntryFromDB(idx) {
+    // TODO
+}
+
+
 // Methods from UI
-function changeScale(axe, min, max, steps) {
-    p.getBubbleDrawer().drawScale(axe, min, max, steps);
+
+// 0 -> X AXIS || 1 -> Y AXIS
+function    changeScale(axe, min, max, step) {
+    mins[axe] = min;
+    maxs[axe] = max;
+    steps[axe] = step;
+    drawScales();
 }
   
-function MoveCursor(pos) {
+function    MoveCursor(pos) {
     cursorPos = pos;
     $("#sliderDiv").slider("value", pos);
 }
   
-function SetBubbleSize(size) {
+function    SetBubbleSize(size) {
     bubbleSize = size;
 }
   
-function SetSpeed(speed) {
+function    SetSpeed(speed) {
     cursorSpeed = speed;
 }
   
-function SetPlayState() {
+function    SetPlayState() {
     //isPlaying = playing;
 	
     // TMP
@@ -161,12 +184,13 @@ function SetPlayState() {
         Loop();
     }
 }
-  
-function AxeChanged(axe, idx) {
+
+function    AxeChanged(axe, idx) {
+    retrieveEntryFromDB(idx);
 // TODO
 }
   
-function Loop() {
+function    Loop() {
     if (isPlaying) {
         if ($("#sliderDiv").slider("value") == $("#sliderDiv").slider("option", "max")) {
             SetPlayState();
@@ -183,9 +207,9 @@ function Loop() {
             }
         }
         // END TMP
-		
+
         refreshDisplay();
-        setTimeout(Loop, $("#speedSlider").slider("value"));
+        setTimeout(Loop, $("#speedSlider").slider("value") * 5);
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
     }
 }

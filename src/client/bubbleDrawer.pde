@@ -57,7 +57,7 @@ int getMouseY() {
 }
 
 void mouseMoved() {
-	if (js.isPlaying != true) {
+	if (!js.isPlaying) {
 		js.mouveMove();
 	}
 }
@@ -111,25 +111,25 @@ class    BubbleDrawer {
 	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
 		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + 2);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + 4);
 	}
 	//Upper right corner
 	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
 		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + 2);
+		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + 4);
 	}
 	//Downer left corner
 	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
 		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + 2);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + 4);
 	}
 	//Downer right corner
 	else {
 		mainBuffer.rect(posX + offsetX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + 2);
+		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + 4);
 	}
     mainBuffer.strokeWeight(0.5);
     mainBuffer.stroke(0);
@@ -151,15 +151,16 @@ class    BubbleDrawer {
 	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
 		mainBuffer.strokeWeight(2);
+		mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
-		mainBuffer.strokeWeight(0.2);
+		mainBuffer.strokeWeight(0.5);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
 			value = calcValue(maxUp, valueStep, i);
 			mainBuffer.fill(30, 70);
 			if (i == 1)
-				mainBuffer.text(0, stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+				mainBuffer.text(min, stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 			mainBuffer.text(value, (i + 1) * stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 		}
 	}
@@ -167,8 +168,9 @@ class    BubbleDrawer {
 	else {
 		stepSize = bubbleHeight / steps;
 	    mainBuffer.strokeWeight(2);
+	    mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
-		mainBuffer.strokeWeight(0.2);
+		mainBuffer.strokeWeight(0.5);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
@@ -184,7 +186,7 @@ class    BubbleDrawer {
 				mainBuffer.pushMatrix();
 				mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
 				mainBuffer.rotate(-0.6);
-				mainBuffer.text(0, 0, 0);
+				mainBuffer.text(min, 0, 0);
 				mainBuffer.popMatrix();
 			}
 		}
