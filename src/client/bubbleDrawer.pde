@@ -7,6 +7,7 @@ int offsetX = 50;
 int offsetY = 25;
 int bubbleWidth = width - offsetX;
 int bubbleHeight = height - offsetY;
+float stdStrokeWeight = 0.3;
 
 interface JavaScript {
 	boolean isPlaying;
@@ -36,7 +37,7 @@ void setup() {
 	mainBuffer.ellipseMode(CENTER);
 	mainBuffer.stroke(0);
 	mainBuffer.smooth(8);
-	mainBuffer.strokeWeight(0.5);
+	mainBuffer.strokeWeight(stdStrokeWeight);
 	mainBuffer.colorMode(HSB, 255);
 	bd.clear();
 	noLoop();
@@ -87,7 +88,7 @@ class    BubbleDrawer {
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 75);
     mainBuffer.noFill();
     mainBuffer.ellipse(posX + offsetX, posY, size + 15, size + 15);
-    mainBuffer.strokeWeight(0.5);
+    mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
   }
 
@@ -131,7 +132,7 @@ class    BubbleDrawer {
 		mainBuffer.fill(150);
 		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + 4);
 	}
-    mainBuffer.strokeWeight(0.5);
+    mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
    	mainBuffer.textAlign(CENTER, CENTER);
   }
@@ -153,7 +154,7 @@ class    BubbleDrawer {
 		mainBuffer.strokeWeight(2);
 		mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
-		mainBuffer.strokeWeight(0.5);
+		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
@@ -170,7 +171,7 @@ class    BubbleDrawer {
 	    mainBuffer.strokeWeight(2);
 	    mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
-		mainBuffer.strokeWeight(0.5);
+		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
@@ -191,7 +192,7 @@ class    BubbleDrawer {
 			}
 		}
 	}
-	mainBuffer.strokeWeight(0.5);
+	mainBuffer.stroke(0);
   }
 
   float calcValue(float max, int valueStep, int i) {

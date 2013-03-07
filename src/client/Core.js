@@ -1,6 +1,7 @@
 var year = 1955;
 var bounded = false;
 var bubbles = new Array();
+var historicalBubbles = new Array();
 var p = null;
 var highlightedBubble = -1;
 var cursorPos = 0;
@@ -54,7 +55,10 @@ function	runApplication() {
 }
 
 function	drawBubbles() {
-    for (i = 0; i < bubbles.length; ++i) {
+    // Print historical bubbles
+    for (i = 0; i < historicalBubbles.length; ++i) {
+        p.getBubbleDrawer().drawBubble(historicalBubbles[i].posX, historicalBubbles[i].posY, historicalBubbles[i].size, historicalBubbles[i].col, historicalBubbles[i].crossed);
+    }for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].isClicked) {
             p.getBubbleDrawer().drawHighlightBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
             drawName(bubbles[i]);
@@ -101,6 +105,8 @@ function	overCircle(mX, mY, x, y, radius) {
   
 function	clickOnPlot() {
     if (highlightedBubble >= 0)
+        if (bubbles[highlightedBubble].isClicked)
+            removeFromHistorical(bubbles[highlightedBubble].name);
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
 }
   
@@ -122,6 +128,7 @@ function	unselectAll() {
   
 function	refreshDisplay() {
     bubbles.sort(sortBubbles);
+    historicalBubbles.sort(sortBubbles);
     p.getBubbleDrawer().clear();
     drawScales();
     p.getBubbleDrawer().drawDate(year);
@@ -139,6 +146,21 @@ function    sortBubbles(b1, b2) {
         return -1;
     else
         return 1;
+}
+
+// Historical methods
+function    addToHistorical(bubble) {
+    historicalBubbles.push(jQuery.extend({}, bubble));
+}
+
+function    removeFromHistorical(n) {
+    historicalBubbles = _.filter(historicalBubbles, filterHistorical, n);
+}
+
+function    filterHistorical(b) {
+    if (b.name != this)
+        return true;
+    return false;
 }
 
 //DB comm
@@ -199,6 +221,9 @@ function    Loop() {
 		
         // TMP -> Make bubbles to move randomly while playing	
         for (i = 0; i < bubbles.length; ++i) {
+            if (bubbles[i].isClicked) {
+                addToHistorical(bubbles[i]);
+            }
             bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
             bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
             if (bubbles[i].posX > p.width - 50 || bubbles[i].posY < 0) {
