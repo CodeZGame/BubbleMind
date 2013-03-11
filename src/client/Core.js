@@ -1,7 +1,6 @@
 var year = 1955;
 var bounded = false;
 var bubbles = new Array();
-var historicalBubbles = new Array();
 var p = null;
 var highlightedBubble = -1;
 var cursorPos = 0;
@@ -137,7 +136,7 @@ function	unselectAll() {
   
 function	refreshDisplay() {
     bubbles.sort(sortBubbles);
-    historicalBubbles.sort(sortBubbles);
+    sortHistoricalBubbles();
     p.getBubbleDrawer().clear();
     drawScales();
     p.getBubbleDrawer().drawDate(year);
@@ -166,6 +165,11 @@ function    addToHistorical(bubble) {
 
 function    removeFromHistorical(n) {
     delete HistoricalMap[n];
+}
+
+function    sortHistoricalBubbles() {
+    for (var prop in HistoricalMap)
+        HistoricalMap[prop].sort(sortBubbles);
 }
 
 //DB comm
@@ -230,6 +234,11 @@ function    Loop() {
                 addToHistorical(bubbles[i]);
             bubbles[i].posX += Math.floor(Math.random() * 15 + 1);
             bubbles[i].posY -= Math.floor(Math.random() * 11 + 1);
+            bubbles[i].size += (Math.random() - 0.5) * 3;
+            if (bubbles[i].size < 10)
+                bubbles[i].size = 10;
+            else if (bubbles[i].size > 35)
+                bubbles[i].size = 35;
             if (bubbles[i].posX > p.width - 50 || bubbles[i].posY < 0) {
                 bubbles[i].posY = 525;
                 bubbles[i].posX = 0;
