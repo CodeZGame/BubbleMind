@@ -10,6 +10,7 @@ var isPlaying = false;
 var mins = new Array();
 var maxs = new Array();
 var steps = new Array();
+var HistoricalMap = {};
  
 function	Bubble(posX, posY, size, col, name) {
     this.posX = posX;
@@ -20,7 +21,7 @@ function	Bubble(posX, posY, size, col, name) {
     this.isClicked = false;
     this.crossed = false;
 }
- 
+
 function	runProcessing() {
     bubbles.push(new Bubble(100, 470, 12, 20, "Shellman"));
     bubbles.push(new Bubble(50, 480, 15, 50, "Ghostbusters"));
@@ -56,9 +57,8 @@ function	runApplication() {
 
 function	drawBubbles() {
     // Print historical bubbles
-    for (i = 0; i < historicalBubbles.length; ++i) {
-        p.getBubbleDrawer().drawBubble(historicalBubbles[i].posX, historicalBubbles[i].posY, historicalBubbles[i].size, historicalBubbles[i].col, historicalBubbles[i].crossed);
-    }for (i = 0; i < bubbles.length; ++i) {
+    drawHistoricalBubbles();
+    for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].isClicked) {
             p.getBubbleDrawer().drawHighlightBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
             drawName(bubbles[i]);
@@ -67,7 +67,14 @@ function	drawBubbles() {
             p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
     }
 }
-  
+
+function    drawHistoricalBubbles() {
+    for (var prop in HistoricalMap) {
+        for (j = 0; j < HistoricalMap[prop].length; ++j)
+            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size, HistoricalMap[prop][j].col, HistoricalMap[prop][j].crossed);
+    }
+}
+
 function    drawName(b) {
     p.getBubbleDrawer().drawBubbleName(b.posX - (b.size / 2), b.posY - (b.size / 2), b.size,
         b.col, b.name);
@@ -104,10 +111,12 @@ function	overCircle(mX, mY, x, y, radius) {
 }
   
 function	clickOnPlot() {
-    if (highlightedBubble >= 0)
+    if (highlightedBubble >= 0) {
         if (bubbles[highlightedBubble].isClicked)
             removeFromHistorical(bubbles[highlightedBubble].name);
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
+        refreshDisplay();
+    }
 }
   
 function    mouveMove() {
@@ -142,7 +151,7 @@ function    adjustValueToWindow() {
 }
 
 function    sortBubbles(b1, b2) {
-    if (b1.size > b2.size)
+    if (b1.size >= b2.size)
         return -1;
     else
         return 1;
@@ -150,17 +159,13 @@ function    sortBubbles(b1, b2) {
 
 // Historical methods
 function    addToHistorical(bubble) {
-    historicalBubbles.push(jQuery.extend({}, bubble));
+    if (!(bubble.name in HistoricalMap))
+        HistoricalMap[bubble.name] = new Array();
+    HistoricalMap[bubble.name].push(jQuery.extend({}, bubble));
 }
 
 function    removeFromHistorical(n) {
-    historicalBubbles = _.filter(historicalBubbles, filterHistorical, n);
-}
-
-function    filterHistorical(b) {
-    if (b.name != this)
-        return true;
-    return false;
+    delete HistoricalMap[n];
 }
 
 //DB comm
@@ -221,11 +226,10 @@ function    Loop() {
 		
         // TMP -> Make bubbles to move randomly while playing	
         for (i = 0; i < bubbles.length; ++i) {
-            if (bubbles[i].isClicked) {
+            if (bubbles[i].isClicked)
                 addToHistorical(bubbles[i]);
-            }
-            bubbles[i].posX += Math.floor(Math.random() * 7 + 1);
-            bubbles[i].posY -= Math.floor(Math.random() * 5 + 1);
+            bubbles[i].posX += Math.floor(Math.random() * 15 + 1);
+            bubbles[i].posY -= Math.floor(Math.random() * 11 + 1);
             if (bubbles[i].posX > p.width - 50 || bubbles[i].posY < 0) {
                 bubbles[i].posY = 525;
                 bubbles[i].posX = 0;
