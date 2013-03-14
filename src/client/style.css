@@ -35,6 +35,66 @@ html, body {
     float: right;
 }
 
+#colorDiv {
+    border: #DDDDDD 2px solid;
+    border-radius: 5px;
+    top: 1%;
+    left: 3%;
+    position: relative;
+    width: 93%;
+    height: 25%;
+    text-align: center;
+}
+
+#selectColorValueDiv
+{
+    top: 5%;
+    position: relative;
+}
+
+#opacitySlider{
+    position: relative;
+    top: 2.5%;
+    width: 90%;
+    left: 5%;
+    display: inline-block;
+}
+
+#entityDiv {
+    border: #DDDDDD 2px solid;
+    border-radius: 5px;
+    top: 3.5%;
+    position: relative;
+    width: 93%;
+    height: 49.5%;
+    left: 3%;
+    text-align: center;
+}
+
+#sizeDiv {
+    border: #DDDDDD 2px solid;
+    border-radius: 5px;
+    top: 4.5%;
+    position: relative;
+    width: 93%;
+    height: 15.5%;
+    left: 3%;
+    text-align: center;
+}
+
+#selectSizeValueDiv{
+    top: 5%;
+    position: relative;
+
+}
+
+#sizeSlider{
+    position: relative;
+    top: 50%;
+    width: 85%;
+    left: 7.5%;
+}
+
 #bottom_div {
     width:850px;
     height:100px;
