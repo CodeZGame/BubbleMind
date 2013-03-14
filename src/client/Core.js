@@ -51,6 +51,7 @@ function	initProcessing() {
 }
 
 function	runApplication() {
+    retrieveEntryFromDB(0);       // TMP
     refreshDisplay();
 }
 
@@ -179,7 +180,20 @@ function    sortHistoricalBubbles() {
 
 //DB comm
 function    retrieveEntryFromDB(idx) {
-    // TODO
+    alert("make ajax");
+    var ret = $.ajax(
+            {
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error !" + errorThrown + " " + textStatus);
+                },
+                success: function(data) {
+                    alert("success");
+                },
+                data : {id: 1},
+                type: "POST",
+                //url: "http://10.15.194.155/GetEntities.php"
+                url: "GetEntities.php"
+            });
 }
 
 
