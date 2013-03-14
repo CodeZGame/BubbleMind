@@ -64,9 +64,9 @@ class DataInserter {
 		$ret = mysql_query($query);
 		$entities = array();
 		while ($line = mysql_fetch_assoc($ret)) {
-			$entities[$line['name']] = $line['id']; 
+			$entities[$line['name']] = $line['id'];
 		}
-		
+
 		//get entries from the file
 		$query = "SELECT id,name FROM entries WHERE idFile = '" . $this->_idFile . "'";
 		$ret = mysql_query($query);
@@ -79,15 +79,44 @@ class DataInserter {
 			foreach($entries as $entry => $idEntry) {
 				$values = array();
 				//get data for a specific entity and entry
-				$query = "SELECT date,value FROM data WHERE idEntity = '" . $idEntity . "' AND idEntry = '" . $idEntry . "'";
+				$query = "SELECT id,date,value FROM data WHERE idEntity = '" . $idEntity . "' AND idEntry = '" . $idEntry . "' ORDER BY date";
 				$ret = mysql_query($query);
 				while ($line = mysql_fetch_assoc($ret)) {
-					$values[$line['date']] = $line['value'];
+					if ($line['value'] === null)
+						$values[] = array(intval($line['date']), null, $line['id']);
+					else
+						$values[] = array(intval($line['date']), floatval($line['value']), $line['id']);
 				}
-				var_dump($values);
+				$it = 0;
+				$len = count($values);
+				//we cant complete null data while we havent one data yet.
+				while ($it < $len and $values[$it][1] === null)
+					$it++;
+				while ($it < $len) {
+					while ($it < $len and $values[$it][1] !== null)
+						$it++;
+						
+					//check if it's possible de complete the missing data, then do it if possible
+					if (($itNextValue = $this->findNextValue($it, $values)) > 0) {
+						$nextValue = $values[$it - 1][1] + (($values[$itNextValue][1] - $values[$it - 1][1]) / ($values[$itNextValue][0] - $values[$it - 1][0]));
+						$query = "UPDATE data SET idFile='" . $this->_idFile . "', idEntity='" . $idEntity . "', idEntry='" . $idEntry . "', date='" . $values[$it][0] . "', value='" . $nextValue . "' WHERE id='" . $values[$it][2] . "'";
+						mysql_query($query);
+						$values[$it] = array($values[$it][0], $nextValue);
+					}
+					$it++;
+				}
 			}
-			
 		}
 
 	}
+
+	private function findNextValue($it, $values) {
+		$len = count($values);
+		while ($it < $len and $values[$it][1] === null)
+			$it++;
+		if ($it >= $len)
+			return 0;
+		return $it;
+	}
+
 }
