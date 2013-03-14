@@ -195,6 +195,10 @@ class    BubbleDrawer {
 	mainBuffer.stroke(0);
   }
 
+  void	drawCoordInfos(int axe, float value) {
+  	
+  }
+
   float calcValue(float max, int valueStep, int i) {
   	float value;
   	int valueLength;

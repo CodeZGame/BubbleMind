@@ -92,9 +92,14 @@ function	overOnPlot(mX, mY) {
         highlightedBubble = res;
         p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
         drawName(bubbles[res]);
+        printOverInfos(res);
     }
     else
         highlightedBubble = -1;
+}
+
+function    printOverInfos(bubbleNum) {
+
 }
 
 function	overCircle(mX, mY, x, y, radius) {
@@ -228,7 +233,7 @@ function    Loop() {
             return ;
         }
 		
-        // TMP -> Make bubbles to move randomly while playing	
+        // TMP -> Make bubbles move randomly while playing	
         for (i = 0; i < bubbles.length; ++i) {
             if (bubbles[i].isClicked)
                 addToHistorical(bubbles[i]);
