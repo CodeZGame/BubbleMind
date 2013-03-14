@@ -190,9 +190,9 @@ function    retrieveEntryFromDB(idx) {
                     alert("success");
                 },
                 data : {id: 1},
-                type: "POST",
+                type: "GET",
                 //url: "http://10.15.194.155/GetEntities.php"
-                url: "GetEntities.php"
+                url: "../../GetEntities.php"
             });
 }
 
