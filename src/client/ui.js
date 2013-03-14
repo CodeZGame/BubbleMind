@@ -1,7 +1,7 @@
 $(function() {
     runProcessing();
     build_slider('#timeSlider');
-    $( "#speedSlider" ).slider({
+    $("#speedSlider").slider({
         orientation: "vertical",
         min: 1,
         max: 25,
@@ -16,5 +16,10 @@ $(function() {
     $("#selectAxeXType").combobox();
     $("#selectAxeYValue").combobox();
     $("#selectAxeYType").combobox();
+
+    $("#selectColorValue").combobox();
+    $("#selectSizeValue").combobox();
+    $("#opacitySlider").slider();
+    $("#sizeSlider").slider();
 
 });
