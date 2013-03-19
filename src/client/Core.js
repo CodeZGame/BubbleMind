@@ -6,11 +6,20 @@ var highlightedBubble = -1;
 var cursorPos = 0;
 var cursorSpeed = 25;
 var isPlaying = false;
-var mins = new Array();
-var maxs = new Array();
-var steps = new Array();
+var mins = new Array(2);
+var maxs = new Array(2);
+var steps = new Array(2);
 var HistoricalMap = {};
- 
+var dataEntries = new Array(4);
+var currentYear = 2007;
+
+var    interfaceAxes = {
+    X : 0,
+    Y : 1,
+    SIZE : 2,
+    COLOR : 3
+}
+
 function	Bubble(posX, posY, size, col, name) {
     this.posX = posX;
     this.posY = posY;
@@ -22,6 +31,7 @@ function	Bubble(posX, posY, size, col, name) {
 }
 
 function	runProcessing() {
+    // TMP
     bubbles.push(new Bubble(100, 470, 12, 20, "Shellman"));
     bubbles.push(new Bubble(50, 480, 15, 50, "Ghostbusters"));
     bubbles.push(new Bubble(70, 465, 20, 80, "Toto"));
@@ -36,6 +46,7 @@ function	runProcessing() {
     maxs[0] = 30563891;
     steps[1] = 15;
     steps[0] = 10;
+    // END TMP
     initProcessing();
 }
  
@@ -84,16 +95,37 @@ function	overOnPlot(mX, mY) {
     var  	i;
     var  	res = -1;
     var  	resSize = 999999;
+    var     hist = false;
+    var     b = null;
 
     for (i = 0; i < bubbles.length; ++i)
         if (bubbles[i].size < resSize
-            && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2))
+            && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2)) {
             res = i;
+            resSize = bubbles[res].size;
+        }
+    if (res == -1) {
+        for (var prop in HistoricalMap) {
+            for (j = 0; j < HistoricalMap[prop].length; ++j)
+                if (HistoricalMap[prop][j].size < resSize && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
+                    res = j;
+                    resSize = HistoricalMap[prop][j].size;
+                    b = prop;
+                }
+        }
+    }
     if (res >= 0) {
-        highlightedBubble = res;
-        p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
-        drawName(bubbles[res]);
-        printOverInfos(res);
+        if (b != null) {
+            p.getBubbleDrawer().drawHighlightBubble(HistoricalMap[b][res].posX, HistoricalMap[b][res].posY, HistoricalMap[b][res].size, HistoricalMap[b][res].col, HistoricalMap[b][res].crossed);
+            //printOverInfos(res);
+            highlightedBubble = -1;
+        }
+        else {
+            highlightedBubble = res;
+            p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
+            drawName(bubbles[res]);
+            //printOverInfos(res);
+        }
     }
     else
         highlightedBubble = -1;
@@ -120,13 +152,15 @@ function	clickOnPlot() {
         if (bubbles[highlightedBubble].isClicked)
             removeFromHistorical(bubbles[highlightedBubble].name);
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
-        refreshDisplay();
+        //refreshDisplay();
+    }
+    else if () {
+        
     }
 }
   
 function    mouveMove() {
     refreshDisplay();
-    //setTimeout(Loop, $("#speedSlider").slider("value"));          // WHY ?
 }
   
 function    drawScales() {
@@ -139,7 +173,14 @@ function	unselectAll() {
         bubbles[i].isClicked = false;
     }
 }
-  
+
+function    refreshBubbles() {
+    for (i = 0; i < bubbles.length; ++i) {
+        bubbles[i].x = dataEntries[interfaceAxes.X][bubbles[i].name][currentYear];
+        bubbles[i].y = dataEntries[interfaceAxes.Y][bubbles[i].name][currentYear];
+    }
+}
+
 function	refreshDisplay() {
     bubbles.sort(sortBubbles);
     sortHistoricalBubbles();
@@ -178,22 +219,32 @@ function    sortHistoricalBubbles() {
         HistoricalMap[prop].sort(sortBubbles);
 }
 
-//DB comm
+//DB communication
 function    retrieveEntryFromDB(idx) {
-    alert("make ajax");
-    var ret = $.ajax(
-            {
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log("Error !" + errorThrown + " " + textStatus);
-                },
-                success: function(data) {
-                    alert("success");
-                },
-                data : {id: 1},
-                type: "GET",
-                //url: "http://10.15.194.155/GetEntities.php"
-                url: "../../GetEntities.php"
-            });
+    $.ajax(
+    {
+        dataType: "json",
+        data : {idFile: 1, idEntry: 1},
+        type: "GET",
+        url: "/src/server/GetData.php",
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
+            // TODO something for better error handle
+        },
+        success: function(data) {
+            alert("SQL Request Success");
+            dataEntries[interfaceAxes.X] = data;
+            /*for (var prop in data['APEM']) {
+                console.log("prop: " + prop + ": " + data['APEM'][prop]);
+            }*/
+            /*for (var entitie in dataEntries[interfaceAxes.X]) {
+                console.log(entitie + ": ");
+                for (var propDate in dataEntries[interfaceAxes.X][entitie]) {
+                    console.log(propDate + "= " + dataEntries[interfaceAxes.X][entitie][propDate]);
+                }
+            }*/
+        }
+    });
 }
 
 
@@ -222,7 +273,7 @@ function    SetSpeed(speed) {
   
 function    SetPlayState() {
     //isPlaying = playing;
-	
+
     // TMP
     isPlaying = !isPlaying;
     if (!isPlaying)			// STOP
@@ -264,9 +315,11 @@ function    Loop() {
             }
         }
         // END TMP
-
+        
+        //refreshBubbles();
         refreshDisplay();
-        setTimeout(Loop, $("#speedSlider").slider("value") * 5);
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
+        ++currentYear;
+        setTimeout(Loop, $("#speedSlider").slider("value") * 5);
     }
 }
