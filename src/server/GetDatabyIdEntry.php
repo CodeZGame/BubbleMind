@@ -20,11 +20,10 @@ if (isset($_GET['idFile']) and isset($_GET['idEntry']) and is_numeric($_GET['idF
 		$ret = mysql_query($query);
 		$entity = array();
 		while ($line = mysql_fetch_assoc($ret)) {
-			$entity[] = array($line['date'] => $line['value']);
+			$entity[$line['date']] =  $line['value'];
 		}
-		$data[$value] = $entiy;
+		$data[$value] = $entity;
 	}
-	//var_dump($data);
 	$resp = json_encode($data); //, JSON_FORCE_OBJECT
 	echo $resp;
 }
