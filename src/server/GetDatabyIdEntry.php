@@ -24,7 +24,6 @@ if (isset($_GET['idFile']) and isset($_GET['idEntry']) and is_numeric($_GET['idF
 		}
 		$data[$value] = $entity;
 	}
-	//var_dump($data);
 	$resp = json_encode($data); //, JSON_FORCE_OBJECT
 	echo $resp;
 }

@@ -7,7 +7,7 @@ int offsetX = 50;
 int offsetY = 25;
 int bubbleWidth = width - offsetX;
 int bubbleHeight = height - offsetY;
-float stdStrokeWeight = 0.3;
+float stdStrokeWeight = 0.8;
 
 interface JavaScript {
 	boolean isPlaying;
@@ -84,10 +84,10 @@ class    BubbleDrawer {
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
     mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
-    mainBuffer.strokeWeight(7);
-    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 75);
+    mainBuffer.strokeWeight(5);
+    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 100);
     mainBuffer.noFill();
-    mainBuffer.ellipse(posX + offsetX, posY, size + 15, size + 15);
+    mainBuffer.ellipse(posX + offsetX, posY, size + 12, size + 12);
     mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
   }

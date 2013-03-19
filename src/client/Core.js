@@ -8,16 +8,22 @@ var cursorSpeed = 25;
 var isPlaying = false;
 var mins = new Array(2);
 var maxs = new Array(2);
+var yearsAmpl = new Array(2);
 var steps = new Array(2);
 var HistoricalMap = {};
 var dataEntries = new Array(4);
 var currentYear = 2007;
 
-var    interfaceAxes = {
+var    guiAxes = {
     X : 0,
     Y : 1,
     SIZE : 2,
     COLOR : 3
+}
+
+function    guiData() {
+    this.entries = null;
+    this.entities = null;
 }
 
 function	Bubble(posX, posY, size, col, name) {
@@ -62,7 +68,13 @@ function	initProcessing() {
 }
 
 function	runApplication() {
-    retrieveEntryFromDB(0);       // TMP
+    retrieveEntriesFromDB();
+    retrieveEntitiesFromDB();
+    // TMP
+    retrieveEntityByIdEntry(0);
+    retrieveYearAmpl(0);
+    retrieveValueAmpl(0);
+    // END TMP
     refreshDisplay();
 }
 
@@ -154,9 +166,6 @@ function	clickOnPlot() {
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
         //refreshDisplay();
     }
-    else if () {
-        
-    }
 }
   
 function    mouveMove() {
@@ -220,20 +229,53 @@ function    sortHistoricalBubbles() {
 }
 
 //DB communication
-function    retrieveEntryFromDB(idx) {
+function    retrieveEntriesFromDB() {
     $.ajax(
     {
         dataType: "json",
         data : {idFile: 1, idEntry: 1},
         type: "GET",
-        url: "/src/server/GetData.php",
+        url: "/src/server/GetEntries.php",
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error on GetEntries [" + errorThrown + "] [" + textStatus + "]");
+            // TODO something for better error handle
+        },
+        success: function(data) {
+            guiData.entries = data;
+        }
+    });
+}
+
+function    retrieveEntitiesFromDB() {
+    $.ajax(
+    {
+        dataType: "json",
+        data : {idFile: 1, idEntry: 1},
+        type: "GET",
+        url: "/src/server/GetEntities.php",
         error: function(jqXHR, textStatus, errorThrown) {
             console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
             // TODO something for better error handle
         },
         success: function(data) {
-            alert("SQL Request Success");
-            dataEntries[interfaceAxes.X] = data;
+            guiData.entities = data;
+        }
+    });
+}
+
+function    retrieveEntityByIdEntry(idx) {
+    $.ajax(
+    {
+        dataType: "json",
+        data : {idFile: 1, idEntry: 1},
+        type: "GET",
+        url: "/src/server/GetDataByIdEntry.php",
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
+            // TODO something for better error handle
+        },
+        success: function(data) {
+            dataEntries[guiAxes.X] = data;
             /*for (var prop in data['APEM']) {
                 console.log("prop: " + prop + ": " + data['APEM'][prop]);
             }*/
@@ -247,6 +289,41 @@ function    retrieveEntryFromDB(idx) {
     });
 }
 
+function    retrieveYearAmpl(axe, idx) {
+    $.ajax(
+    {
+        dataType: "json",
+        data : {idFile: 1, idEntry: 1},
+        type: "GET",
+        url: "/src/server/GetYearAmplByEntry.php",
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error on GetYearAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
+            // TODO something for better error handle
+        },
+        success: function(data) {
+            yearsAmpl[0] = data.min;
+            yearsAmpl[1] = data.max;
+        }
+    });
+}
+
+function    retrieveValueAmpl(axe, idx) {
+    $.ajax(
+    {
+        dataType: "json",
+        data : {idFile: 1, idEntry: 1},
+        type: "GET",
+        url: "/src/server/GetValueAmplByEntry.php",
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error on GetValueAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
+            // TODO something for better error handle
+        },
+        success: function(data) {
+            mins[axe] = data.min;
+            maxs[axe] = data.max;
+        }
+    });
+}
 
 // Methods from UI
 
@@ -288,6 +365,7 @@ function    SetPlayState() {
 
 function    AxeChanged(axe, idx) {
     retrieveEntryFromDB(idx);
+    retrieveYearAmpl(idx);
 // TODO
 }
   
