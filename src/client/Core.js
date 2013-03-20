@@ -204,7 +204,6 @@ function	clickOnPlot() {
         if (bubbles[highlightedBubble].isClicked)
             removeFromHistorical(bubbles[highlightedBubble].name);
         bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
-        //refreshDisplay();
     }
 }
   
