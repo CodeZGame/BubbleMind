@@ -26,6 +26,14 @@ BubbleDrawer getBubbleDrawer() {
 	return bd;
 }
 
+int getBubbleWidth() {
+	return bubbleWidth;
+}
+
+int getBubbleHeight() {
+	return bubbleHeight;
+}
+
 void setup() {
 	size(width, height);
 	frameRate(30);
