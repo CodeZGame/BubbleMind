@@ -1,4 +1,3 @@
-var year = 1955;
 var bounded = false;
 var bubbles = new Array();
 var p = null;
@@ -6,19 +5,31 @@ var highlightedBubble = -1;
 var cursorPos = 0;
 var cursorSpeed = 25;
 var isPlaying = false;
-var mins = new Array(2);
-var maxs = new Array(2);
-var yearsAmpl = new Array(2);
-var steps = new Array(2);
+var scales = new scaleData();
+var data = new guiData();
+var yearMin = new Array(2);
+var yearMax = new Array(2);
 var HistoricalMap = {};
 var dataEntries = new Array(4);
-var currentYear = 2007;
+var currentYear;
+var minYear;
+var flagEntities = 0x1;
+var flagYears = 0x2;
+var flagValues = 0x4;
+var loaded;
+var init = false;
 
 var    guiAxes = {
     X : 0,
     Y : 1,
     SIZE : 2,
     COLOR : 3
+}
+
+function    scaleData() {
+    this.mins = new Array(2);
+    this.maxs = new Array(2);
+    this.steps = new Array(2);
 }
 
 function    guiData() {
@@ -46,12 +57,8 @@ function	runProcessing() {
     bubbles.push(new Bubble(50, 500, 16, 180, "Mmhhh!"));
     bubbles.push(new Bubble(50, 500, 19, 220, "Over 9000!"));
     bubbles.push(new Bubble(15, 490, 29, 255, "Wei Shen"));
-    mins[1] = 0;
-    mins[0] = -4200;
-    maxs[1] = 50;
-    maxs[0] = 30563891;
-    steps[1] = 15;
-    steps[0] = 10;
+    scales.steps[guiAxes.X] = 10;
+    scales.steps[guiAxes.Y] = 10;
     // END TMP
     initProcessing();
 }
@@ -61,22 +68,55 @@ function	initProcessing() {
     if (p) {
         p.bindJavascript(this);
         bounded = true;
-        runApplication();
+        initData();
+        launch();
     }
     if (!bounded)
         setTimeout(initProcessing, 250);
 }
 
-function	runApplication() {
+function    initData() {
+    retrieveYearAmpl(guiAxes.X, 1);
+    retrieveYearAmpl(guiAxes.Y, 2);
+    retrieveEntityByIdEntry(guiAxes.X, 1);
+    retrieveEntityByIdEntry(guiAxes.Y, 2);
+    retrieveValueAmpl(guiAxes.X, 1);
+    retrieveValueAmpl(guiAxes.Y, 2);
     retrieveEntriesFromDB();
     retrieveEntitiesFromDB();
-    // TMP
-    retrieveEntityByIdEntry(0);
-    retrieveYearAmpl(0);
-    retrieveValueAmpl(0);
-    // END TMP
+}
+
+function    launch() {
+    if (data.entries != null && data.entities != null)
+        runApplication();
+    else
+        setTimeout(launch, 150);
+}
+
+function	runApplication() {
+    setMinYear();
+    currentYear = minYear;
+    init = true;
     refreshDisplay();
 }
+
+/*function    loading(axe, idx) {
+    // TODO refactor
+    if (loading != idx) {
+        loading = idx;
+        retrieveEntityByIdEntry(axe, idx);
+        retrieveValueAmpl(axe, idx);
+        retrieveYearAmpl(axe, idx);
+    }
+    if (loaded & flagEntities && loaded & flagYears && loaded & flagValues) {
+        loaded = 0;
+        return;
+    }
+    else {
+        setTimeout(loading, 250);
+        }
+    }
+}*/
 
 function	drawBubbles() {
     // Print historical bubbles
@@ -173,8 +213,8 @@ function    mouveMove() {
 }
   
 function    drawScales() {
-    p.getBubbleDrawer().drawScale(1, mins[1], maxs[1], steps[1]);
-    p.getBubbleDrawer().drawScale(0, mins[0], maxs[0], steps[0]);
+    p.getBubbleDrawer().drawScale(guiAxes.X, scales.mins[guiAxes.X], scales.maxs[guiAxes.X], scales.steps[guiAxes.X]);
+    p.getBubbleDrawer().drawScale(guiAxes.Y, scales.mins[guiAxes.Y], scales.maxs[guiAxes.Y], scales.steps[guiAxes.Y]);
 }
 
 function	unselectAll() {
@@ -195,7 +235,7 @@ function	refreshDisplay() {
     sortHistoricalBubbles();
     p.getBubbleDrawer().clear();
     drawScales();
-    p.getBubbleDrawer().drawDate(year);
+    p.getBubbleDrawer().drawDate(currentYear);
     drawBubbles();
     overOnPlot(p.getMouseX(), p.getMouseY());
     p.getBubbleDrawer().display();
@@ -233,15 +273,15 @@ function    retrieveEntriesFromDB() {
     $.ajax(
     {
         dataType: "json",
-        data : {idFile: 1, idEntry: 1},
+        data : {idFile: 1},
         type: "GET",
         url: "/src/server/GetEntries.php",
         error: function(jqXHR, textStatus, errorThrown) {
             console.log("Error on GetEntries [" + errorThrown + "] [" + textStatus + "]");
             // TODO something for better error handle
         },
-        success: function(data) {
-            guiData.entries = data;
+        success: function(d) {
+            data.entries = d;
         }
     });
 }
@@ -250,15 +290,15 @@ function    retrieveEntitiesFromDB() {
     $.ajax(
     {
         dataType: "json",
-        data : {idFile: 1, idEntry: 1},
+        data : {idFile: 1},
         type: "GET",
         url: "/src/server/GetEntities.php",
         error: function(jqXHR, textStatus, errorThrown) {
             console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
             // TODO something for better error handle
         },
-        success: function(data) {
-            guiData.entities = data;
+        success: function(d) {
+            data.entities = d;
         }
     });
 }
@@ -267,7 +307,7 @@ function    retrieveEntityByIdEntry(idx) {
     $.ajax(
     {
         dataType: "json",
-        data : {idFile: 1, idEntry: 1},
+        data : {idFile: 1, idEntry: idx},
         type: "GET",
         url: "/src/server/GetDataByIdEntry.php",
         error: function(jqXHR, textStatus, errorThrown) {
@@ -293,7 +333,7 @@ function    retrieveYearAmpl(axe, idx) {
     $.ajax(
     {
         dataType: "json",
-        data : {idFile: 1, idEntry: 1},
+        data : {idFile: 1, idEntry: idx},
         type: "GET",
         url: "/src/server/GetYearAmplByEntry.php",
         error: function(jqXHR, textStatus, errorThrown) {
@@ -301,8 +341,8 @@ function    retrieveYearAmpl(axe, idx) {
             // TODO something for better error handle
         },
         success: function(data) {
-            yearsAmpl[0] = data.min;
-            yearsAmpl[1] = data.max;
+            yearMin[axe] = parseInt(data.min);
+            yearMax[axe] = parseInt(data.max);
         }
     });
 }
@@ -311,7 +351,7 @@ function    retrieveValueAmpl(axe, idx) {
     $.ajax(
     {
         dataType: "json",
-        data : {idFile: 1, idEntry: 1},
+        data : {idFile: 1, idEntry: idx},
         type: "GET",
         url: "/src/server/GetValueAmplByEntry.php",
         error: function(jqXHR, textStatus, errorThrown) {
@@ -319,19 +359,26 @@ function    retrieveValueAmpl(axe, idx) {
             // TODO something for better error handle
         },
         success: function(data) {
-            mins[axe] = data.min;
-            maxs[axe] = data.max;
+            console.log(data);
+            scales.mins[axe] = parseFloat(data.min);
+            scales.maxs[axe] = parseFloat(data.max);
         }
     });
 }
 
+function    setMinYear() {
+    if (yearMin[0] < yearMin[1])
+        minYear = yearMin[1];
+    else
+        minYear = yearMin[0];
+}
 // Methods from UI
 
 // 0 -> X AXIS || 1 -> Y AXIS
 function    changeScale(axe, min, max, step) {
-    mins[axe] = min;
+    /*mins[axe] = min;
     maxs[axe] = max;
-    steps[axe] = step;
+    steps[axe] = step;*/
     drawScales();
 }
   

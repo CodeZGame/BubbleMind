@@ -11,6 +11,7 @@ float stdStrokeWeight = 0.8;
 
 interface JavaScript {
 	boolean isPlaying;
+	boolean init;
 	void	mouseMoved();
 	void	clickOnPlot();
 }
@@ -58,7 +59,7 @@ int getMouseY() {
 }
 
 void mouseMoved() {
-	if (!js.isPlaying) {
+	if (init && !js.isPlaying) {
 		js.mouveMove();
 	}
 }
@@ -106,7 +107,7 @@ class    BubbleDrawer {
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
-    mainBuffer.fill(255);
+    mainBuffer.fill(255, 180);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
 	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
@@ -145,49 +146,49 @@ class    BubbleDrawer {
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
 	String value;
-	float maxUp = max * 5 / 100 + max;
-	int valueStep = (maxUp - min) / steps;
+	float maxUp = ceil(abs(max) * 5 / 100 + max);
+	float minDown = ceil(min - (abs(min) * 5 / 100));
+	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps - 1));
+	int valueStep = abs(tmpValueStep);
 	mainBuffer.textSize(13);
+	mainBuffer.strokeWeight(2);
+	mainBuffer.stroke(0, 0, 87, 87);
 	// X AXIS -- Y GRID
 	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
-		mainBuffer.strokeWeight(2);
-		mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
-			value = calcValue(maxUp, valueStep, i);
+			value = calcValue(maxUp, valueStep, i, minDown);
 			mainBuffer.fill(30, 70);
 			if (i == 1)
-				mainBuffer.text(min, stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+				mainBuffer.text(minDown, stepSize - mainBuffer.textWidth(minDown) / 2, height - offsetY + textAscent() + 2);
 			mainBuffer.text(value, (i + 1) * stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 		}
 	}
 	// Y AXIS -- X GRID
 	else {
 		stepSize = bubbleHeight / steps;
-	    mainBuffer.strokeWeight(2);
-	    mainBuffer.stroke(0, 0, 87, 87);
 		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
 			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
-			value = calcValue(maxUp, valueStep, i);
+			value = calcValue(maxUp, valueStep, i, minDown);
 			mainBuffer.fill(30, 70);
 			mainBuffer.pushMatrix();
-			mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, stepSize * i);
+			mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, height - offsetY - stepSize * i);
 			mainBuffer.rotate(-0.6);
 			mainBuffer.text(value, 0, 0);
 			mainBuffer.popMatrix();
 			if (i == steps - 1)
 			{
 				mainBuffer.pushMatrix();
-				mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, stepSize * (i + 1));
+				mainBuffer.translate(offsetX - mainBuffer.textWidth(minDown) / 2 - 5, stepSize * (i + 1));
 				mainBuffer.rotate(-0.6);
-				mainBuffer.text(min, 0, 0);
+				mainBuffer.text(minDown, 0, 0);
 				mainBuffer.popMatrix();
 			}
 		}
@@ -199,16 +200,16 @@ class    BubbleDrawer {
   	
   }
 
-  float calcValue(float max, int valueStep, int i) {
+  float calcValue(float max, int valueStep, int i, int min) {
   	float value;
   	int valueLength;
   	float tmp;
 
   	if (max < 100) {
-  		value = ceil(max - (valueStep * i));
+  		value = ceil(min + valueStep * i);
   	}
   	else {
-  		value = ceil(valueStep * i);
+  		value = ceil(min + valueStep * i);
   		valueLength = nbLength(value);
   		tmp = pow(10, ceil(valueLength / 2));
   		value = ceil(value / tmp) * tmp;
@@ -217,7 +218,7 @@ class    BubbleDrawer {
   }
 
   int nbLength(float nb) {
-  	float tmp = nb;
+  	float tmp = abs(nb);
   	int number = 1;
   	while (tmp >= 10) {
   		tmp /= 10;
