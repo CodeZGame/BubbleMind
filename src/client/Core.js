@@ -1,13 +1,13 @@
 var bounded = false;
 var bubbles = new Array();
 var p = null;
-var highlightedBubble = -1;
 var cursorPos = 0;
 var cursorSpeed = 25;
 var isPlaying = false;
 var scales = new scaleData();
 var data = new guiData();
 var year = new yearData();
+var highlight = new highlightedData();
 var entityYearMin = new Array(2);
 var entityYearMax = new Array(2);
 var HistoricalMap = {};
@@ -24,6 +24,11 @@ var    guiAxes = {
     Y : 1,
     SIZE : 2,
     COLOR : 3
+}
+
+function    highlightedData() {
+    this.bubble = -1;
+    this.inHist = null;
 }
 
 function    yearData() {
@@ -141,6 +146,10 @@ function	drawBubbles() {
                 p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
         }
     }
+    if (highlight.inHist != null)
+        p.getBubbleDrawer().drawHighlightBubble(HistoricalMap[highlight.inHist][highlight.bubble].posX, HistoricalMap[highlight.inHist][highlight.bubble].posY, HistoricalMap[highlight.inHist][highlight.bubble].size, HistoricalMap[highlight.inHist][highlight.bubble].col, HistoricalMap[highlight.inHist][highlight.bubble].crossed);
+    else if (highlight.bubble != -1)
+        p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
 }
 
 function    drawHistoricalBubbles() {
@@ -155,20 +164,20 @@ function    addToOverMap(b) {
 }
 
 function    drawBubblesNames() {
-    var     highligth = null;
+    var     highlightName = null;
     for (var b in OverMap) {
-        if (highlightedBubble != -1 && OverMap[b].name == bubbles[highlightedBubble].name)
-            highligth = b;
+        if (highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
+            highlightName = b;
         else {
             p.getBubbleDrawer().drawBubbleName(OverMap[b].posX - (OverMap[b].size / 2), OverMap[b].posY - (OverMap[b].size / 2), OverMap[b].size,
                 OverMap[b].col, OverMap[b].name);
             delete OverMap[b];
         }
     }
-    if (highlightedBubble != -1) {
-        p.getBubbleDrawer().drawBubbleName(OverMap[highligth].posX - (OverMap[highligth].size / 2), OverMap[highligth].posY - (OverMap[highligth].size / 2), OverMap[highligth].size,
-            OverMap[highligth].col, OverMap[highligth].name);
-        delete OverMap[highligth];
+    if (highlightName != null) {
+        p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX - (OverMap[highlightName].size / 2), OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
+            OverMap[highlightName].col, OverMap[highlightName].name);
+        delete OverMap[highlightName];
     }
 }
 
@@ -197,19 +206,21 @@ function	overOnPlot(mX, mY) {
         }
         if (res >= 0) {
             if (b != null) {
-                p.getBubbleDrawer().drawHighlightBubble(HistoricalMap[b][res].posX, HistoricalMap[b][res].posY, HistoricalMap[b][res].size, HistoricalMap[b][res].col, HistoricalMap[b][res].crossed);
+                highlight.inHist = b;
+                //p.getBubbleDrawer().drawHighlightBubble(HistoricalMap[b][res].posX, HistoricalMap[b][res].posY, HistoricalMap[b][res].size, HistoricalMap[b][res].col, HistoricalMap[b][res].crossed);
                 p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][HistoricalMap[b][res].name][year.currentYear], HistoricalMap[b][res].posX, dataEntries[guiAxes.Y][HistoricalMap[b][res].name][year.currentYear], HistoricalMap[b][res].posY);
-                highlightedBubble = -1;
+                highlight.bubble = -1;
             }
             else {
-                highlightedBubble = res;
-                p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
+                highlight.inHist = null;
+                highlight.bubble = res;
+                //p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
                 addToOverMap(bubbles[res]);
                 p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[res].name][year.currentYear], bubbles[res].posX, dataEntries[guiAxes.Y][bubbles[res].name][year.currentYear], bubbles[res].posY);
             }
         }
         else
-            highlightedBubble = -1;
+            highlight.bubble = -1;
     }
 
     function	overCircle(mX, mY, x, y, radius) {
@@ -225,10 +236,10 @@ function	overOnPlot(mX, mY) {
     }
 
     function	clickOnPlot() {
-        if (highlightedBubble >= 0) {
-            if (bubbles[highlightedBubble].isClicked)
-                removeFromHistorical(bubbles[highlightedBubble].name);
-            bubbles[highlightedBubble].isClicked = !bubbles[highlightedBubble].isClicked;
+        if (highlight.bubble >= 0) {
+            if (bubbles[highlight.bubble].isClicked)
+                removeFromHistorical(bubbles[highlight.bubble].name);
+            bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
         }
     }
 
@@ -482,9 +493,8 @@ function    Loop() {
             }
         }*/
         // END TMP
-        
-        refreshBubbles();
         ++year.currentYear;
+        refreshBubbles();
         refreshDisplay();
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
         setTimeout(Loop, $("#speedSlider").slider("value") * 5);

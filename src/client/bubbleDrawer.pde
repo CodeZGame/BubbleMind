@@ -114,32 +114,32 @@ class    BubbleDrawer {
   	mainBuffer.textAlign(LEFT, TOP);
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
-    mainBuffer.textSize(20);
+    mainBuffer.textSize(13);
     mainBuffer.fill(255, 255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
 	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
 		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + 4);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + nameHeight);
 	}
 	//Upper right corner
 	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
 		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + 4);
+		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + nameHeight);
 	}
 	//Downer left corner
 	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
 		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + 4);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + nameHeight);
 	}
 	//Downer right corner
 	else {
 		mainBuffer.rect(posX + offsetX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + 4);
+		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + nameHeight);
 	}
     mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
