@@ -12,7 +12,8 @@ html, body {
     left: 50%;
     top: 50%;
     margin-left: -525px;
-    margin-top: -325px;
+    /*margin-top: -325px;*/
+    margin-top: -280px;
     border: 2px #DDDDDD solid;
     border-radius: 15px;
 }

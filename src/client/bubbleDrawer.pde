@@ -254,9 +254,8 @@ class    BubbleDrawer {
   	else {
   		value = ceil(min + valueStep * i);
   		valueLength = nbLength(value);
-  		tmp = pow(10, ceil(valueLength / 2));
+  		tmp = pow(10, floor(valueLength / 2));
   		value = round(value / tmp) * tmp;
-  		value = value;
   	}
   	return value;
   }
