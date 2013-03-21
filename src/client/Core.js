@@ -83,6 +83,8 @@ function	initProcessing() {
         p.bindJavascript(this);
         bounded = true;
         initData();
+        p.getBubbleDrawer().loadingWindow();
+        p.getBubbleDrawer().display();
         launch();
     }
     if (!bounded)

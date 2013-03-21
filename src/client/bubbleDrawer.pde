@@ -9,6 +9,10 @@ int bubbleWidth = width - offsetX;
 int bubbleHeight = height - offsetY;
 float stdStrokeWeight = 0.8;
 
+int loadingSizeX = 220;
+int loadingSizeY = 120;
+String strLoading = "Data Loading";
+
 interface JavaScript {
 	boolean isPlaying;
 	boolean init;
@@ -254,6 +258,21 @@ class    BubbleDrawer {
   		++number;
   	}
   	return number;
+  }
+
+  void	loadingWindow() {
+  	float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
+  	mainBuffer.textAlign(LEFT, TOP);
+    mainBuffer.textSize(20);
+  	mainBuffer.stroke(100);
+  	mainBuffer.strokeWeight(2);
+  	mainBuffer.fill(220);
+	mainBuffer.rect(bubbleWidth / 2 - loadingSizeX / 2, bubbleHeight / 2 - loadingSizeY / 2, loadingSizeX, loadingSizeY, 20, 20, 20, 20);
+	mainBuffer.fill(0);
+	mainBuffer.text(strLoading, bubbleWidth / 2 - mainBuffer.textWidth(strLoading) / 2, bubbleHeight / 2 - loadingSizeY / 2 + valueHeight);
+	mainBuffer.strokeWeight(stdStrokeWeight);
+    mainBuffer.stroke(0);
+   	mainBuffer.textAlign(CENTER, CENTER);
   }
 
   void	display() {
