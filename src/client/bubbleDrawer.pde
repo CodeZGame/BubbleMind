@@ -154,9 +154,11 @@ class    BubbleDrawer {
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
 	String value;
-	float maxUp = ceil(abs(max) * 5 / 100 + max);
-	float minDown = ceil(min - (abs(min) * 5 / 100));
-	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps - 1));
+	//float maxUp = ceil(abs(max) * 5 / 100 + max);
+	//float minDown = ceil(min - (abs(min) * 5 / 100));
+	float maxUp = max;
+	float minDown = min;
+	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps));
 	int valueStep = abs(tmpValueStep);
 	mainBuffer.textSize(13);
 	mainBuffer.strokeWeight(2);
@@ -204,8 +206,26 @@ class    BubbleDrawer {
 	mainBuffer.stroke(0);
   }
 
-  void	drawCoordInfos(int axe, float value) {
-  	
+  void	drawCoordInfos(float xVal, int posX, float yVal, int posY) {
+  	mainBuffer.textAlign(LEFT, TOP);
+    mainBuffer.strokeWeight(1.5);
+    mainBuffer.stroke(0);
+    mainBuffer.textSize(13);
+    mainBuffer.fill(255);
+    float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
+	
+	mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(xVal) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(xVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+	mainBuffer.fill(0);
+	mainBuffer.text(xVal, posX + offsetX - (mainBuffer.textWidth(xVal) + 8) / 2 + 4, bubbleHeight + mainBuffer.textDescent() + 2);
+	
+	mainBuffer.fill(255);
+	mainBuffer.rect(offsetX - mainBuffer.textWidth(yVal) - 10, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(yVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+	mainBuffer.fill(0);
+	mainBuffer.text(yVal, offsetX - mainBuffer.textWidth(yVal) - 5, posY - (valueHeight + 5) / 2 + 2);
+	
+	mainBuffer.strokeWeight(stdStrokeWeight);
+    mainBuffer.stroke(0);
+   	mainBuffer.textAlign(CENTER, CENTER);
   }
 
   float calcValue(float max, int valueStep, int i, int min) {
@@ -220,7 +240,8 @@ class    BubbleDrawer {
   		value = ceil(min + valueStep * i);
   		valueLength = nbLength(value);
   		tmp = pow(10, ceil(valueLength / 2));
-  		value = ceil(value / tmp) * tmp;
+  		value = round(value / tmp) * tmp;
+  		value = value;
   	}
   	return value;
   }

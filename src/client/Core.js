@@ -186,14 +186,14 @@ function	overOnPlot(mX, mY) {
     if (res >= 0) {
         if (b != null) {
             p.getBubbleDrawer().drawHighlightBubble(HistoricalMap[b][res].posX, HistoricalMap[b][res].posY, HistoricalMap[b][res].size, HistoricalMap[b][res].col, HistoricalMap[b][res].crossed);
-            //printOverInfos(res);
+            p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][HistoricalMap[b][res].name][year.currentYear], HistoricalMap[b][res].posX, dataEntries[guiAxes.Y][HistoricalMap[b][res].name][year.currentYear], HistoricalMap[b][res].posY);
             highlightedBubble = -1;
         }
         else {
             highlightedBubble = res;
             p.getBubbleDrawer().drawHighlightBubble(bubbles[res].posX, bubbles[res].posY, bubbles[res].size, bubbles[res].col, bubbles[res].crossed);
             drawName(bubbles[res]);
-            //printOverInfos(res);
+            p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[res].name][year.currentYear], bubbles[res].posX, dataEntries[guiAxes.Y][bubbles[res].name][year.currentYear], bubbles[res].posY);
         }
     }
     else
@@ -246,6 +246,10 @@ function    refreshBubbles() {
             addToHistorical(bubbles[i]);
         if (bubbles[i].name == "APEM")
             p.println("APEM -> x: " + dataEntries[guiAxes.X][bubbles[i].name][year.currentYear] + " y: " + dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear]);
+        if (bubbles[i].name == "BOURDARIOS")
+            p.println("BOURDARIOS -> x: " + dataEntries[guiAxes.X][bubbles[i].name][year.currentYear] + " y: " + dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear]);
+        if (bubbles[i].name == "RAMOND FILS SA")
+            p.println("RAMOND FILS SA -> x: " + dataEntries[guiAxes.X][bubbles[i].name][year.currentYear] + " y: " + dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear]);
         if (dataEntries[guiAxes.X][bubbles[i].name][year.currentYear] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear] == null)
             bubbles[i].draw = false;
         else {
@@ -253,6 +257,10 @@ function    refreshBubbles() {
             bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear]);
             if (bubbles[i].name == "APEM")
                 p.println("APEM VALUE -> x: " + bubbles[i].posX + " y: " + bubbles[i].posY);
+            if (bubbles[i].name == "BOURDARIOS")
+                p.println("BOURDARIOS VALUE -> x: " + bubbles[i].posX + " y: " + bubbles[i].posY);
+            if (bubbles[i].name == "RAMOND FILS SA")
+                p.println("RAMOND FILS SA VALUE -> x: " + bubbles[i].posX + " y: " + bubbles[i].posY);
         }
     }
 }
@@ -262,7 +270,7 @@ function    updateAxeX(value) {
 }
 
 function    updateAxeY(value) {
-    return (value - scales.mins[guiAxes.Y]) * p.getBubbleHeight() / (scales.maxs[guiAxes.Y] - scales.mins[guiAxes.Y]);
+    return p.getBubbleHeight() - ((value - scales.mins[guiAxes.Y]) * p.getBubbleHeight() / (scales.maxs[guiAxes.Y] - scales.mins[guiAxes.Y]));
 }
 
 function	refreshDisplay() {
@@ -395,8 +403,12 @@ function    retrieveValueAmpl(axe, idx) {
             // TODO something for better error handle
         },
         success: function(data) {
-            scales.mins[axe] = parseFloat(data.min);
-            scales.maxs[axe] = parseFloat(data.max);
+            //scales.mins[axe] = parseFloat(data.min);
+            //scales.maxs[axe] = parseFloat(data.max);
+            var max = parseFloat(data.max);
+            var min = parseFloat(data.min);
+            scales.mins[axe] = Math.ceil(min - (Math.abs(min) * 10 / 100));
+            scales.maxs[axe] = Math.ceil((Math.abs(max) * 10 / 100) + Math.abs(max));
         }
     });
 }
@@ -479,10 +491,9 @@ function    Loop() {
         // END TMP
         
         refreshBubbles();
+        ++year.currentYear;
         refreshDisplay();
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
-        ++year.currentYear;
-        // Year problem print
         setTimeout(Loop, $("#speedSlider").slider("value") * 5);
     }
 }
