@@ -115,7 +115,7 @@ class    BubbleDrawer {
     mainBuffer.strokeWeight(3);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     mainBuffer.textSize(20);
-    mainBuffer.fill(255, 180);
+    mainBuffer.fill(255, 255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
 	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
