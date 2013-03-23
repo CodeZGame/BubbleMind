@@ -4,7 +4,7 @@ var bounded = false;
 var p = null;
 
 var bubbles = new Array();
-var select = true;
+var select = 0;
 
 var scales = new ScaleData();
 var guiData = new GuiData();
@@ -167,11 +167,11 @@ function	drawBubbles() {
     for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].draw) {
             if (bubbles[i].isClicked) {
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
                 addToOverMap(bubbles[i]);
             }
             else
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].crossed);
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
         }
     }
     // Print highlitedBubble with coord infos
@@ -193,10 +193,10 @@ function	drawBubbles() {
 function    drawHistoricalBubbles() {
     for (var prop in HistoricalMap) {
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
-            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size, HistoricalMap[prop][j].col, HistoricalMap[prop][j].crossed);
             if (j + 1 < HistoricalMap[prop].length)
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                     HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
+            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size, HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
     }
 }
@@ -292,16 +292,29 @@ function	overOnPlot(mX, mY) {
                         break;
                     }
                 }
-            if (found && bubbles[i].isClicked)
-                 removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
+                if (found && bubbles[i].isClicked)
+                   removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
+                if (bubbles[i].isClicked)
+                    --select;
+                else
+                    ++select;
             bubbles[i].isClicked = !bubbles[i].isClicked;
             }
             else {
                 if (bubbles[highlight.bubble].isClicked)
                     removeFromHistorical(bubbles[highlight.bubble].name);
-                bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
+                if (bubbles[highlight.bubble].isClicked)
+                    --select;
+                else
+                    ++select;
+            bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
             }
         }
+        if (select > 0)
+            p.getBubbleDrawer().bubbleSelected();
+        else
+            p.getBubbleDrawer().noBubbleSelected();
+        refreshDisplay();
     }
 
     function    mouveMove() {
