@@ -248,11 +248,12 @@ function	overOnPlot(mX, mY) {
         // Set infos for highlightedBubble print
         if (res >= 0) {
             highlight.bubble = res;
-            if (hist != null)
+            if (hist != null) {
                 highlight.inHist = hist;
+            }
             else {
                 highlight.inHist = null;
-                addToOverMap(bubbles[res]);
+                addToOverMap(bubbles[highlight.bubble]);
             }
         }
         else {
@@ -276,10 +277,25 @@ function	overOnPlot(mX, mY) {
 
     // If user click on a bubble
     function	clickOnPlot() {
+        var     i;
+        var     found = false;
         if (highlight.bubble >= 0) {
-            if (bubbles[highlight.bubble].isClicked)
-                removeFromHistorical(bubbles[highlight.bubble].name);
-            bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
+            if (highlight.inHist != null) {
+                for (i = 0; i < bubbles.length && !found; ++i) {
+                    if (bubbles[i].name == HistoricalMap[highlight.inHist][highlight.bubble].name) {
+                        found = true;
+                        break;
+                    }
+                }
+            if (found && bubbles[i].isClicked)
+                 removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
+            bubbles[i].isClicked = !bubbles[i].isClicked;
+            }
+            else {
+                if (bubbles[highlight.bubble].isClicked)
+                    removeFromHistorical(bubbles[highlight.bubble].name);
+                bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
+            }
         }
     }
 
@@ -317,8 +333,8 @@ function	overOnPlot(mX, mY) {
             }
         }
         // TMP
-        p.println("SIZE MIN : " + scales.mins[guiAxes.SIZE] + " MAX: " + scales.maxs[guiAxes.SIZE]);
-        p.println("COLOR MIN : " + scales.mins[guiAxes.COLOR] + " MAX: " + scales.maxs[guiAxes.COLOR]);
+        //p.println("SIZE MIN : " + scales.mins[guiAxes.SIZE] + " MAX: " + scales.maxs[guiAxes.SIZE]);
+        //p.println("COLOR MIN : " + scales.mins[guiAxes.COLOR] + " MAX: " + scales.maxs[guiAxes.COLOR]);
     }
 
     function    updateAxeX(value) {
