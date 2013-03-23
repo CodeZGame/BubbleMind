@@ -192,8 +192,12 @@ function	drawBubbles() {
 
 function    drawHistoricalBubbles() {
     for (var prop in HistoricalMap) {
-        for (j = 0; j < HistoricalMap[prop].length; ++j)
+        for (j = 0; j < HistoricalMap[prop].length; ++j) {
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size, HistoricalMap[prop][j].col, HistoricalMap[prop][j].crossed);
+            if (j + 1 < HistoricalMap[prop].length)
+                p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
+                    HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
+        }
     }
 }
 
@@ -223,8 +227,7 @@ function	overOnPlot(mX, mY) {
     var  	i;
     var  	res = -1;
     var  	resSize = 999999;
-    var     hist = false;
-    var     b = null;
+    var     hist = null;
 
     for (i = 0; i < bubbles.length; ++i)
         if (bubbles[i].draw && bubbles[i].size < resSize
@@ -238,22 +241,24 @@ function	overOnPlot(mX, mY) {
                 if (HistoricalMap[prop][j].draw && HistoricalMap[prop][j].size < resSize && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
                     res = j;
                     resSize = HistoricalMap[prop][j].size;
-                    b = prop;
+                    hist = prop;
                 }
             }
         }
         // Set infos for highlightedBubble print
         if (res >= 0) {
             highlight.bubble = res;
-            if (b != null)
-                highlight.inHist = b;
+            if (hist != null)
+                highlight.inHist = hist;
             else {
                 highlight.inHist = null;
                 addToOverMap(bubbles[res]);
             }
         }
-        else
+        else {
             highlight.bubble = -1;
+            highlight.inHist = null;
+        }
     }
 
     // Test for mouse over bubble
@@ -325,7 +330,7 @@ function	overOnPlot(mX, mY) {
     }
 
     function    updateAxeSize(value) {
-        return Math.round((value - scales.mins[guiAxes.SIZE]) * 50 / (scales.maxs[guiAxes.SIZE] - scales.mins[guiAxes.SIZE]));
+        return 5 + Math.round((value - scales.mins[guiAxes.SIZE]) * 50 / (scales.maxs[guiAxes.SIZE] - scales.mins[guiAxes.SIZE]));
     }
 
     function    updateAxeColor(value) {

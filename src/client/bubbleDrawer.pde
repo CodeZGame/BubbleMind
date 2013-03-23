@@ -150,9 +150,9 @@ class    BubbleDrawer {
    	mainBuffer.textAlign(CENTER, CENTER);
   }
 
-  void  drawLine(int beginX, int beginY, int endX, int endY) {
-    mainBuffer.fill(215);
-    mainBuffer.line(beginX, beginY, endX, endY);
+  void  drawLine(int beginX, int beginY, int endX, int endY, int col) {
+    mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
+    mainBuffer.line(beginX + offsetX, beginY, endX + offsetX, endY);
   }
 
   void	drawScale(int axis, float min, float max, int steps) {
