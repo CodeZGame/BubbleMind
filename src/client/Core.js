@@ -90,11 +90,11 @@ function	runProcessing() {
 function	initProcessing() {
     p = Processing.getInstanceById('ProcessingCanvas');
     if (p) {
-        p.bindJavascript(this);
         bounded = true;
-        initData();
         p.getBubbleDrawer().loadingWindow();
         p.getBubbleDrawer().display();
+        p.bindJavascript(this);
+        initData();
         launch();
     }
     if (!bounded)
@@ -220,6 +220,11 @@ function    drawBubblesNames() {
         p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX - (OverMap[highlightName].size / 2), OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
             OverMap[highlightName].col, OverMap[highlightName].name);
         delete OverMap[highlightName];
+    }
+    else if (highlight.inHist) {
+        var bubble = HistoricalMap[highlight.inHist][highlight.bubble];
+        p.getBubbleDrawer().drawBubbleName(bubble.posX - (bubble.size / 2), bubble.posY - (bubble.size / 2), bubble.size,
+            bubble.col, bubble.year);
     }
 }
 
