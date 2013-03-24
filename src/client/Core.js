@@ -186,9 +186,9 @@ function	drawBubbles() {
     }
     else if (highlight.bubble != -1) {
         p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
-        p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.currentYear], bubbles[highlight.bubble].posX,
-                dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.currentYear], bubbles[highlight.bubble].posY,
-                dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.currentYear], bubbles[highlight.bubble].size, dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.currentYear], bubbles[highlight.bubble].col);
+        p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posX,
+                dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posY,
+                dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].size, dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].col);
     }
 }
 
@@ -341,15 +341,15 @@ function    refreshBubbles() {
     for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].isClicked)
             addToHistorical(bubbles[i]);
-        if (dataEntries[guiAxes.X][bubbles[i].name][year.currentYear] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear] == null
-                || dataEntries[guiAxes.COLOR][bubbles[i].name][year.currentYear] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.currentYear] == null)
+        if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
+                || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
             bubbles[i].draw = false;
         else {
-            bubbles[i].year = year.currentYear;
-            bubbles[i].posX = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.currentYear]);
-            bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.currentYear]);
-            bubbles[i].size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.currentYear]);
-            bubbles[i].col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.currentYear]);
+            bubbles[i].year = year.current;
+            bubbles[i].posX = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
+            bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
+            bubbles[i].size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
+            bubbles[i].col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
         }
     }
     // TMP
@@ -378,7 +378,7 @@ function	refreshDisplay() {
     sortHistoricalBubbles();
     p.getBubbleDrawer().clear();
     drawScales();
-    p.getBubbleDrawer().drawDate(year.currentYear);
+    p.getBubbleDrawer().drawDate(year.current);
     overOnPlot(p.getMouseX(), p.getMouseY());
     drawBubbles();
     drawBubblesNames();
@@ -578,7 +578,7 @@ function    Loop() {
             SetPlayState();
             return;
         }
-        ++year.currentYear;
+        ++year.current;
         refreshBubbles();
         refreshDisplay();
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
