@@ -1,6 +1,6 @@
 $(function() {
     runProcessing();
-    build_slider('#timeSlider');
+
     $("#speedSlider").slider({
         orientation: "vertical",
         min: 1,
