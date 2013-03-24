@@ -137,7 +137,7 @@ function    createBubbles() {
 
 function	runApplication() {
     setMinMaxYear();
-    year.currentYear = year.minYear;
+    year.currentYear = year.min;
     init = true;
     refreshBubbles();
     refreshDisplay();
@@ -514,13 +514,13 @@ function    retrieveValueAmpl(axe, idx) {
 // select the lowest year value between the two higher
 function    setMinMaxYear() {
     if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
-        year.minYear = entityYearMin[guiAxes.Y];
+        year.min = entityYearMin[guiAxes.Y];
     else
-        year.minYear = entityYearMin[guiAxes.X];
+        year.min = entityYearMin[guiAxes.X];
     if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
-        year.maxYear = entityYearMax[guiAxes.Y];
+        year.max = entityYearMax[guiAxes.Y];
     else
-        year.maxYear = entityYearMax[guiAxes.X];
+        year.max = entityYearMax[guiAxes.X];
 }
 
 /*
