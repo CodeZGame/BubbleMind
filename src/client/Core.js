@@ -137,7 +137,7 @@ function    createBubbles() {
 
 function	runApplication() {
     setMinMaxYear();
-    year.currentYear = year.min;
+    year.current = year.min;
     init = true;
     refreshBubbles();
     refreshDisplay();
