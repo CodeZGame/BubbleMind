@@ -4,6 +4,12 @@ html, body {
     font-size: 13px;
 }
 
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text
+{
+    padding: .4em;
+    text-indent: 0px;
+}
+
 #main_div{
     width: 1050px;
     height: 650px;
@@ -58,7 +64,6 @@ html, body {
     top: 2.5%;
     width: 90%;
     left: 5%;
-    display: inline-block;
 }
 
 #entityDiv {
