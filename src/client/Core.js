@@ -355,6 +355,22 @@ function    refreshBubbles() {
             }
         }
     }
+    else {
+        for (i = 0; i < bubbles.length; ++i) {
+            if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
+                    || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
+                bubbles[i].draw = false;
+            else {
+                bubbles[i].year = year.current;
+                bubbles[i].posX = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current])
+                        + (updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current + 1])
+                        - updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current])) * year.step;
+                bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
+                bubbles[i].size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
+                bubbles[i].col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
+            }
+        }
+    }
     // TMP
     //p.println("SIZE MIN : " + scales.mins[guiAxes.SIZE] + " MAX: " + scales.maxs[guiAxes.SIZE]);
     //p.println("COLOR MIN : " + scales.mins[guiAxes.COLOR] + " MAX: " + scales.maxs[guiAxes.COLOR]);
