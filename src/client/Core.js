@@ -582,7 +582,7 @@ function    Loop() {
             SetPlayState();
             return;
         }
-        $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + 1);
+        $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + totalsteps);
         refreshBubbles();
         refreshDisplay();
         setTimeout(Loop, $("#speedSlider").slider("value") * 30 + 100);

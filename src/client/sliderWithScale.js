@@ -1,24 +1,31 @@
+var totalsteps;
+
 function build_slider(slider_id, min, max, value, step, scaleStep)
 {
     var s = $(slider_id);
     s.append('<div id="sliderDiv"></div>');
     s.append('<div id="scaleDiv"></div>');
 
+    totalsteps = (max - min > 100) ? (max - min) : (100);
+    var range = max - min;
+    var nbsteps = totalsteps / range;
     $("#sliderDiv").slider(
             {
                 value: value,
                 range: "min",
-                min: min,
-                max: max,
-                step: step,
-                animate: "fast"
-                /*slide: function( event, ui ) {
-                 MoveCursor( ui.value );
-                 }*/
-            })
+                min: min * totalsteps,
+                max: max * totalsteps,
+                step: nbsteps,
+                animate: "fast",
+                change: function(event, ui) {
+                    var year = (ui.value / totalsteps) | 0;
+                    var percent = (ui.value - year * totalsteps) / (totalsteps + 0.0);
+                    MoveCursor(year, percent);
+                }
+            });
 
 
-    var nb_step = ($("#sliderDiv").slider("option", "max") - $("#sliderDiv").slider("option", "min")) / scaleStep;
+    var nb_step = (max - min) / step;
 
     var gap = $("#sliderDiv").width() / (nb_step);
 
@@ -27,21 +34,21 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
     var line = "<span style=\"display:inline-block;text-align:left;width: ";
     line += gap / 2.0;
     line += "px;\">|</br>";
-    line += $("#sliderDiv").slider("option", "min");
+    line += min;
     line += "</span>";
     s.append(line);
     for (i = 1; i < (nb_step); i++) {
         line = "<span style=\"display:inline-block;text-align:center;width: ";
         line += gap;
         line += "px;\">|</br>";
-        line += $("#sliderDiv").slider("option", "min") + i * scaleStep;
+        line += min + i * scaleStep;
         line += "</span>";
         s.append(line);
     }
     line = "<span style=\"display:inline-block;text-align:right;width: ";
     line += gap / 2.0;
     line += "px;\">|</br>";
-    line += $("#sliderDiv").slider("option", "max");
+    line += max;
     line += "</span>";
     s.append(line);
 }
