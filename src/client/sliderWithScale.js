@@ -21,6 +21,11 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
                     var year = (ui.value / totalsteps) | 0;
                     var percent = (ui.value - year * totalsteps) / (totalsteps + 0.0);
                     MoveCursor(year, percent);
+                },
+                slide: function(event, ui) {
+                    var year = (ui.value / totalsteps) | 0;
+                    var percent = (ui.value - year * totalsteps) / (totalsteps + 0.0);
+                    MoveCursor(year, percent);
                 }
             });
 

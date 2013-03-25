@@ -544,6 +544,8 @@ function    MoveCursor(pos, step) {
     guiData.cursorPos = pos;
     year.current = pos;
     year.step = step;
+    refreshBubbles();
+    refreshDisplay();
 }
 
 function    SetBubbleSize(size) {
