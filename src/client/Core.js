@@ -338,36 +338,47 @@ function	unselectAll() {
 // Update values of bubbles if valid data
 // also add bubble to historicalMap if selected
 function    refreshBubbles() {
-    var i;
-    if (year.step == 0) {
-        for (i = 0; i < bubbles.length; ++i) {
-            if (bubbles[i].isClicked)
-                addToHistorical(bubbles[i]);
-            if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
-                    || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
+    var     i;
+    var     x;
+    var     y;
+    var     size;
+    var     col;
+    for (i = 0; i < bubbles.length; ++i) {
+        if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
+                || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
                 bubbles[i].draw = false;
-            else {
+        else {
+            x = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
+            y = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
+            size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
+            col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
+            if (year.step == 0) {
+                bubbles[i].draw = true;
                 bubbles[i].year = year.current;
-                bubbles[i].posX = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
-                bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
-                bubbles[i].size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
-                bubbles[i].col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
+                bubbles[i].posX = x;
+                bubbles[i].posY = y;
+                bubbles[i].size = size;
+                bubbles[i].col = col;
             }
-        }
-    }
-    else {
-        for (i = 0; i < bubbles.length; ++i) {
-            if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
-                    || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
-                bubbles[i].draw = false;
             else {
-                bubbles[i].year = year.current;
-                bubbles[i].posX = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current])
-                        + (updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current + 1])
-                        - updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current])) * year.step;
-                bubbles[i].posY = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
-                bubbles[i].size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
-                bubbles[i].col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
+                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0)
+                p.println("yearlastHist: " + HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year + " current: " + year.current + " step: " + year.step);
+                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0
+                    && HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year == year.current && year.step == 0)
+                    HistoricalMap[bubbles[i].name].pop();
+                if (bubbles[i].isClicked && bubbles[i].year == year.current)
+                    addToHistorical(bubbles[i]);
+                if (dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
+                    || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
+                    bubbles[i].draw = false;
+                else {
+                    bubbles[i].draw = true;
+                    bubbles[i].year = -1;
+                    bubbles[i].posX = x + (updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current + 1]) - x) * year.step;
+                    bubbles[i].posY = y + (updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1]) - y) * year.step;
+                    bubbles[i].size = size + (updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1]) - size) * year.step;
+                    bubbles[i].col = col + (updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1]) - col) * year.step;
+                }
             }
         }
     }
