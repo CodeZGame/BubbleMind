@@ -1,4 +1,5 @@
 var totalsteps;
+var nbsteps;
 
 function build_slider(slider_id, min, max, value, step, scaleStep)
 {
@@ -6,9 +7,8 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
     s.append('<div id="sliderDiv"></div>');
     s.append('<div id="scaleDiv"></div>');
 
-    totalsteps = (max - min > 100) ? (max - min) : (100);
-    var range = max - min;
-    var nbsteps = totalsteps / range;
+    totalsteps = (max - min > 50) ? (max - min) : (50);
+    nbsteps = totalsteps / (max - min);
     $("#sliderDiv").slider(
             {
                 value: value,
@@ -28,7 +28,6 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
                     MoveCursor(year, percent);
                 }
             });
-
 
     var nb_step = (max - min) / step;
 
