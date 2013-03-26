@@ -353,6 +353,11 @@ function    refreshBubbles() {
             size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
             col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
             if (year.step == 0) {
+                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0)
+                    p.println("yearlastHist: " + HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year + " current: " + year.current + " step: " + year.step);
+                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0
+                    && HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year == year.current && year.step == 0)
+                    HistoricalMap[bubbles[i].name].pop();
                 bubbles[i].draw = true;
                 bubbles[i].year = year.current;
                 bubbles[i].posX = x;
@@ -361,11 +366,6 @@ function    refreshBubbles() {
                 bubbles[i].col = col;
             }
             else {
-                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0)
-                p.println("yearlastHist: " + HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year + " current: " + year.current + " step: " + year.step);
-                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0
-                    && HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year == year.current && year.step == 0)
-                    HistoricalMap[bubbles[i].name].pop();
                 if (bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
                 if (dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
