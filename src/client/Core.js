@@ -69,9 +69,9 @@ function    ScaleData() {
 
 function    SelectAxes() {
     this.x = 3;
-    this.y = 4;
+    this.y = 5;
     this.color = 1;
-    this.size = 5;
+    this.size = 6;
 }
 
 // Data shared between core and gui
@@ -249,12 +249,20 @@ function	drawBubbles() {
     }
 }
 
+// If bubbles is no longer array can optimize this without having to look for id in array
 function    drawHistoricalBubbles() {
+    var     pos = 0;
     for (var prop in HistoricalMap) {
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
-            if (j + 1 < HistoricalMap[prop].length)
+            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos);
+            if (j + 1 < HistoricalMap[prop].length) {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
+            }
+            else {
+                p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
+                        bubbles[pos].posX, bubbles[pos].posY, HistoricalMap[prop][j].col);
+            }
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
                 HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }

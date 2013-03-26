@@ -221,23 +221,27 @@ class    BubbleDrawer {
 	mainBuffer.stroke(0);
   }
 
-  void	drawCoordInfos(float xVal, int posX, float yVal, int posY, int sizeVal, int size, int colVal, int col) {
+  void	drawCoordInfos(int xVal, int posX, int yVal, int posY, int sizeVal, int size, int colVal, int col) {
   	mainBuffer.textAlign(LEFT, TOP);
     mainBuffer.strokeWeight(1.5);
     mainBuffer.stroke(0);
     mainBuffer.textSize(13);
     mainBuffer.fill(255);
+    (int)yVal;
+    (int)xVal;
     float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	
 	// AXE X
-	mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(xVal) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(xVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+	int newX = round(xVal);
+	mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
 	mainBuffer.fill(0);
-	mainBuffer.text(xVal, posX + offsetX - (mainBuffer.textWidth(xVal) + 8) / 2 + 5, bubbleHeight + mainBuffer.textDescent());
+	mainBuffer.text(newX, posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2 + 5, bubbleHeight + mainBuffer.textDescent());
 	// AXE Y
+	int newY = round(yVal);
 	mainBuffer.fill(255);
-	mainBuffer.rect(offsetX - mainBuffer.textWidth(yVal) - 10, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(yVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+	mainBuffer.rect(offsetX - mainBuffer.textWidth(newY) - 10, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(newY) + 8, valueHeight + 5, 0, 0, 0, 0);
 	mainBuffer.fill(0);
-	mainBuffer.text(yVal, offsetX - mainBuffer.textWidth(yVal) - 5, posY - (valueHeight + 5) / 2 + 2);
+	mainBuffer.text(newY, offsetX - mainBuffer.textWidth(newY) - 5, posY - (valueHeight + 5) / 2 + 2);
 	// AXE SIZE - TMP
 	mainBuffer.fill(255);
 	mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + sizeVal + " // " + size) + 8, valueHeight + 5, 0, 0, 0, 0);
