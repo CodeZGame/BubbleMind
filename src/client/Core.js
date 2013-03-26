@@ -136,9 +136,6 @@ function    initData() {
 
 function    launch() {
     if (guiData.entries != null && guiData.entities != null && dataEntries[0] != null && dataEntries[1] != null && dataEntries[2] != null && dataEntries[3] != null) {
-        createBubbles();
-        runApplication();
-
         s = $(entityDiv);
         /*for (var b in guiData.entities) {
             var cb = "<input type=\"checkbox\" name=\"";
@@ -152,18 +149,22 @@ function    launch() {
         }*/
 
         for (var b in guiData.entities) {
-            var cb = "<label><input type=\"checkbox\" id=\"entity[";
+            var cb = "<label onmouseover=\"mouseOverCheckBox('";
+            cb += guiData.entities[b];
+            cb += "')\";><input type=\"checkbox\" id=\"entity[";
             cb += guiData.entities[b];
             cb += "]\" value=\"";
             cb += guiData.entities[b];
-            cb += "\" onClick=\"selectBubbleCheckBox(\'"; 
+            cb += "\" onClick=\"selectBubbleCheckBox('"; 
             cb += guiData.entities[b];
-            cb += "\');\">";
+            cb += "');\">";
             cb += guiData.entities[b];
             cb += "</label><br>";
             s.append(cb);
         }
 
+        createBubbles();
+        runApplication();
     }
     else
         setTimeout(launch, 150);
@@ -664,6 +665,18 @@ function    selectBubbleCheckBox(name) {
                 p.getBubbleDrawer().noBubbleSelected();
             refreshDisplay();
             return ;
+        }
+    }
+}
+
+function    mouseOverCheckBox(name) {
+    for (var i = 0; i < bubbles.length; ++i) {
+        if (bubbles[i].name == name) {
+            highlight.bubble = i;
+            highlight.inHist = null;
+            addToOverMap(bubbles[highlight.bubble]);
+            refreshDisplay();
+            return;
         }
     }
 }
