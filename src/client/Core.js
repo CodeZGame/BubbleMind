@@ -3,6 +3,8 @@ var isPlaying = false;
 var bounded = false;
 var p = null;
 
+var rawEntities = null;
+
 var bubbles = new Array();
 var select = 0;
 
@@ -93,7 +95,9 @@ function	Bubble(posX, posY, size, col, name, year) {
 }
 
 Bubble.prototype.print = function() {
-    p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size + " col->" + this.col + " name->" + this.name + " year->" + this.year + " clicked->" + this.isClicked);
+    p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size
+        + " col->" + this.col + " name->" + this.name + " year->" + this.year
+        + " clicked->" + this.isClicked);
 }
 
 
@@ -135,7 +139,14 @@ function    initData() {
 }
 
 function    launch() {
-    if (guiData.entries != null && guiData.entities != null && dataEntries[0] != null && dataEntries[1] != null && dataEntries[2] != null && dataEntries[3] != null) {
+    if (guiData.entries != null && rawEntities != null && dataEntries[0] != null
+        && dataEntries[1] != null && dataEntries[2] != null && dataEntries[3] != null) {
+
+        // tri entities by selected entries
+        setMinMaxYear();
+        setGuiEntities();
+
+        createBubbles();
         s = $(entityDiv);
         /*for (var b in guiData.entities) {
             var cb = "<input type=\"checkbox\" name=\"";
@@ -162,12 +173,14 @@ function    launch() {
             cb += "</label><br>";
             s.append(cb);
         }
-
-        createBubbles();
         runApplication();
     }
     else
         setTimeout(launch, 150);
+}
+
+function    setGuiEntities() {
+    guiData.entities = jQuery.extend({}, rawEntities);
 }
 
 function    createBubbles() {
@@ -177,7 +190,6 @@ function    createBubbles() {
 }
 
 function	runApplication() {
-    setMinMaxYear();
     year.current = year.min;
     init = true;
     build_slider('#timeSlider', year.min, year.max, year.value, 1, 1);
@@ -185,6 +197,8 @@ function	runApplication() {
     refreshBubbles();
     refreshDisplay();
 }
+
+// MAY NEED RESET OF SOME VAR TO CHECK SQL REQUEST IS OK
 
 /*function    loading(axe, idx) {
  // TODO refactor
@@ -209,11 +223,13 @@ function	drawBubbles() {
     for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].draw) {
             if (bubbles[i].isClicked) {
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
                 addToOverMap(bubbles[i]);
             }
             else
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size, bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
         }
     }
     drawHistoricalBubbles();
@@ -239,7 +255,8 @@ function    drawHistoricalBubbles() {
             if (j + 1 < HistoricalMap[prop].length)
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
-            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size, HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
+                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
     }
 }
@@ -260,7 +277,8 @@ function    drawBubblesNames() {
         }
     }
     if (highlightName != null) {
-        p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX - (OverMap[highlightName].size / 2), OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
+        p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX - (OverMap[highlightName].size / 2),
+            OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
                 OverMap[highlightName].col, OverMap[highlightName].name);
         delete OverMap[highlightName];
     }
@@ -286,7 +304,8 @@ function	overOnPlot(mX, mY) {
     if (res == -1) {
         for (var prop in HistoricalMap) {
             for (j = 0; j < HistoricalMap[prop].length; ++j)
-                if (HistoricalMap[prop][j].draw && HistoricalMap[prop][j].size < resSize && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
+                if (HistoricalMap[prop][j].draw && HistoricalMap[prop][j].size < resSize
+                    && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
                     res = j;
                     resSize = HistoricalMap[prop][j].size;
                     hist = prop;
@@ -338,11 +357,11 @@ function	clickOnPlot() {
             if (found && bubbles[i].isClicked)
                 removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
             if (bubbles[i].isClicked) {
-                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = true;
+                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = false;
                 --select;
             }
             else {
-                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = false;
+                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = true;
                 ++select;
             }
             bubbles[i].isClicked = !bubbles[i].isClicked;
@@ -351,11 +370,11 @@ function	clickOnPlot() {
             if (bubbles[highlight.bubble].isClicked)
                 removeFromHistorical(bubbles[highlight.bubble].name);
             if (bubbles[highlight.bubble].isClicked) {
-                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = true;
+                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = false;
                 --select;
             }
             else {
-                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = false;
+                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = true;
                 ++select;
             }
             bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
@@ -456,9 +475,9 @@ function    setMinMaxYear() {
     else
         year.min = entityYearMin[guiAxes.X];
     if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
-        year.max = entityYearMax[guiAxes.Y];
-    else
         year.max = entityYearMax[guiAxes.X];
+    else
+        year.max = entityYearMax[guiAxes.Y];
 }
 
 function	refreshDisplay() {
@@ -562,7 +581,7 @@ function    retrieveEntitiesFromDB() {
                     // TODO something for better error handle
                 },
                 success: function(d) {
-                    guiData.entities = d;
+                    rawEntities = d;
                 }
             });
 }
@@ -580,15 +599,6 @@ function    retrieveEntityByIdEntry(axe, idx) {
                 },
                 success: function(data) {
                     dataEntries[axe] = data;
-                    /*for (var prop in data['APEM']) {
-                     console.log("prop: " + prop + ": " + data['APEM'][prop]);
-                     }*/
-                    /*for (var entitie in dataEntries[interfaceAxes.X]) {
-                     console.log(entitie + ": ");
-                     for (var propDate in dataEntries[interfaceAxes.X][entitie]) {
-                     console.log(propDate + "= " + dataEntries[interfaceAxes.X][entitie][propDate]);
-                     }
-                     }*/
                 }
             });
 }
