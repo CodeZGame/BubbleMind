@@ -93,7 +93,7 @@ function	Bubble(posX, posY, size, col, name, year) {
 }
 
 Bubble.prototype.print = function() {
-    p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size + " col->" + this.col + " name->" + this.name + " year->" + this.year);
+    p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size + " col->" + this.col + " name->" + this.name + " year->" + this.year + " clicked->" + this.isClicked);
 }
 
 
@@ -140,7 +140,7 @@ function    launch() {
         runApplication();
 
         s = $(entityDiv);
-        for (var b in guiData.entities) {
+        /*for (var b in guiData.entities) {
             var cb = "<input type=\"checkbox\" name=\"";
             cb += guiData.entities[b];
             cb += "\" value=\"";
@@ -149,16 +149,18 @@ function    launch() {
             cb += guiData.entities[b];
             cb += "<br>";
             s.append(cb);
-        }
+        }*/
 
         for (var b in guiData.entities) {
-            var cb = "<input type=\"checkbox\" name=\"";
+            var cb = "<label><input type=\"checkbox\" id=\"entity[";
             cb += guiData.entities[b];
-            cb += "\" value=\"";
+            cb += "]\" value=\"";
             cb += guiData.entities[b];
-            cb += "\">";
+            cb += "\" onClick=\"selectBubbleCheckBox(\'"; 
             cb += guiData.entities[b];
-            cb += "<br>";
+            cb += "\');\">";
+            cb += guiData.entities[b];
+            cb += "</label><br>";
             s.append(cb);
         }
 
@@ -334,19 +336,27 @@ function	clickOnPlot() {
             }
             if (found && bubbles[i].isClicked)
                 removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
-            if (bubbles[i].isClicked)
+            if (bubbles[i].isClicked) {
+                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = true;
                 --select;
-            else
+            }
+            else {
+                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = false;
                 ++select;
+            }
             bubbles[i].isClicked = !bubbles[i].isClicked;
         }
         else {
             if (bubbles[highlight.bubble].isClicked)
                 removeFromHistorical(bubbles[highlight.bubble].name);
-            if (bubbles[highlight.bubble].isClicked)
+            if (bubbles[highlight.bubble].isClicked) {
+                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = true;
                 --select;
-            else
+            }
+            else {
+                document.getElementById("entity[" + [bubbles[highlight.bubble].name] + "]").checked = false;
                 ++select;
+            }
             bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
         }
     }
@@ -435,6 +445,19 @@ function    updateAxeSize(value) {
 
 function    updateAxeColor(value) {
     return Math.round((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]));
+}
+
+// select the highest year value between the two lower
+// select the lowest year value between the two higher
+function    setMinMaxYear() {
+    if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
+        year.min = entityYearMin[guiAxes.Y];
+    else
+        year.min = entityYearMin[guiAxes.X];
+    if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
+        year.max = entityYearMax[guiAxes.Y];
+    else
+        year.max = entityYearMax[guiAxes.X];
 }
 
 function	refreshDisplay() {
@@ -607,19 +630,6 @@ function    retrieveValueAmpl(axe, idx) {
             });
 }
 
-// select the highest year value between the two lower
-// select the lowest year value between the two higher
-function    setMinMaxYear() {
-    if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
-        year.min = entityYearMin[guiAxes.Y];
-    else
-        year.min = entityYearMin[guiAxes.X];
-    if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
-        year.max = entityYearMax[guiAxes.Y];
-    else
-        year.max = entityYearMax[guiAxes.X];
-}
-
 /*
  ** GUI METHODS
  */
@@ -638,6 +648,24 @@ function    MoveCursor(pos, step) {
     year.step = step;
     refreshBubbles();
     refreshDisplay();
+}
+
+function    selectBubbleCheckBox(name) {
+    for (var i = 0; i < bubbles.length; ++i) {
+        if (bubbles[i].name == name) {
+            bubbles[i].isClicked = !bubbles[i].isClicked;
+            if (bubbles[i].isClicked)
+                ++select;
+            else
+                --select;
+            if (select > 0)
+                p.getBubbleDrawer().bubbleSelected();
+            else
+                p.getBubbleDrawer().noBubbleSelected();
+            refreshDisplay();
+            return ;
+        }
+    }
 }
 
 function    SetBubbleSize(size) {
