@@ -125,6 +125,30 @@ function    launch() {
     if (guiData.entries != null && guiData.entities != null) {
         createBubbles();
         runApplication();
+
+        s = $(entityDiv);
+        for (var b in guiData.entities) {
+            var cb = "<input type=\"checkbox\" name=\"";
+            cb += guiData.entities[b];
+            cb += "\" value=\"";
+            cb += guiData.entities[b];
+            cb += "\">";
+            cb += guiData.entities[b];
+            cb += "<br>";
+            s.append(cb);
+        }
+
+        for (var b in guiData.entities) {
+            var cb = "<input type=\"checkbox\" name=\"";
+            cb += guiData.entities[b];
+            cb += "\" value=\"";
+            cb += guiData.entities[b];
+            cb += "\">";
+            cb += guiData.entities[b];
+            cb += "<br>";
+            s.append(cb);
+        }
+
     }
     else
         setTimeout(launch, 150);
@@ -338,15 +362,15 @@ function	unselectAll() {
 // Update values of bubbles if valid data
 // also add bubble to historicalMap if selected
 function    refreshBubbles() {
-    var     i;
-    var     x;
-    var     y;
-    var     size;
-    var     col;
+    var i;
+    var x;
+    var y;
+    var size;
+    var col;
     for (i = 0; i < bubbles.length; ++i) {
         if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
                 || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
-                bubbles[i].draw = false;
+            bubbles[i].draw = false;
         else {
             x = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
             y = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
@@ -359,17 +383,15 @@ function    refreshBubbles() {
                 bubbles[i].posY = y;
                 bubbles[i].size = size;
                 bubbles[i].col = col;
-            }
-            else {
-                if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0)
-                p.println("yearlastHist: " + HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year + " current: " + year.current + " step: " + year.step);
                 if (bubbles[i].name in HistoricalMap && HistoricalMap[bubbles[i].name].length > 0
-                    && HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year == year.current && year.step == 0)
+                        && HistoricalMap[bubbles[i].name][HistoricalMap[bubbles[i].name].length - 1].year == year.current && year.step == 0)
                     HistoricalMap[bubbles[i].name].pop();
                 if (bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
+            }
+            else {
                 if (dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
-                    || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
+                        || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
                     bubbles[i].draw = false;
                 else {
                     bubbles[i].draw = true;
@@ -611,9 +633,9 @@ function    Loop() {
             SetPlayState();
             return;
         }
-        $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + totalsteps);
+        $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + nbsteps);
         refreshBubbles();
         refreshDisplay();
-        setTimeout(Loop, $("#speedSlider").slider("value") * 30 + 100);
+        setTimeout(Loop, $("#speedSlider").slider("value") * $("#speedSlider").slider("value") / 2);
     }
 }
