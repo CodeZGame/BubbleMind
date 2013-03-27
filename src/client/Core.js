@@ -234,7 +234,7 @@ function	drawBubbles() {
     }
     drawHistoricalBubbles();
     // Print highlitedBubble with coord infos
-    if (highlight.inHist != null) {
+    if (highlight.inHist != null && highlight.bubble != -1) {
         var histBubble = HistoricalMap[highlight.inHist][highlight.bubble];
         p.getBubbleDrawer().drawHighlightBubble(histBubble.posX, histBubble.posY, histBubble.size, histBubble.col, histBubble.crossed);
         p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][histBubble.name][histBubble.year], histBubble.posX,
@@ -270,13 +270,14 @@ function    drawHistoricalBubbles() {
 }
 
 function    addToOverMap(b) {
+    //b.print();
     OverMap[b.name] = (jQuery.extend({}, b));
 }
 
 function    drawBubblesNames() {
     var highlightName = null;
     for (var b in OverMap) {
-        if (highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
+        if (highlight.inHist == null && highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
             highlightName = b;
         else {
             p.getBubbleDrawer().drawBubbleName(OverMap[b].posX - (OverMap[b].size / 2), OverMap[b].posY - (OverMap[b].size / 2), OverMap[b].size,
@@ -290,7 +291,7 @@ function    drawBubblesNames() {
                 OverMap[highlightName].col, OverMap[highlightName].name);
         delete OverMap[highlightName];
     }
-    else if (highlight.inHist) {
+    else if (highlight.inHist != null) {
         var bubble = HistoricalMap[highlight.inHist][highlight.bubble];
         p.getBubbleDrawer().drawBubbleName(bubble.posX - (bubble.size / 2), bubble.posY - (bubble.size / 2), bubble.size,
                 bubble.col, bubble.year);
