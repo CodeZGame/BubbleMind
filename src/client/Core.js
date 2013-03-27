@@ -253,6 +253,7 @@ function	drawBubbles() {
 function    drawHistoricalBubbles() {
     var     pos = 0;
     for (var prop in HistoricalMap) {
+        HistoricalMap[prop].sort(sortBubblesYear);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
             for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos);
             if (j + 1 < HistoricalMap[prop].length) {
@@ -263,6 +264,11 @@ function    drawHistoricalBubbles() {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         bubbles[pos].posX, bubbles[pos].posY, HistoricalMap[prop][j].col);
             }
+            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
+                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+        }
+        HistoricalMap[prop].sort(sortBubblesSize);
+        for (j = 0; j < HistoricalMap[prop].length; ++j) {
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
                 HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
@@ -500,8 +506,15 @@ function	refreshDisplay() {
 }
 
 // Sort bubbles by size
-function    sortBubbles(b1, b2) {
+function    sortBubblesSize(b1, b2) {
     if (b1.size >= b2.size)
+        return -1;
+    else
+        return 1;
+}
+
+function    sortBubblesYear(b1, b2) {
+    if (b1.year < b2.year)
         return -1;
     else
         return 1;
@@ -552,9 +565,14 @@ function    removeFromHistorical(n) {
     delete HistoricalMap[n];
 }
 
-function    sortHistoricalBubbles() {
+function    sortHistoricalBubblesBySize() {
     for (var prop in HistoricalMap)
-        HistoricalMap[prop].sort(sortBubbles);
+        HistoricalMap[prop].sort(sortBubblesSize);
+}
+
+function    sortHistoricalBubblesByYear() {
+    for (var prop in HistoricalMap)
+        HistoricalMap[prop].sort(sortBubblesYear);
 }
 
 /*
@@ -738,7 +756,7 @@ function    Loop() {
         }
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + nbsteps);
         refreshBubbles();
-        bubbles.sort(sortBubbles);
+        bubbles.sort(sortBubblesSize);
         sortHistoricalBubbles();
         refreshDisplay();
         var speed = ($("#speedSlider").slider("option", "max") - $("#speedSlider").slider("value"));
