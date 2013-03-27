@@ -234,7 +234,7 @@ function    clearDataForLoading(axe) {
     scales.maxs[axe] = -1;
 }
 
-function	drawBubbles() {
+/*function	drawBubbles() {
     // Print historical bubbles
     for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].draw) {
@@ -263,9 +263,52 @@ function	drawBubbles() {
                 dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posY,
                 dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].size, dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].col);
     }
+}*/
+
+function    drawBubbles() {
+    // Print historical bubbles
+    for (i = 0; i < bubbles.length; ++i) {
+        if (bubbles[i].draw) {
+            if (bubbles[i].isClicked) {
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+                addToOverMap(bubbles[i]);
+            }
+            else
+                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+        }
+    }
+    drawHistoricalBubbles();
+    // Print highlitedBubble with coord infos
+    if (highlight.inHist != null && highlight.bubble != -1) {
+        var histBubble = HistoricalMap[highlight.inHist][highlight.bubble];
+        p.getBubbleDrawer().drawHighlightBubble(histBubble.posX, histBubble.posY, histBubble.size, histBubble.col, histBubble.crossed);
+        p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][histBubble.name][histBubble.year], histBubble.posX,
+                dataEntries[guiAxes.Y][histBubble.name][histBubble.year], histBubble.posY,
+                dataEntries[guiAxes.SIZE][histBubble.name][histBubble.year], histBubble.size, dataEntries[guiAxes.COLOR][histBubble.name][histBubble.year], histBubble.col);
+    }
+    else if (highlight.bubble != -1) {
+        p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
+        p.getBubbleDrawer().drawCoordInfos(coordInfosTranslated(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current + 1]),
+                bubbles[highlight.bubble].posX,
+                coordInfosTranslated(dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current + 1]),
+                bubbles[highlight.bubble].posY,
+                coordInfosTranslated(dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current + 1]),
+                bubbles[highlight.bubble].size,
+                coordInfosTranslated(dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current + 1]),
+                bubbles[highlight.bubble].col);
+    }
 }
 
-// If bubbles is no longer array can optimize this without having to look for id in array
+function    coordInfosTranslated(currVal, nextVal) {
+    if (year.step == 0)
+        return parseInt(currVal);
+    else
+        return parseInt(currVal) + ((parseInt(nextVal) - parseInt(currVal)) * year.step);
+}
+
+// If bubbles is no longer an array, can optimize this without having to look for id in array
 function    drawHistoricalBubbles() {
     var     pos = 0;
     for (var prop in HistoricalMap) {

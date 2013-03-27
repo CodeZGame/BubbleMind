@@ -221,6 +221,61 @@ class    BubbleDrawer {
 	mainBuffer.stroke(0);
   }
 
+  /*void	drawScale(int axis, float min, float max, int steps) {
+	int	stepSize;
+	String value;
+	//float maxUp = ceil(abs(max) * 5 / 100 + max);
+	//float minDown = ceil(min - (abs(min) * 5 / 100));
+	float maxUp = max;
+	float minDown = min;
+	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps));
+	int valueStep = abs(tmpValueStep);
+	mainBuffer.textSize(13);
+	mainBuffer.strokeWeight(2);
+	mainBuffer.stroke(0, 0, 87, 87);
+	// X AXIS -- Y GRID
+	if (axis == 0) {
+		stepSize = bubbleWidth / steps;
+		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
+		mainBuffer.strokeWeight(stdStrokeWeight);
+		mainBuffer.fill(215, 30);
+		for (int i = 1; i < steps; ++i) {
+			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
+			value = calcValue(maxUp, valueStep, i, minDown);
+			mainBuffer.fill(30, 70);
+			if (i == 1)
+				mainBuffer.text(minDown, stepSize - mainBuffer.textWidth(minDown) / 2, height - offsetY + textAscent() + 2);
+			mainBuffer.text(value, (i + 1) * stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
+		}
+	}
+	// Y AXIS -- X GRID
+	else {
+		stepSize = bubbleHeight / steps;
+		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
+		mainBuffer.strokeWeight(stdStrokeWeight);
+		mainBuffer.fill(215, 30);
+		for (int i = 1; i < steps; ++i) {
+			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
+			value = calcValue(maxUp, valueStep, i, minDown);
+			mainBuffer.fill(30, 70);
+			mainBuffer.pushMatrix();
+			mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, height - offsetY - stepSize * i);
+			mainBuffer.rotate(-0.6);
+			mainBuffer.text(value, 0, 0);
+			mainBuffer.popMatrix();
+			if (i == steps - 1)
+			{
+				mainBuffer.pushMatrix();
+				mainBuffer.translate(offsetX - mainBuffer.textWidth(minDown) / 2 - 5, stepSize * (i + 1));
+				mainBuffer.rotate(-0.6);
+				mainBuffer.text(minDown, 0, 0);
+				mainBuffer.popMatrix();
+			}
+		}
+	}
+	mainBuffer.stroke(0);
+  }*/
+
   void	drawCoordInfos(int xVal, int posX, int yVal, int posY, int sizeVal, int size, int colVal, int col) {
   	mainBuffer.textAlign(LEFT, TOP);
     mainBuffer.strokeWeight(1.5);
