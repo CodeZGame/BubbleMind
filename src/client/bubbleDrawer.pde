@@ -124,22 +124,22 @@ class    BubbleDrawer {
 
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
   	mainBuffer.textAlign(LEFT, TOP);
-    mainBuffer.strokeWeight(3);
+    mainBuffer.strokeWeight(2);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.textSize(13);
     mainBuffer.fill(255, 255);
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
-	if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 > 0) {
-		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
+	if (posX + offsetX - mainBuffer.textWidth(name) - 5 - size / 2 > offsetX && posY - nameHeight - 5 - size / 2 > 0) {
+		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 4 - size / 2, posY - nameHeight - 5 - size / 2, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY - offsetY + nameHeight);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name) - size / 2, posY - offsetY + nameHeight - size / 2);
 	}
 	//Upper right corner
-	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 5 > 0) {
-		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
+	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 8 > 0) {
+		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 8, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + nameHeight);
+		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + nameHeight - 4);
 	}
 	//Downer left corner
 	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {

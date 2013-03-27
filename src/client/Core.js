@@ -68,8 +68,8 @@ function    ScaleData() {
 }
 
 function    SelectAxes() {
-    this.x = 3;
-    this.y = 5;
+    this.x = 1;
+    this.y = 2;
     this.color = 1;
     this.size = 6;
 }
