@@ -8,7 +8,8 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
     s.append('<div id="scaleDiv"></div>');
 
     totalsteps = (max - min > 50) ? (max - min) : (50);
-    nbsteps = totalsteps / (max - min);
+//    nbsteps = totalsteps / (max - min);
+    nbsteps = 1;
     $("#sliderDiv").slider(
             {
                 value: value,

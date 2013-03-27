@@ -5,7 +5,7 @@ $(function() {
         orientation: "vertical",
         min: 1,
         max: 25,
-        value: 5,
+        value: 20,
         animate: "slow"
     });
 

@@ -740,6 +740,7 @@ function    Loop() {
         bubbles.sort(sortBubbles);
         sortHistoricalBubbles();
         refreshDisplay();
-        setTimeout(Loop, $("#speedSlider").slider("value") * $("#speedSlider").slider("value") / 2);
+        var speed = ($("#speedSlider").slider("option", "max") - $("#speedSlider").slider("value"));
+        setTimeout(Loop,  speed * speed / 2);
     }
 }
