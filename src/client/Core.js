@@ -15,8 +15,8 @@ var year = new YearData();
 var highlight = new HighlightedData();
 var load = new LoadingValues();
 
-var entityYearMin = new Array(4);
-var entityYearMax = new Array(4);
+var entityYearMin = new Array(-1, -1, -1, -1);
+var entityYearMax = new Array(-1, -1, -1, -1);
 var dataEntries = new Array(null, null, null, null);
 
 var HistoricalMap = {};
@@ -44,9 +44,9 @@ Array.prototype.unset = function(val) {
 
 function    LoadingValues() {
     this.loaded = false;
-    this.flagEntities = 0x1;
-    this.flagYears = 0x2;
-    this.flagValues = 0x4;
+    this.loading = false;
+    this.axe = -1;
+    this.idx = -1;
 }
 
 function    HighlightedData() {
@@ -139,13 +139,11 @@ function    initData() {
 }
 
 function    launch() {
-    if (guiData.entries != null && rawEntities != null && dataEntries[0] != null
-        && dataEntries[1] != null && dataEntries[2] != null && dataEntries[3] != null) {
-
-        // tri entities by selected entries
+    if (guiData.entries != null && rawEntities != null && dataEntries[guiAxes.X] != null
+        && dataEntries[guiAxes.Y] != null && dataEntries[guiAxes.SIZE] != null && dataEntries[guiAxes.COLOR] != null
+        && entityYearMin[guiAxes.X] != -1 && entityYearMin[guiAxes.Y] != -1) {
         setMinMaxYear();
         setGuiEntities();
-
         createBubbles();
         s = $(entityDiv);
         /*for (var b in guiData.entities) {
@@ -200,23 +198,41 @@ function	runApplication() {
 
 // MAY NEED RESET OF SOME VAR TO CHECK SQL REQUEST IS OK
 
-/*function    loading(axe, idx) {
- // TODO refactor
- if (loading != idx) {
- loading = idx;
- retrieveEntityByIdEntry(axe, idx);
- retrieveValueAmpl(axe, idx);
- retrieveYearAmpl(axe, idx);
- }
- if (loaded & flagEntities && loaded & flagYears && loaded & flagValues) {
- loaded = 0;
- return;
- }
- else {
- setTimeout(loading, 250);
- }
- }
- }*/
+function    loading(axe, idx) {
+    if (!load.loading) {
+        DisableUI();
+        load.idx = idx;
+        load.axe = axe;
+        load.loading = true;
+        p.getBubbleDrawer().clear();
+        p.getBubbleDrawer().loadingWindow();
+        p.getBubbleDrawer().display();
+        clearDataForLoading(axe);
+        retrieveEntityByIdEntry(axe, idx);
+        retrieveValueAmpl(axe, idx);
+        retrieveYearAmpl(axe, idx);
+        retrieveValueAmpl(axe, idx);
+    }
+    if (dataEntries[load.axe] != null && entityYearMin[load.axe] != -1 && scales.mins[load.axe] != -1) {
+        refreshBubbles();
+        refreshDisplay();
+        load.loading = false;
+        load.idx = -1;
+        load.axe = -1;
+        EnableUI();
+    }
+    else {
+        setTimeout(loading, 250);
+    }
+}
+
+function    clearDataForLoading(axe) {
+    delete dataEntries[axe];
+    entityYearMin[axe] = -1;
+    scales.mins[axe] = -1;
+    entityYearMax[axe] = -1;
+    scales.maxs[axe] = -1;
+}
 
 function	drawBubbles() {
     // Print historical bubbles
@@ -673,13 +689,6 @@ function    retrieveValueAmpl(axe, idx) {
  */
 
 // 0 -> X AXIS || 1 -> Y AXIS
-function    ChangeScale(axe, min, max, step) {
-    /*mins[axe] = min;
-     maxs[axe] = max;
-     steps[axe] = step;*/
-    drawScales();
-}
-
 function    MoveCursor(pos, step) {
     guiData.cursorPos = pos;
     year.current = pos;
@@ -689,31 +698,36 @@ function    MoveCursor(pos, step) {
 }
 
 function    selectBubbleCheckBox(name) {
-    for (var i = 0; i < bubbles.length; ++i) {
-        if (bubbles[i].name == name) {
-            bubbles[i].isClicked = !bubbles[i].isClicked;
-            if (bubbles[i].isClicked)
-                ++select;
-            else
-                --select;
-            if (select > 0)
-                p.getBubbleDrawer().bubbleSelected();
-            else
-                p.getBubbleDrawer().noBubbleSelected();
-            refreshDisplay();
-            return ;
+    if (!load.loading) {
+        //AxeChanged(guiAxes.X, 5);         // TMP
+        for (var i = 0; i < bubbles.length; ++i) {
+            if (bubbles[i].name == name) {
+                bubbles[i].isClicked = !bubbles[i].isClicked;
+                if (bubbles[i].isClicked)
+                    ++select;
+                else
+                    --select;
+                if (select > 0)
+                    p.getBubbleDrawer().bubbleSelected();
+                else
+                    p.getBubbleDrawer().noBubbleSelected();
+                refreshDisplay();
+                return ;
+            }
         }
     }
 }
 
 function    mouseOverCheckBox(name) {
-    for (var i = 0; i < bubbles.length; ++i) {
-        if (bubbles[i].name == name) {
-            highlight.bubble = i;
-            highlight.inHist = null;
-            addToOverMap(bubbles[highlight.bubble]);
-            refreshDisplay();
-            return;
+    if (!load.loading) {
+        for (var i = 0; i < bubbles.length; ++i) {
+            if (bubbles[i].name == name) {
+                highlight.bubble = i;
+                highlight.inHist = null;
+                addToOverMap(bubbles[highlight.bubble]);
+                refreshDisplay();
+                return;
+            }
         }
     }
 }
@@ -739,9 +753,17 @@ function    SetPlayState() {
 }
 
 function    AxeChanged(axe, idx) {
-    retrieveEntryFromDB(idx);
-    retrieveYearAmpl(idx);
-    // TODO
+    loading(axe, idx);
+}
+
+function    DisableUI() {
+    $("#sliderDiv").slider("disable");
+    $("#speedSlider").slider("disable");
+}
+
+function    EnableUI() {
+    $("#sliderDiv").slider("enable");
+    $("#speedSlider").slider("enable");
 }
 
 /*
@@ -757,7 +779,7 @@ function    Loop() {
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + nbsteps);
         refreshBubbles();
         bubbles.sort(sortBubblesSize);
-        sortHistoricalBubbles();
+        sortHistoricalBubblesBySize();
         refreshDisplay();
         var speed = ($("#speedSlider").slider("option", "max") - $("#speedSlider").slider("value"));
         setTimeout(Loop,  speed * speed / 2);
