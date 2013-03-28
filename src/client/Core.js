@@ -162,25 +162,25 @@ function    launch() {
 
             var a = new Array();
             for (var b in guiData.entries) {
-                a.push(guiData.entries[b]);
+                a.push({value: guiData.entries[b], id: b});
             }
 
             var k = 0;
             $("#selectAxeXValue").next("input").autocomplete({source: a});
-            $("#selectAxeXValue").next("input").attr("value", a[k]);
+            $("#selectAxeXValue").next("input").attr("value", a[k].value);
 
             if (a.length > k + 1)
                 ++k;
             $("#selectAxeYValue").next("input").autocomplete("option", "source", a);
-            $("#selectAxeYValue").next("input").attr("value", a[k]);
+            $("#selectAxeYValue").next("input").attr("value", a[k].value);
             if (a.length > k + 1)
                 ++k;
             $("#selectColorValue").next("input").autocomplete("option", "source", a);
-            $("#selectColorValue").next("input").attr("value", a[k]);
+            $("#selectColorValue").next("input").attr("value", a[k].value);
             if (a.length > k + 1)
                 ++k;
             $("#selectSizeValue").next("input").autocomplete("option", "source", a);
-            $("#selectSizeValue").next("input").attr("value", a[k]);
+            $("#selectSizeValue").next("input").attr("value", a[k].value);
 
         }
         runApplication();
