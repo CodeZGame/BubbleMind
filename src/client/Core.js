@@ -267,6 +267,7 @@ function    clearDataForLoading(axe) {
 
 function    drawBubbles() {
     // Print historical bubbles
+        drawHistoricalBubbles();
     for (i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].draw) {
             if (bubbles[i].isClicked) {
@@ -279,7 +280,6 @@ function    drawBubbles() {
                     bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
         }
     }
-    drawHistoricalBubbles();
     // Print highlitedBubble with coord infos
     if (highlight.inHist != null && highlight.bubble != -1) {
         var histBubble = HistoricalMap[highlight.inHist][highlight.bubble];
@@ -756,8 +756,10 @@ function    selectBubbleCheckBox(name) {
                 bubbles[i].isClicked = !bubbles[i].isClicked;
                 if (bubbles[i].isClicked)
                     ++select;
-                else
+                else {
+                    removeFromHistorical(bubbles[i].name);
                     --select;
+                }
                 updateSelectBubble();
                 refreshDisplay();
                 return ;
