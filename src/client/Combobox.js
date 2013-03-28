@@ -125,8 +125,3 @@
     });
 
 })(jQuery);
-
-// new code
-$(function() {
-    $(".combobox").combobox();
-});
