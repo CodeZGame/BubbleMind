@@ -22,7 +22,7 @@ $(function() {
     $("#opacitySlider").slider({
         min: 0,
         max: 255,
-        value: 150,
+        value: 70,
         animate: "fast",
         slide: function(event, ui) {
                     ChangeOpacity(ui.value);

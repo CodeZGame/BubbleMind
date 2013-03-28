@@ -124,10 +124,10 @@ class    BubbleDrawer {
     mainBuffer.text(year, yearWidth, yearHeight);*/
     
     // BOTTOM RIGHT
-    mainBuffer.textSize(height * 30 / 100);
+    mainBuffer.textSize(height * 20 / 100);
     String year = str(date);
     float yearWidth = width - mainBuffer.textWidth(year) / 2;
-    float yearHeight = height + offsetY - mainBuffer.textAscent();
+    float yearHeight = height + offsetY - mainBuffer.textAscent() - mainBuffer.textDescent();
     mainBuffer.fill(180);
     mainBuffer.text(year, yearWidth, yearHeight);
   }
