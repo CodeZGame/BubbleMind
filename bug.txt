@@ -1,4 +1,3 @@
 Bugs:
--Si on slide trop vite (plusieurs fois), les historique affiche ne sont pas les meme, et les traits change de place ? (REGENE)
 -Si la donne n'est plus disponible pour l'anne courante, le nom de la bulle n' est plus affiché (REGENE)
 

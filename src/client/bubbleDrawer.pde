@@ -52,6 +52,7 @@ void setup() {
 	mainBuffer.smooth(8);
 	mainBuffer.strokeWeight(stdStrokeWeight);
 	mainBuffer.colorMode(HSB, 255);
+	mainBuffer.circleMode(CENTER);
 	bd.clear();
 	noLoop();
 }
@@ -94,11 +95,11 @@ class    BubbleDrawer {
   void drawBubble(int posX, int posY, int size, int col, boolean clicked, boolean crossed) {
   	if (clicked) {
   		mainBuffer.stroke(0, 0, 0, this._defaultAlphaValue);
-  		mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
+  		mainBuffer.fill(col, /*this._defaultSaturation*/150, this._defaultBrightness, this._defaultAlphaValue);
   	}
   	else {
       	mainBuffer.stroke(0, 0, 0, this._alphaValue);
-      	mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
+      	mainBuffer.fill(col, 100, this._defaultBrightness, this._alphaValue);
     }
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
   }
@@ -133,39 +134,41 @@ class    BubbleDrawer {
   }
 
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
-  	mainBuffer.textAlign(LEFT, TOP);
+
     mainBuffer.strokeWeight(2);
     mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
-    mainBuffer.textSize(13);
+    mainBuffer.textSize(11);
     mainBuffer.fill(255, 255);
+    mainBuffer.rectMode(CENTER);
+    float radius = size / 2;
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
 	//Normal position (upper left corner)
-	if (posX + offsetX - mainBuffer.textWidth(name) - 5 - size / 2 > offsetX && posY - nameHeight - 5 - size / 2 > 0) {
-		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 4 - size / 2, posY - nameHeight - 5 - size / 2, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 0, 10);
+	if (posX - mainBuffer.textWidth(name) - radius - 3 > 0 && posY - nameHeight - 8 - radius > 0) {
+		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) / 2 - radius - 3, posY - nameHeight - radius, mainBuffer.textWidth(name) + 6, nameHeight + 8, 10, 10, 0, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name) - size / 2, posY - offsetY + nameHeight - size / 2);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name) / 2 - radius - 2, posY - nameHeight - radius + 2);
 	}
 	//Upper right corner
-	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 8 > 0) {
-		mainBuffer.rect(posX + offsetX + size - 5, posY - nameHeight - 8, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 10, 10, 0);
+	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 < 0 && posY - nameHeight - 8 - radius > 0) {
+		mainBuffer.rect(posX + offsetX + mainBuffer.textWidth(name) / 2 + radius + 3, posY - nameHeight - radius, mainBuffer.textWidth(name) + 8, nameHeight + 8, 10, 10, 10, 0);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY - offsetY + nameHeight - 4);
+		mainBuffer.text(name, posX + offsetX + mainBuffer.textWidth(name) / 2 + radius + 4, posY - nameHeight - radius + 2);
 	}
 	//Downer left corner
-	else if (posX - offsetX - mainBuffer.textWidth(name) - 5 > 0 && posY - nameHeight - 5 < 0) {
-		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 10, 0, 10, 10);
+	else if (posX - mainBuffer.textWidth(name) - radius - 3 > 0 && posY + nameHeight + radius < bubbleHeight) {
+		mainBuffer.rect(posX + offsetX - mainBuffer.textWidth(name) / 2 - radius - 3, posY + nameHeight + radius, mainBuffer.textWidth(name) + 8, nameHeight + 8, 10, 0, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name), posY + size + nameHeight - offsetY + nameHeight);
+		mainBuffer.text(name, posX + offsetX - mainBuffer.textWidth(name) / 2 - radius - 3, posY + nameHeight + radius);
 	}
 	//Downer right corner
 	else {
-		mainBuffer.rect(posX + offsetX + size - 5, posY + size - 5, mainBuffer.textWidth(name) + 8, nameHeight + 10, 0, 10, 10, 10);
+		mainBuffer.rect(posX + offsetX + mainBuffer.textWidth(name) / 2 + radius + 3, posY + nameHeight + radius, mainBuffer.textWidth(name) + 8, nameHeight + 8, 0, 10, 10, 10);
 		mainBuffer.fill(150);
-		mainBuffer.text(name, posX + offsetX + size, posY + size + nameHeight - offsetY + nameHeight);
+		mainBuffer.text(name, posX + offsetX + mainBuffer.textWidth(name) / 2 + radius + 3, posY + nameHeight + radius);
 	}
     mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
-   	mainBuffer.textAlign(CENTER, CENTER);
+   	mainBuffer.rectMode(CORNER);
   }
 
   void  drawLine(int beginX, int beginY, int endX, int endY, int col, boolean clicked) {

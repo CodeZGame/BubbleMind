@@ -70,8 +70,8 @@ function    ScaleData() {
 function    SelectAxes() {
     this.x = 1;
     this.y = 2;
-    this.color = 1;
-    this.size = 6;
+    this.color = 3;
+    this.size = 4;
 }
 
 // Data shared between core and gui
@@ -91,7 +91,7 @@ function	Bubble(posX, posY, size, col, name, year) {
     this.year = year;
     this.isClicked = false;
     this.crossed = false;
-    this.draw = false;
+    this.draw = true;
 }
 
 Bubble.prototype.print = function() {
@@ -120,6 +120,15 @@ function	initProcessing() {
 }
 
 function    initData() {
+    retrieveEntriesFromDB();
+    retrieveEntitiesFromDB();
+    initAxes();
+    setBeginAxes();
+    scales.steps[guiAxes.X] = 10;
+    scales.steps[guiAxes.Y] = 10;
+}
+
+function    initAxes() {
     retrieveYearAmpl(guiAxes.X, currentAxes.x);
     retrieveYearAmpl(guiAxes.Y, currentAxes.y);
     retrieveYearAmpl(guiAxes.SIZE, currentAxes.size);
@@ -132,10 +141,27 @@ function    initData() {
     retrieveValueAmpl(guiAxes.Y, currentAxes.y);
     retrieveValueAmpl(guiAxes.SIZE, currentAxes.size);
     retrieveValueAmpl(guiAxes.COLOR, currentAxes.color);
-    retrieveEntriesFromDB();
-    retrieveEntitiesFromDB();
-    scales.steps[guiAxes.X] = 10;
-    scales.steps[guiAxes.Y] = 10;
+}
+
+// To change if no color or no size
+function    setBeginAxes() {
+    var     k = 0;
+    var     nbEntries = 0;
+    if (guiData.entries != null) {
+        for (var entry in guiData.entries) {
+            nbEntries = entry;
+        }
+        currentAxes.x = k++;
+        currentAxes.y = k;
+        if (k + 1 < nbEntries)
+            ++k;
+        currentAxes.color = k;
+        if (k + 1 < nbEntries)
+            ++k;
+        currentAxes.size = k;
+    }
+    else
+        setTimeout(setBeginAxes, 150);
 }
 
 function    launch() {
@@ -159,30 +185,28 @@ function    launch() {
             cb += guiData.entities[b];
             cb += "</label><br>";
             s.append(cb);
-
-            var a = new Array();
-            for (var b in guiData.entries) {
-                a.push({value: guiData.entries[b], id: b});
-            }
-
-            var k = 0;
-            $("#selectAxeXValue").next("input").autocomplete({source: a});
-            $("#selectAxeXValue").next("input").attr("value", a[k].value);
-
-            if (a.length > k + 1)
-                ++k;
-            $("#selectAxeYValue").next("input").autocomplete("option", "source", a);
-            $("#selectAxeYValue").next("input").attr("value", a[k].value);
-            if (a.length > k + 1)
-                ++k;
-            $("#selectColorValue").next("input").autocomplete("option", "source", a);
-            $("#selectColorValue").next("input").attr("value", a[k].value);
-            if (a.length > k + 1)
-                ++k;
-            $("#selectSizeValue").next("input").autocomplete("option", "source", a);
-            $("#selectSizeValue").next("input").attr("value", a[k].value);
-
         }
+        var a = new Array();
+        for (var b in guiData.entries) {
+            a.push({value: guiData.entries[b], id: b});
+        }
+
+        var k = 0;
+        $("#selectAxeXValue").next("input").autocomplete({source: a});
+        $("#selectAxeXValue").next("input").attr("value", a[k].value);
+
+        if (a.length > k + 1)
+            ++k;
+        $("#selectAxeYValue").next("input").autocomplete("option", "source", a);
+        $("#selectAxeYValue").next("input").attr("value", a[k].value);
+        if (a.length > k + 1)
+            ++k;
+        $("#selectColorValue").next("input").autocomplete("option", "source", a);
+        $("#selectColorValue").next("input").attr("value", a[k].value);
+        if (a.length > k + 1)
+            ++k;
+        $("#selectSizeValue").next("input").autocomplete("option", "source", a);
+        $("#selectSizeValue").next("input").attr("value", a[k].value);
         runApplication();
     }
     else
@@ -356,6 +380,27 @@ function    drawBubblesNames() {
         if (highlight.inHist == null && highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
             highlightName = b;
         else {
+            p.getBubbleDrawer().drawBubbleName(OverMap[b].posX, OverMap[b].posY, OverMap[b].size, OverMap[b].col, OverMap[b].name);
+            delete OverMap[b];
+        }
+    }
+    if (highlightName != null) {
+        p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX, OverMap[highlightName].posY, OverMap[highlightName].size,
+                OverMap[highlightName].col, OverMap[highlightName].name);
+        delete OverMap[highlightName];
+    }
+    else if (highlight.inHist != null) {
+        var bubble = HistoricalMap[highlight.inHist][highlight.bubble];
+        p.getBubbleDrawer().drawBubbleName(bubble.posX, bubble.posY, bubble.size, bubble.col, bubble.year);
+    }
+}
+
+/*function    drawBubblesNames() {
+    var highlightName = null;
+    for (var b in OverMap) {
+        if (highlight.inHist == null && highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
+            highlightName = b;
+        else {
             p.getBubbleDrawer().drawBubbleName(OverMap[b].posX - (OverMap[b].size / 2), OverMap[b].posY - (OverMap[b].size / 2), OverMap[b].size,
                     OverMap[b].col, OverMap[b].name);
             delete OverMap[b];
@@ -372,7 +417,7 @@ function    drawBubblesNames() {
         p.getBubbleDrawer().drawBubbleName(bubble.posX - (bubble.size / 2), bubble.posY - (bubble.size / 2), bubble.size,
                 bubble.col, bubble.year);
     }
-}
+}*/
 
 function	overOnPlot(mX, mY) {
     var i;
@@ -583,7 +628,6 @@ function	refreshDisplay() {
     p.getBubbleDrawer().display();
 }
 
-// Sort bubbles by size
 function    sortBubblesSize(b1, b2) {
     if (b1.size >= b2.size)
         return -1;
@@ -598,7 +642,10 @@ function    sortBubblesYear(b1, b2) {
         return 1;
 }
 
-// HISTORICAL METHODS
+/*
+** HISTORICAL METHODS
+*/
+
 function    addToHistorical(bubble) {
     if (!(bubble.name in HistoricalMap))
         HistoricalMap[bubble.name] = new Array();
@@ -611,6 +658,11 @@ function    addToHistorical(bubble) {
 function    addPreviousYearToHistory() {
     var i;
     var years = {};
+    for (var i = 0; i < bubbles.length; ++i) {
+        if (bubbles[i].isClicked && bubbles[i].year != -1) {
+            addToHistorical(bubbles[i]);
+        }
+    }
     for (var b in HistoricalMap) {
         if (HistoricalMap[b].length > 0) {
             for (i = year.min; i <= year.current; ++i) {
