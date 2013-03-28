@@ -19,7 +19,19 @@ $(function() {
 
     $("#selectColorValue").combobox();
     $("#selectSizeValue").combobox();
-    $("#opacitySlider").slider();
+    $("#opacitySlider").slider({
+        min: 0,
+        max: 255,
+        value: 150,
+        animate: "fast",
+        slide: function(event, ui) {
+                    ChangeOpacity(ui.value);
+        },
+        slide: function(event, ui) {
+            ChangeOpacity(ui.value);
+        }
+    });
+    $("#opacitySlider").slider("disable");
     $("#sizeSlider").slider();
 
 });

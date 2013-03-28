@@ -454,10 +454,7 @@ function	clickOnPlot() {
             bubbles[highlight.bubble].isClicked = !bubbles[highlight.bubble].isClicked;
         }
     }
-    if (select > 0)
-        p.getBubbleDrawer().bubbleSelected();
-    else
-        p.getBubbleDrawer().noBubbleSelected();
+    updateSelectBubble();
     refreshDisplay();
 }
 
@@ -473,6 +470,17 @@ function    drawScales() {
 function	unselectAll() {
     for (i = 0; i < bubbles.length; ++i) {
         bubbles[i].isClicked = false;
+    }
+}
+
+function    updateSelectBubble() {
+    if (select > 0) {
+        $("#opacitySlider").slider("enable");
+        p.getBubbleDrawer().bubbleSelected();
+    }
+    else {
+        $("#opacitySlider").slider("disable");
+        p.getBubbleDrawer().noBubbleSelected();
     }
 }
 
@@ -750,10 +758,7 @@ function    selectBubbleCheckBox(name) {
                     ++select;
                 else
                     --select;
-                if (select > 0)
-                    p.getBubbleDrawer().bubbleSelected();
-                else
-                    p.getBubbleDrawer().noBubbleSelected();
+                updateSelectBubble();
                 refreshDisplay();
                 return ;
             }
@@ -795,6 +800,12 @@ function    SetPlayState() {
     }
 }
 
+function    ChangeOpacity(value) {
+    p.getBubbleDrawer().adjustOpacity(value);
+    if (!isPlaying)
+        refreshDisplay();
+}
+
 function    AxeChanged(axe, idx) {
     loading(axe, idx);
 }
@@ -802,11 +813,13 @@ function    AxeChanged(axe, idx) {
 function    DisableUI() {
     $("#sliderDiv").slider("disable");
     $("#speedSlider").slider("disable");
+    $("#opacitySlider").slider("disable");
 }
 
 function    EnableUI() {
     $("#sliderDiv").slider("enable");
     $("#speedSlider").slider("enable");
+    $("#opacitySlider").slider("enable");
 }
 
 /*

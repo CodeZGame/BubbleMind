@@ -83,6 +83,7 @@ void mouseClicked() {
 
 class    BubbleDrawer {
   private int 	_defaultAlphaValue = 255;
+  private int 	_interfaceAlphaValue = 70;
   private int 	_alphaValue = 255;
   private int	_defaultSaturation = 255;
   private int	_defaultBrightness = 255;
@@ -114,10 +115,18 @@ class    BubbleDrawer {
   }
 
   void  drawDate(int date) {
-    mainBuffer.textSize(height * 30 / 100);
+  	// CENTERED
+    /*mainBuffer.textSize(height * 30 / 100);
     String year = str(date);
     float yearWidth = (width + offsetX) / 2;
     float yearHeight = bubbleHeight / 2;
+    mainBuffer.fill(180);
+    mainBuffer.text(year, yearWidth, yearHeight);*/
+    // BOTTOM RIGHT
+    mainBuffer.textSize(height * 30 / 100);
+    String year = str(date);
+    float yearWidth = width - mainBuffer.textWidth(year) / 2;
+    float yearHeight = height + offsetY - mainBuffer.textAscent();
     mainBuffer.fill(180);
     mainBuffer.text(year, yearWidth, yearHeight);
   }
@@ -158,8 +167,8 @@ class    BubbleDrawer {
    	mainBuffer.textAlign(CENTER, CENTER);
   }
 
-  void  drawLine(int beginX, int beginY, int endX, int endY, int col) {
-    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
+  void  drawLine(int beginX, int beginY, int endX, int endY, int col, boolean clicked) {
+    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.strokeWeight(3);
     mainBuffer.line(beginX + offsetX, beginY, endX + offsetX, endY);
     mainBuffer.stroke(0);
@@ -185,7 +194,7 @@ class    BubbleDrawer {
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
+			//mainBuffer.line(offsetX - 1 + i * stepSize, 0, offsetX - 1 + i * stepSize, height - offsetY - 1);
 			value = calcValue(maxUp, valueStep, i, minDown);
 			mainBuffer.fill(30, 70);
 			if (i == 1)
@@ -200,7 +209,7 @@ class    BubbleDrawer {
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
+			//mainBuffer.line(offsetX - 1, i * stepSize, width, i * stepSize);
 			value = calcValue(maxUp, valueStep, i, minDown);
 			mainBuffer.fill(30, 70);
 			mainBuffer.pushMatrix();
@@ -308,13 +317,18 @@ class    BubbleDrawer {
 	mainBuffer.fill(0);
 	mainBuffer.text("color: " + colVal + " // " + col, 650 + 5, 10 + 2);
 
-	mainBuffer.strokeWeight(stdStrokeWeight, this._alphaValue);
+	mainBuffer.strokeWeight(stdStrokeWeight, this._defaultAlphaValue);
     mainBuffer.stroke(0);
    	mainBuffer.textAlign(CENTER, CENTER);
   }
 
+  void	adjustOpacity(int val) {
+  	this._interfaceAlphaValue = val;
+  	this._alphaValue = this._interfaceAlphaValue;
+  }
+
   void	bubbleSelected() {
-  	this._alphaValue = 70;
+  	this._alphaValue = this._interfaceAlphaValue;
   }
 
   void	noBubbleSelected() {
