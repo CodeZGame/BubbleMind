@@ -56,6 +56,7 @@
                 },
                 // stop parent form from being while menu is open
                 open: function(event, ui) {
+                    $(this).autocomplete("widget").css("z-index", 4);
                     input.attr("menustatus", "open");
                 },
                 close: function(event, ui) {
