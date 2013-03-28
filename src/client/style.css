@@ -10,6 +10,11 @@ html, body {
     text-indent: 0px;
 }
 
+.ui-slider .ui-slider-handle{
+    width: 10px;
+}
+
+
 #main_div{
     width: 1050px;
     height: 650px;
@@ -53,12 +58,6 @@ html, body {
     text-align: center;
 }
 
-#selectColorValueDiv
-{
-    top: 5%;
-    position: relative;
-}
-
 #opacitySlider{
     position: relative;
     top: 2.5%;
@@ -72,7 +71,7 @@ html, body {
     top: 3.5%;
     position: relative;
     width: 93%;
-    height: 49.5%;
+    height: 50%;
     left: 3%;
     font-size: 10px;
     overflow: scroll;
@@ -82,7 +81,7 @@ html, body {
 #sizeDiv {
     border: #DDDDDD 2px solid;
     border-radius: 5px;
-    top: 4.5%;
+    top: 5%;
     position: relative;
     width: 93%;
     height: 15.5%;
@@ -90,15 +89,9 @@ html, body {
     text-align: center;
 }
 
-#selectSizeValueDiv{
-    top: 5%;
-    position: relative;
-
-}
-
 #sizeSlider{
     position: relative;
-    top: 50%;
+    top: 30%;
     width: 85%;
     left: 7.5%;
 }
@@ -109,8 +102,6 @@ html, body {
     float: left;
 }
 
-canvas {
-}
 
 #playButton {
     width: 50px;
@@ -126,6 +117,11 @@ canvas {
     height: 60px;
     /*    float: left;*/
     position: relative;
+}
+
+#speedSlider .ui-slider-handle{
+    width: 19px;
+    height: 10px;
 }
 
 #timeSlider {
@@ -174,72 +170,4 @@ canvas {
     bottom: -5px;
     left: -7px;
     position: relative; 
-}
-
-
-ul, li{margin:0; border:0; padding:0; list-style:none;}
-#middlebar{
-    font-size:11px;
-    color:#3b5d14;
-    background:#90b557;
-    font-weight:bold;
-    padding:4px;
-    height:30px;
-}
-#middlebar .menu li {
-    background:url(lm.png) left top no-repeat;
-    height:30px;
-    float:left;
-    margin-right:10px;
-}
-#middlebar .menu li a{
-    color:#3b5d14;
-    text-decoration:none;
-    padding:0 10px;
-    height:30px;
-    line-height:30px;
-    display:block;
-    float:left;
-    padding:0 26px 0 10px;
-    background:url(rm.png) right top no-repeat;
-}
-#middlebar .menu li a:hover{
-    color:#666666;
-}
-
-#middlebar ul .submenu {
-    border:solid 1px #c9dea1;
-    border-top:none;
-    background:#FFFFFF;
-    position:relative;
-    top:4px;
-    width:150px;
-    padding:6px 0;
-    clear:both;
-    z-index:2;
-    display:none;
-}
-#middlebar ul .submenu li{
-    background:none;
-    display:block;
-    float:none;
-    margin:0 6px;
-    border:0;
-    height:auto;
-    line-height:normal;
-    border-top:solid 1px #DEDEDE;
-}
-#middlebar .submenu li a{
-    background:none;
-    display:block;
-    float:none;
-    padding:6px 6px;
-    margin:0;
-    border:0;
-    height:auto;
-    color:#105cbe;
-    line-height:normal;
-}
-#middlebar .submenu li a:hover{
-    background:#e3edef;
 }

@@ -1,3 +1,5 @@
+var colorActivated = true;
+
 $(function() {
     runProcessing();
 
@@ -9,8 +11,7 @@ $(function() {
         animate: "slow"
     });
 
-
-
+//$("#speedSlider").slider().next("ui-slider-handle").css("width" , "2px");
 
     $("#selectAxeXValue").combobox();
     $("#selectAxeXValue").next("input").on("autocompleteselect",
@@ -31,13 +32,16 @@ $(function() {
     $("#selectColorValue").next("input").on("autocompleteselect",
             function(event, ui) {
                 AxeChanged(guiAxes.COLOR, ui.item.id);
-            });
+            }
+    );
+    $("#selectAxeXValue").next("input").autocomplete("option", "position", {my: "right top", at: "right bottom"});
 
     $("#selectSizeValue").combobox();
     $("#selectSizeValue").next("input").on("autocompleteselect",
             function(event, ui) {
                 AxeChanged(guiAxes.SIZE, ui.item.id);
             });
+    $("#selectSizeValue").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
 
     $("#opacitySlider").slider({
         min: 0,
@@ -56,11 +60,18 @@ $(function() {
 
 });
 
-function showlayer(layer) {
-    var myLayer = document.getElementById(layer);
-    if (myLayer.style.display == "none" || myLayer.style.display == "") {
-        myLayer.style.display = "block";
-    } else {
-        myLayer.style.display = "none";
+function disableColor()
+{
+    colorActivated = !colorActivated;
+
+    if (colorActivated)
+    {
+        p.println("ON");
+        $("#selectColorValue").next("input").autocomplete("enable");
+    }
+    else
+    {
+        p.println("OFF");
+        $("#selectColorValue").next("input").autocomplete("disable");
     }
 }
