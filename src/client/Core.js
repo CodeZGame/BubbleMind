@@ -326,13 +326,12 @@ function    drawHistoricalBubbles() {
     for (var prop in HistoricalMap) {
         HistoricalMap[prop].sort(sortBubblesYear);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
-            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos)
-                ;
+            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos);
             if (j + 1 < HistoricalMap[prop].length) {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
             }
-            else {
+            else if (bubbles[pos].draw) {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         bubbles[pos].posX, bubbles[pos].posY, HistoricalMap[prop][j].col);
             }
