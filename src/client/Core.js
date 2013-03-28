@@ -487,11 +487,11 @@ function	clickOnPlot() {
             if (found && bubbles[i].isClicked)
                 removeFromHistorical(HistoricalMap[highlight.inHist][highlight.bubble].name);
             if (bubbles[i].isClicked) {
-                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = false;
+                document.getElementById("entity[" + [bubbles[i].name] + "]").checked = false;
                 --select;
             }
             else {
-                document.getElementById("entity[" + [HistoricalMap[highlight.inHist][highlight.bubble].name] + "]").checked = true;
+                document.getElementById("entity[" + [bubbles[i].name] + "]").checked = true;
                 ++select;
             }
             bubbles[i].isClicked = !bubbles[i].isClicked;
