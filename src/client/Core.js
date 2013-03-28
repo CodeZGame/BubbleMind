@@ -96,8 +96,8 @@ function	Bubble(posX, posY, size, col, name, year) {
 
 Bubble.prototype.print = function() {
     p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size
-        + " col->" + this.col + " name->" + this.name + " year->" + this.year
-        + " clicked->" + this.isClicked);
+            + " col->" + this.col + " name->" + this.name + " year->" + this.year
+            + " clicked->" + this.isClicked);
 }
 
 
@@ -140,23 +140,12 @@ function    initData() {
 
 function    launch() {
     if (guiData.entries != null && rawEntities != null && dataEntries[guiAxes.X] != null
-        && dataEntries[guiAxes.Y] != null && dataEntries[guiAxes.SIZE] != null && dataEntries[guiAxes.COLOR] != null
-        && entityYearMin[guiAxes.X] != -1 && entityYearMin[guiAxes.Y] != -1) {
+            && dataEntries[guiAxes.Y] != null && dataEntries[guiAxes.SIZE] != null && dataEntries[guiAxes.COLOR] != null
+            && entityYearMin[guiAxes.X] != -1 && entityYearMin[guiAxes.Y] != -1) {
         setMinMaxYear();
         setGuiEntities();
         createBubbles();
         s = $(entityDiv);
-        /*for (var b in guiData.entities) {
-            var cb = "<input type=\"checkbox\" name=\"";
-            cb += guiData.entities[b];
-            cb += "\" value=\"";
-            cb += guiData.entities[b];
-            cb += "\">";
-            cb += guiData.entities[b];
-            cb += "<br>";
-            s.append(cb);
-        }*/
-
         for (var b in guiData.entities) {
             var cb = "<label onmouseover=\"mouseOverCheckBox('";
             cb += guiData.entities[b];
@@ -164,12 +153,35 @@ function    launch() {
             cb += guiData.entities[b];
             cb += "]\" value=\"";
             cb += guiData.entities[b];
-            cb += "\" onClick=\"selectBubbleCheckBox('"; 
+            cb += "\" onClick=\"selectBubbleCheckBox('";
             cb += guiData.entities[b];
             cb += "');\">";
             cb += guiData.entities[b];
             cb += "</label><br>";
             s.append(cb);
+
+            var a = new Array();
+            for (var b in guiData.entries) {
+                a.push(guiData.entries[b]);
+            }
+
+            var k = 0;
+            $("#selectAxeXValue").next("input").autocomplete({source: a});
+            $("#selectAxeXValue").next("input").attr("value", a[k]);
+
+            if (a.length > k + 1)
+                ++k;
+            $("#selectAxeYValue").next("input").autocomplete("option", "source", a);
+            $("#selectAxeYValue").next("input").attr("value", a[k]);
+            if (a.length > k + 1)
+                ++k;
+            $("#selectColorValue").next("input").autocomplete("option", "source", a);
+            $("#selectColorValue").next("input").attr("value", a[k]);
+            if (a.length > k + 1)
+                ++k;
+            $("#selectSizeValue").next("input").autocomplete("option", "source", a);
+            $("#selectSizeValue").next("input").attr("value", a[k]);
+
         }
         runApplication();
     }
@@ -235,35 +247,35 @@ function    clearDataForLoading(axe) {
 }
 
 /*function	drawBubbles() {
-    // Print historical bubbles
-    for (i = 0; i < bubbles.length; ++i) {
-        if (bubbles[i].draw) {
-            if (bubbles[i].isClicked) {
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
-                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
-                addToOverMap(bubbles[i]);
-            }
-            else
-                p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
-                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
-        }
-    }
-    drawHistoricalBubbles();
-    // Print highlitedBubble with coord infos
-    if (highlight.inHist != null && highlight.bubble != -1) {
-        var histBubble = HistoricalMap[highlight.inHist][highlight.bubble];
-        p.getBubbleDrawer().drawHighlightBubble(histBubble.posX, histBubble.posY, histBubble.size, histBubble.col, histBubble.crossed);
-        p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][histBubble.name][histBubble.year], histBubble.posX,
-                dataEntries[guiAxes.Y][histBubble.name][histBubble.year], histBubble.posY,
-                dataEntries[guiAxes.SIZE][histBubble.name][histBubble.year], histBubble.size, dataEntries[guiAxes.COLOR][histBubble.name][histBubble.year], histBubble.col);
-    }
-    else if (highlight.bubble != -1) {
-        p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
-        p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posX,
-                dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posY,
-                dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].size, dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].col);
-    }
-}*/
+ // Print historical bubbles
+ for (i = 0; i < bubbles.length; ++i) {
+ if (bubbles[i].draw) {
+ if (bubbles[i].isClicked) {
+ p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+ bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+ addToOverMap(bubbles[i]);
+ }
+ else
+ p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
+ bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+ }
+ }
+ drawHistoricalBubbles();
+ // Print highlitedBubble with coord infos
+ if (highlight.inHist != null && highlight.bubble != -1) {
+ var histBubble = HistoricalMap[highlight.inHist][highlight.bubble];
+ p.getBubbleDrawer().drawHighlightBubble(histBubble.posX, histBubble.posY, histBubble.size, histBubble.col, histBubble.crossed);
+ p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][histBubble.name][histBubble.year], histBubble.posX,
+ dataEntries[guiAxes.Y][histBubble.name][histBubble.year], histBubble.posY,
+ dataEntries[guiAxes.SIZE][histBubble.name][histBubble.year], histBubble.size, dataEntries[guiAxes.COLOR][histBubble.name][histBubble.year], histBubble.col);
+ }
+ else if (highlight.bubble != -1) {
+ p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
+ p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posX,
+ dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].posY,
+ dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].size, dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], bubbles[highlight.bubble].col);
+ }
+ }*/
 
 function    drawBubbles() {
     // Print historical bubbles
@@ -271,12 +283,12 @@ function    drawBubbles() {
         if (bubbles[i].draw) {
             if (bubbles[i].isClicked) {
                 p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
-                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+                        bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
                 addToOverMap(bubbles[i]);
             }
             else
                 p.getBubbleDrawer().drawBubble(bubbles[i].posX, bubbles[i].posY, bubbles[i].size,
-                    bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
+                        bubbles[i].col, bubbles[i].isClicked, bubbles[i].crossed);
         }
     }
     drawHistoricalBubbles();
@@ -310,11 +322,12 @@ function    coordInfosTranslated(currVal, nextVal) {
 
 // If bubbles is no longer an array, can optimize this without having to look for id in array
 function    drawHistoricalBubbles() {
-    var     pos = 0;
+    var pos = 0;
     for (var prop in HistoricalMap) {
         HistoricalMap[prop].sort(sortBubblesYear);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
-            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos);
+            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos)
+                ;
             if (j + 1 < HistoricalMap[prop].length) {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
@@ -324,12 +337,12 @@ function    drawHistoricalBubbles() {
                         bubbles[pos].posX, bubbles[pos].posY, HistoricalMap[prop][j].col);
             }
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
-                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+                    HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
         HistoricalMap[prop].sort(sortBubblesSize);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
-                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+                    HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
     }
 }
@@ -352,7 +365,7 @@ function    drawBubblesNames() {
     }
     if (highlightName != null) {
         p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX - (OverMap[highlightName].size / 2),
-            OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
+                OverMap[highlightName].posY - (OverMap[highlightName].size / 2), OverMap[highlightName].size,
                 OverMap[highlightName].col, OverMap[highlightName].name);
         delete OverMap[highlightName];
     }
@@ -379,7 +392,7 @@ function	overOnPlot(mX, mY) {
         for (var prop in HistoricalMap) {
             for (j = 0; j < HistoricalMap[prop].length; ++j)
                 if (HistoricalMap[prop][j].draw && HistoricalMap[prop][j].size < resSize
-                    && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
+                        && overCircle(mX, mY, HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size / 2)) {
                     res = j;
                     resSize = HistoricalMap[prop][j].size;
                     hist = prop;
@@ -590,8 +603,8 @@ function    addToHistorical(bubble) {
 }
 
 function    addPreviousYearToHistory() {
-    var     i;
-    var     years = {};
+    var i;
+    var years = {};
     for (var b in HistoricalMap) {
         if (HistoricalMap[b].length > 0) {
             for (i = year.min; i <= year.current; ++i) {
@@ -602,9 +615,9 @@ function    addPreviousYearToHistory() {
             }
             for (var yearToAdd in years) {
                 if (dataEntries[guiAxes.X][HistoricalMap[b][0].name][yearToAdd] != null && dataEntries[guiAxes.Y][HistoricalMap[b][0].name][yearToAdd] != null
-                    && dataEntries[guiAxes.COLOR][HistoricalMap[b][0].name][yearToAdd] != null && dataEntries[guiAxes.SIZE][HistoricalMap[b][0].name][yearToAdd] != null) {
+                        && dataEntries[guiAxes.COLOR][HistoricalMap[b][0].name][yearToAdd] != null && dataEntries[guiAxes.SIZE][HistoricalMap[b][0].name][yearToAdd] != null) {
                     HistoricalMap[b].push(new Bubble(updateAxeX(dataEntries[guiAxes.X][HistoricalMap[b][0].name][yearToAdd]), updateAxeY(dataEntries[guiAxes.Y][HistoricalMap[b][0].name][yearToAdd]),
-                        updateAxeSize(dataEntries[guiAxes.SIZE][HistoricalMap[b][0].name][yearToAdd]), updateAxeColor(dataEntries[guiAxes.COLOR][HistoricalMap[b][0].name][yearToAdd]), HistoricalMap[b][0].name, yearToAdd));
+                            updateAxeSize(dataEntries[guiAxes.SIZE][HistoricalMap[b][0].name][yearToAdd]), updateAxeColor(dataEntries[guiAxes.COLOR][HistoricalMap[b][0].name][yearToAdd]), HistoricalMap[b][0].name, yearToAdd));
                 }
             }
         }
@@ -755,7 +768,7 @@ function    selectBubbleCheckBox(name) {
                 else
                     p.getBubbleDrawer().noBubbleSelected();
                 refreshDisplay();
-                return ;
+                return;
             }
         }
     }
@@ -825,6 +838,6 @@ function    Loop() {
         sortHistoricalBubblesBySize();
         refreshDisplay();
         var speed = ($("#speedSlider").slider("option", "max") - $("#speedSlider").slider("value"));
-        setTimeout(Loop,  speed * speed / 2);
+        setTimeout(Loop, speed * speed / 2);
     }
 }
