@@ -87,6 +87,7 @@ class    BubbleDrawer {
   private int 	_interfaceAlphaValue = 70;
   private int 	_alphaValue = 255;
   private int	_defaultSaturation = 255;
+  private int	_whiteSaturation = 0;
   private int	_defaultBrightness = 255;
 
   BubbleDrawer() {
@@ -95,11 +96,11 @@ class    BubbleDrawer {
   void drawBubble(int posX, int posY, int size, int col, boolean clicked, boolean crossed) {
   	if (clicked) {
   		mainBuffer.stroke(0, 0, 0, this._defaultAlphaValue);
-  		mainBuffer.fill(col, /*this._defaultSaturation*/150, this._defaultBrightness, this._defaultAlphaValue);
+  		mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
   	}
   	else {
       	mainBuffer.stroke(0, 0, 0, this._alphaValue);
-      	mainBuffer.fill(col, 100, this._defaultBrightness, this._alphaValue);
+      	mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     }
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
   }
@@ -291,6 +292,7 @@ class    BubbleDrawer {
 
   void	drawCoordInfos(int xVal, int posX, int yVal, int posY, int sizeVal, int size, int colVal, int col) {
   	mainBuffer.textAlign(LEFT, TOP);
+  	//mainBuffer.rectMode(CENTER);
     mainBuffer.strokeWeight(1.5);
     mainBuffer.stroke(0);
     mainBuffer.textSize(13);
@@ -301,15 +303,29 @@ class    BubbleDrawer {
 	
 	// AXE X
 	int newX = round(xVal);
-	mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
-	mainBuffer.fill(0);
-	mainBuffer.text(newX, posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2 + 5, bubbleHeight + mainBuffer.textDescent());
+	if (posX + offsetX + mainBuffer.textWidth(newX) + 8 > width) {
+		mainBuffer.rect(width - mainBuffer.textWidth(newX) - 9, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text(newX, width - mainBuffer.textWidth(newX) - 9, bubbleHeight + mainBuffer.textDescent());
+	}
+	else {
+		mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text(newX, posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2 + 5, bubbleHeight + mainBuffer.textDescent());
+	}
 	// AXE Y
 	int newY = round(yVal);
 	mainBuffer.fill(255);
-	mainBuffer.rect(offsetX - mainBuffer.textWidth(newY) - 10, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(newY) + 8, valueHeight + 5, 0, 0, 0, 0);
-	mainBuffer.fill(0);
-	mainBuffer.text(newY, offsetX - mainBuffer.textWidth(newY) - 5, posY - (valueHeight + 5) / 2 + 2);
+	if (mainBuffer.textWidth(newY) + 8 > offsetX) {
+		mainBuffer.rect(0, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(newY) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text(newY, 4, posY - (valueHeight + 5) / 2 + 2);
+	}
+	else {
+		mainBuffer.rect(offsetX - mainBuffer.textWidth(newY) - 10, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(newY) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text(newY, offsetX - mainBuffer.textWidth(newY) - 5, posY - (valueHeight + 5) / 2 + 2);
+	}
 	// AXE SIZE - TMP
 	mainBuffer.fill(255);
 	mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + sizeVal + " // " + size) + 8, valueHeight + 5, 0, 0, 0, 0);
@@ -324,6 +340,7 @@ class    BubbleDrawer {
 	mainBuffer.strokeWeight(stdStrokeWeight, this._defaultAlphaValue);
     mainBuffer.stroke(0);
    	mainBuffer.textAlign(CENTER, CENTER);
+   	mainBuffer.rectMode(CORNER);		// Needed ?
   }
 
   void	adjustOpacity(int val) {
