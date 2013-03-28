@@ -91,7 +91,7 @@ function	Bubble(posX, posY, size, col, name, year) {
     this.year = year;
     this.isClicked = false;
     this.crossed = false;
-    this.draw = true;
+    this.draw = false;
 }
 
 Bubble.prototype.print = function() {
@@ -209,7 +209,6 @@ function	runApplication() {
 }
 
 // MAY NEED RESET OF SOME VAR TO CHECK SQL REQUEST IS OK
-
 function    loading(axe, idx) {
     if (!load.loading) {
         DisableUI();
