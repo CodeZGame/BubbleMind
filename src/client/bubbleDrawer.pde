@@ -122,6 +122,8 @@ class    BubbleDrawer {
     mainBuffer.ellipse(posX + offsetX, posY, size + 12, size + 12);
     mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);
+    if (crossed)
+  		mainBuffer.line(posX + offsetX + size / 3, posY - size / 3, posX + offsetX - size / 3, posY + size / 3);
   }
 
   void  drawDate(int date) {

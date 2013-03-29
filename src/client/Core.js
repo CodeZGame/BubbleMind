@@ -383,13 +383,13 @@ function    drawBubblesNames() {
         if (highlight.inHist == null && highlight.bubble != -1 && OverMap[b].name == bubbles[highlight.bubble].name)
             highlightName = b;
         else {
-            p.getBubbleDrawer().drawBubbleName(OverMap[b].posX, OverMap[b].posY, OverMap[b].size, OverMap[b].col, OverMap[b].name);
+            p.getBubbleDrawer().drawBubbleName(OverMap[b].posX, OverMap[b].posY, OverMap[b].size, OverMap[b].col, OverMap[b].crossed ? OverMap[b].name + ": " + OverMap[b].year : OverMap[b].name);
             delete OverMap[b];
         }
     }
     if (highlightName != null) {
         p.getBubbleDrawer().drawBubbleName(OverMap[highlightName].posX, OverMap[highlightName].posY, OverMap[highlightName].size,
-                OverMap[highlightName].col, OverMap[highlightName].name);
+                OverMap[highlightName].col, OverMap[highlightName].crossed ? OverMap[highlightName].name + " : " + OverMap[highlightName].year : OverMap[highlightName].name);
         delete OverMap[highlightName];
     }
     else if (highlight.inHist != null) {
@@ -554,8 +554,9 @@ function    refreshBubbles() {
     removeYearFromHistorical(year.current);
     for (i = 0; i < bubbles.length; ++i) {
         if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
-                || (guiData.colorActivated ? dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null : false) || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null) {
-            bubbles[i].draw = false;
+                || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null) {
+            if (bubbles[i].crossed == false)
+                bubbles[i].draw = false;
         }
         else {
             x = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
@@ -563,6 +564,7 @@ function    refreshBubbles() {
             size = updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][year.current]);
             col = updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][year.current]);
             if (year.step == 0) {
+                bubbles[i].crossed = false;
                 bubbles[i].draw = true;
                 bubbles[i].year = year.current;
                 bubbles[i].posX = x;
@@ -573,10 +575,16 @@ function    refreshBubbles() {
             else {
                 if (bubbles[i].draw && bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
-                if (dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
-                        || (guiData.colorActivated ? dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null : false) || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
-                    bubbles[i].draw = false;
+                if (year.current + 1 < year.max && dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
+                        || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null) {
+                    if (bubbles[i].draw) {
+                        bubbles[i].crossed = true;
+                        updateBubbleToLastAvailableYear(bubbles[i]);
+                    }
+                    //bubbles[i].draw = false;
+                }
                 else {
+                    bubbles[i].crossed = false;
                     bubbles[i].draw = true;
                     bubbles[i].year = -1;
                     bubbles[i].posX = x + (updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current + 1]) - x) * year.step;
@@ -607,6 +615,22 @@ function    updateAxeSize(value) {
 
 function    updateAxeColor(value) {
     return Math.round((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]));
+}
+
+function    updateBubbleToLastAvailableYear(b) {
+    for (var y = year.current; y > year.min; --y) {
+        if ((dataEntries[guiAxes.X][b.name][y] && dataEntries[guiAxes.X][b.name][y] != null)
+            && (dataEntries[guiAxes.Y][b.name][y] && dataEntries[guiAxes.Y][b.name][y] != null)
+            && (dataEntries[guiAxes.COLOR][b.name][y] && dataEntries[guiAxes.COLOR][b.name][y] != null)
+            && (dataEntries[guiAxes.SIZE][b.name][y] && dataEntries[guiAxes.SIZE][b.name][y] != null)) {
+            b.posX = updateAxeX(dataEntries[guiAxes.X][b.name][y]);
+            b.posY = updateAxeY(dataEntries[guiAxes.Y][b.name][y]);
+            b.size = updateAxeSize(dataEntries[guiAxes.SIZE][b.name][y]);
+            b.col = updateAxeColor(dataEntries[guiAxes.COLOR][b.name][y]);
+            b.year = y;
+            return ;
+        }
+    }
 }
 
 // select the highest year value between the two lower
