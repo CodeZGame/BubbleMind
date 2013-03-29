@@ -45,7 +45,7 @@
             <div id="right_div">
                 <div id="colorDiv">
                     <div id="sizeColorCBox" style="width: 100%; text-align: left; top: -10px; position: relative;">
-                        <span style="background: #FFFFFF; left: 5px; position: relative;"> <input type="checkbox" name="colorDataCBox" value="colorData" checked="checked" onclick="ColorCheckBox()"> Use color data </span>
+                        <span style="background: #FFFFFF; left: 5px; position: relative;"> <input id="colorCheckBox" type="checkbox" name="colorDataCBox" value="colorData" checked="checked" onclick="ColorCheckBox();"/><label for="colorCheckBox"> Use color data </label></span>
                     </div>
                     <div id="selectColorValueDiv">
                         <select id="selectColorValue" style="width:90%;"></select>
@@ -53,12 +53,12 @@
                     <img src="img/gradient.png" align="right" style="right: 10%; top: 5%; position: relative; height: 65%">
                 </div>
                 <div id="opacitySlider"></div>
-                <div id="entityDiv">
+                <div id="entityDiv" onmouseleave="mouveLeaveCheckBoxes();">
 
                 </div>
                 <div id="sizeDiv">
                     <div id="sizeDataCBox" style="width: 100%; text-align: left; top: -10px; position: relative;">
-                        <span style="background: #FFFFFF; left: 5px; position: relative;"> <input type="checkbox" name="sizeDataCBox" value="sizeData" checked="checked" onclick="SizeCheckBox()"> Use size data </span>
+                        <span style="background: #FFFFFF; left: 5px; position: relative;"><input id="sizeCheckBox" type="checkbox" name="sizeDataCBox" value="sizeData" onclick="SizeCheckBox()" checked="checked"/><label for="sizeCheckBox"> Use size data </label></span>
                     </div>
                     <div id="selectSizeValueDiv">
                         <select id="selectSizeValue"  style="width:90%;"></select>

@@ -176,13 +176,17 @@ function    launch() {
         createBubbles();
         s = $(entityDiv);
         for (var b in guiData.entities) {
-            var cb = "<label onmouseover=\"mouseOverCheckBox('";
-            cb += escape(guiData.entities[b]);
-            cb += "')\";><input type=\"checkbox\" id=\"entity[";
+            var cb = "<input type=\"checkbox\" id=\"entity[";
             cb += guiData.entities[b];
             cb += "]\" value=\"";
             cb += escape(guiData.entities[b]);
             cb += "\" onClick=\"selectBubbleCheckBox('";
+            cb += escape(guiData.entities[b]);
+            cb += "');\" onmouseenter=\"mouseOverCheckBox('";
+            cb += escape(guiData.entities[b]);
+            cb += "');\" /><label for=\"entity[";
+            cb += guiData.entities[b];
+            cb += "]\" onmouseenter=\"mouseOverCheckBox('";
             cb += escape(guiData.entities[b]);
             cb += "');\">";
             cb += guiData.entities[b];
@@ -193,7 +197,6 @@ function    launch() {
         for (var b in guiData.entries) {
             a.push({value: guiData.entries[b], id: b});
         }
-
         var k = 0;
         $("#selectAxeXValue").next("input").autocomplete({source: a});
         $("#selectAxeXValue").next("input").attr("value", a[k].value);
@@ -373,7 +376,6 @@ function    drawHistoricalBubbles() {
 }
 
 function    addToOverMap(b) {
-    //b.print();
     OverMap[b.name] = (jQuery.extend({}, b));
 }
 
@@ -546,16 +548,17 @@ function    updateSelectBubble() {
 // Update values of bubbles if valid data
 // also add bubble to historicalMap if selected
 function    refreshBubbles() {
-    var i;
-    var x;
-    var y;
-    var size;
-    var col;
+    var     i;
+    var     x;
+    var     y;
+    var     size;
+    var     col;
     removeYearFromHistorical(year.current);
     for (i = 0; i < bubbles.length; ++i) {
         if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
-                || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null)
+                || (guiData.colorActivated ? dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null : false) || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null) {
             bubbles[i].draw = false;
+        }
         else {
             x = updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][year.current]);
             y = updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][year.current]);
@@ -573,7 +576,7 @@ function    refreshBubbles() {
                 if (bubbles[i].draw && bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
                 if (dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
-                        || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
+                        || (guiData.colorActivated ? dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null : false) || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)
                     bubbles[i].draw = false;
                 else {
                     bubbles[i].draw = true;
@@ -816,7 +819,7 @@ function    MoveCursor(pos, step) {
 
 function    selectBubbleCheckBox(name) {
     if (!load.loading) {
-        //AxeChanged(guiAxes.X, 5);         // TMP
+        name = unescape(name);
         for (var i = 0; i < bubbles.length; ++i) {
             if (bubbles[i].name == name) {
                 bubbles[i].isClicked = !bubbles[i].isClicked;
@@ -836,6 +839,7 @@ function    selectBubbleCheckBox(name) {
 
 function    mouseOverCheckBox(name) {
     if (!load.loading) {
+        name = unescape(name);
         for (var i = 0; i < bubbles.length; ++i) {
             if (bubbles[i].name == name) {
                 highlight.bubble = i;
@@ -846,6 +850,12 @@ function    mouseOverCheckBox(name) {
             }
         }
     }
+}
+
+function    mouveLeaveCheckBoxes() {
+    highlight.bubble = -1;
+    highlight.inHist = null;
+    refreshDisplay();
 }
 
 function    SetSpeed(speed) {
@@ -882,7 +892,7 @@ function    AxeChanged(axe, idx) {
     loading(axe, idx);
 }
 
-function    ColorCheckBox() {
+function    ColorCheckBox(e) {
     guiData.colorActivated = !guiData.colorActivated;
     p.getBubbleDrawer().useColor(guiData.colorActivated);
     if (guiData.colorActivated)

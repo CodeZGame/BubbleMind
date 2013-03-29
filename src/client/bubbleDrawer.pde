@@ -108,6 +108,8 @@ class    BubbleDrawer {
       	mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     }
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
+    if (crossed)
+  		mainBuffer.line(posX + offsetX + size / 3, posY - size / 3, posX + offsetX - size / 3, posY + size / 3);
   }
 
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
