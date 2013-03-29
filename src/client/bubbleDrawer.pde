@@ -315,7 +315,7 @@ class    BubbleDrawer {
     (int)yVal;
     (int)xVal;
     float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
-	this._useSize ? size : size = this._defaultSize;
+	this._useSize ? round(size) : size = this._defaultSize;
 	// AXE X
 	int newX = round(xVal);
 	if (posX + offsetX + mainBuffer.textWidth(newX) + 8 > width) {
@@ -351,9 +351,9 @@ class    BubbleDrawer {
 	// AXE COLOR - TMP
 	if (this._useColor) {
 		mainBuffer.fill(255);
-		mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + colVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + round(colVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
-		mainBuffer.text("color: " + colVal, 650 + 5, 10 + 2);
+		mainBuffer.text("color: " + round(colVal), 650 + 5, 10 + 2);
 	}
 
 	mainBuffer.strokeWeight(stdStrokeWeight, this._defaultAlphaValue);

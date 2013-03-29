@@ -297,11 +297,19 @@ function    drawBubbles() {
         p.getBubbleDrawer().drawHighlightBubble(histBubble.posX, histBubble.posY, histBubble.size, histBubble.col, histBubble.crossed);
         p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][histBubble.name][histBubble.year], histBubble.posX,
                 dataEntries[guiAxes.Y][histBubble.name][histBubble.year], histBubble.posY,
-                dataEntries[guiAxes.SIZE][histBubble.name][histBubble.year], histBubble.size, dataEntries[guiAxes.COLOR][histBubble.name][histBubble.year], histBubble.col);
+                dataEntries[guiAxes.SIZE][histBubble.name][histBubble.year], histBubble.size,
+                dataEntries[guiAxes.COLOR][histBubble.name][histBubble.year], histBubble.col);
     }
     else if (highlight.bubble != -1) {
         p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
-        p.getBubbleDrawer().drawCoordInfos(coordInfosTranslated(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current + 1]),
+        if (bubbles[highlight.bubble].crossed) {
+            p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posX,
+                dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posY,
+                dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].size,
+                dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].col);
+        }
+        else {
+            p.getBubbleDrawer().drawCoordInfos(coordInfosTranslated(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current + 1]),
                 bubbles[highlight.bubble].posX,
                 coordInfosTranslated(dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current + 1]),
                 bubbles[highlight.bubble].posY,
@@ -309,6 +317,7 @@ function    drawBubbles() {
                 bubbles[highlight.bubble].size,
                 coordInfosTranslated(dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current + 1]),
                 bubbles[highlight.bubble].col);
+        }
     }
 }
 
@@ -538,11 +547,6 @@ function    refreshBubbles() {
                     bubbles[i].draw = true;
                     updateBubbleToLastAvailableYear(bubbles[i]);
                 }
-                /*else if (bubbles[i].year > year.current) {
-                    if (bubbles[i].name == "PRO A PRO DISTRIBUTION SUD")
-                        p.println("pas good 4");
-                    bubbles[i].draw = false;
-                }*/
                 else {
                     document.getElementById("entity[" + bubbles[i].name + "]").disabled = false;
                     bubbles[i].crossed = false;
