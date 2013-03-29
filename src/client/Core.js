@@ -364,13 +364,11 @@ function    drawHistoricalBubbles() {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         bubbles[pos].posX, bubbles[pos].posY, HistoricalMap[prop][j].col);
             }
-            p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
-                    HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
         HistoricalMap[prop].sort(sortBubblesSize);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
-                    HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
     }
 }
