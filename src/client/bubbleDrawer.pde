@@ -11,7 +11,7 @@ float stdStrokeWeight = 0.8;
 
 int loadingSizeX = 220;
 int loadingSizeY = 120;
-String strLoading = "Data Loading";
+String strLoading = "Loading Data";
 
 interface JavaScript {
 	boolean isPlaying;
@@ -61,6 +61,13 @@ void draw() {
 	mainBuffer.endDraw();
 	image(mainBuffer, 0, 0);
 	mainBuffer.beginDraw();
+}
+
+// Refersh the page even if processing have the focus
+void	keyPressed() {
+	if (keyCode == 116) {
+		window.location.reload();
+	}
 }
 
 int getMouseX() {
@@ -403,14 +410,14 @@ class    BubbleDrawer {
   }
 
   void	loadingWindow() {
-  	float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
-  	mainBuffer.textAlign(LEFT, TOP);
     mainBuffer.textSize(20);
+  	float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
   	mainBuffer.stroke(100);
   	mainBuffer.strokeWeight(2);
   	mainBuffer.fill(220);
 	mainBuffer.rect(bubbleWidth / 2 - loadingSizeX / 2, bubbleHeight / 2 - loadingSizeY / 2, loadingSizeX, loadingSizeY, 20, 20, 20, 20);
 	mainBuffer.fill(0);
+  	mainBuffer.textAlign(LEFT, TOP);
 	mainBuffer.text(strLoading, bubbleWidth / 2 - mainBuffer.textWidth(strLoading) / 2, bubbleHeight / 2 - loadingSizeY / 2 + valueHeight);
 	mainBuffer.strokeWeight(stdStrokeWeight);
     mainBuffer.stroke(0);

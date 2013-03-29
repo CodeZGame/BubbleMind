@@ -501,9 +501,15 @@ function    refreshBubbles() {
     for (i = 0; i < bubbles.length; ++i) {
         if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
                 || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null) {
-            if (bubbles[i].crossed == false) {
-                bubbles[i].draw = false;
-                document.getElementById("entity[" + bubbles[i].name + "]").disabled = true;
+            if (!updateBubbleToLastAvailableYear(bubbles[i])) {
+                if (bubbles[i].crossed == false || bubbles[i].year > year.current) {
+                    bubbles[i].draw = false;
+                    document.getElementById("entity[" + bubbles[i].name + "]").disabled = true;
+                }
+            }
+            else {
+                bubbles[i].draw = true;
+                bubbles[i].crossed = true;
             }
         }
         else {
@@ -528,9 +534,15 @@ function    refreshBubbles() {
                         || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null) {
                     if (bubbles[i].draw) {
                         bubbles[i].crossed = true;
-                        updateBubbleToLastAvailableYear(bubbles[i]);
                     }
+                    bubbles[i].draw = true;
+                    updateBubbleToLastAvailableYear(bubbles[i]);
                 }
+                /*else if (bubbles[i].year > year.current) {
+                    if (bubbles[i].name == "PRO A PRO DISTRIBUTION SUD")
+                        p.println("pas good 4");
+                    bubbles[i].draw = false;
+                }*/
                 else {
                     document.getElementById("entity[" + bubbles[i].name + "]").disabled = false;
                     bubbles[i].crossed = false;
@@ -574,9 +586,10 @@ function    updateBubbleToLastAvailableYear(b) {
             b.size = updateAxeSize(dataEntries[guiAxes.SIZE][b.name][y]);
             b.col = updateAxeColor(dataEntries[guiAxes.COLOR][b.name][y]);
             b.year = y;
-            return ;
+            return true;
         }
     }
+    return false;
 }
 
 // select the highest year value between the two lower
@@ -848,6 +861,14 @@ function    ChangeSize(value) {
 }
 
 function    AxeChanged(axe, idx) {
+    if (isPlaying) {
+        isPlaying = false;
+        $("#playButton").attr("value", "Play");
+    }
+    $("#sliderDiv").slider("value", $("#sliderDiv").slider("option", "min"));
+    p.getBubbleDrawer().clear();
+    p.getBubbleDrawer().loadingWindow();
+    p.getBubbleDrawer().display();
     loading(axe, idx);
 }
 
@@ -905,7 +926,6 @@ function    Loop() {
         }
         $("#sliderDiv").slider("value", $("#sliderDiv").slider("value") + nbsteps);
         refreshBubbles();
-        //sortHistoricalBubblesBySize();
         refreshDisplay();
         var speed = ($("#speedSlider").slider("option", "max") - $("#speedSlider").slider("value"));
         setTimeout(Loop, speed * speed / 2);
