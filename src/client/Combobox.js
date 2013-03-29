@@ -118,8 +118,8 @@
             // add some styles
             btn.css("margin-left", "-1px");
             input.css("margin", 0);
-            btn.css("padding", 0);
-            input.css("padding", "0 0.4em 0 0.4em");
+            btn.css("padding", 1.5);
+            input.css("padding", 1.5);
             $('span.ui-button-text', btn).css("padding", 0);
             input.css("width", select.outerWidth() - btn.outerWidth(true) - 10);// match the width
         }

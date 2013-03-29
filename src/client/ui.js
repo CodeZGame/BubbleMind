@@ -20,6 +20,7 @@ $(function() {
             });
 
     $("#selectAxeXType").combobox();
+    $("#selectAxeXType").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
 
     $("#selectAxeYValue").combobox();
     $("#selectAxeYValue").next("input").on("autocompleteselect",
@@ -37,7 +38,7 @@ $(function() {
     $("#selectAxeXValue").next("input").autocomplete("option", "position", {my: "right top", at: "right bottom"});
 
     $("#selectSizeValue").combobox();
-    $("#selectSizeValue").next("input").on("autocompleteselect",
+        $("#selectSizeValue").next("input").on("autocompleteselect",
             function(event, ui) {
                 AxeChanged(guiAxes.SIZE, ui.item.id);
             });
