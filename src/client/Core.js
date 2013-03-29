@@ -79,8 +79,10 @@ function    GuiData() {
     this.entries = null;
     this.entities = null;
     this.cursorPos = 0;
-    this.cursorSpeed = 25;
+    this.cursorSpeed = 20;
     this.colorActivated = true;
+    this.sizeActivated = true;
+    this.cursorSize = 55;
 }
 
 function	Bubble(posX, posY, size, col, name, year) {
@@ -599,7 +601,7 @@ function    updateAxeY(value) {
 }
 
 function    updateAxeSize(value) {
-    return 5 + Math.round((value - scales.mins[guiAxes.SIZE]) * 50 / (scales.maxs[guiAxes.SIZE] - scales.mins[guiAxes.SIZE]));
+    return (guiData.cursorSize / 10) + Math.round((value - scales.mins[guiAxes.SIZE]) * guiData.cursorSize / (scales.maxs[guiAxes.SIZE] - scales.mins[guiAxes.SIZE]));
 }
 
 function    updateAxeColor(value) {
@@ -846,10 +848,6 @@ function    mouseOverCheckBox(name) {
     }
 }
 
-function    SetBubbleSize(size) {
-    bubbleSize = size;
-}
-
 function    SetSpeed(speed) {
     guiData.cursorSpeed = speed;
 }
@@ -872,6 +870,14 @@ function    ChangeOpacity(value) {
         refreshDisplay();
 }
 
+function    ChangeSize(value) {
+    guiData.cursorSize = value;
+    if (!isPlaying) {
+        refreshBubbles();
+        refreshDisplay();
+    }
+}
+
 function    AxeChanged(axe, idx) {
     loading(axe, idx);
 }
@@ -887,7 +893,23 @@ function    ColorCheckBox() {
     {
         $("#selectColorValue").next("input").autocomplete("disable");
     }
-    refreshDisplay();
+    if (!isPlaying)
+        refreshDisplay();
+}
+
+function    SizeCheckBox() {
+    guiData.sizeActivated = !guiData.sizeActivated;
+    p.getBubbleDrawer().useSize(guiData.sizeActivated);
+    if (guiData.sizeActivated)
+    {
+        $("#selectSizeValue").next("input").autocomplete("enable");
+    }
+    else
+    {
+        $("#selectSizeValue").next("input").autocomplete("disable");
+    }
+    if (!isPlaying)
+        refreshDisplay();
 }
 
 function    DisableUI() {

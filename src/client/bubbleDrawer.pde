@@ -91,11 +91,14 @@ class    BubbleDrawer {
   private int	_defaultBrightness = 255;
   private int 	_defaultColor = 142;
   private boolean	_useColor = true;
+  private int 	_defaultSize = 20;
+  private boolean	_useSize = true;
 
   BubbleDrawer() {
   }
 
   void drawBubble(int posX, int posY, int size, int col, boolean clicked, boolean crossed) {
+  	this._useSize ? size : size = this._defaultSize;
   	if (clicked) {
   		mainBuffer.stroke(0, 0, 0, this._defaultAlphaValue);
   		mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
@@ -108,6 +111,7 @@ class    BubbleDrawer {
   }
 
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
+  	this._useSize ? size : size = this._defaultSize;
     mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
     mainBuffer.strokeWeight(5);
@@ -137,7 +141,7 @@ class    BubbleDrawer {
   }
 
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
-
+  	this._useSize ? size : size = this._defaultSize;
     mainBuffer.strokeWeight(2);
     mainBuffer.stroke(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.textSize(11);
@@ -302,7 +306,7 @@ class    BubbleDrawer {
     (int)yVal;
     (int)xVal;
     float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
-	
+	this._useSize ? size : size = this._defaultSize;
 	// AXE X
 	int newX = round(xVal);
 	if (posX + offsetX + mainBuffer.textWidth(newX) + 8 > width) {
@@ -329,20 +333,23 @@ class    BubbleDrawer {
 		mainBuffer.text(newY, offsetX - mainBuffer.textWidth(newY) - 5, posY - (valueHeight + 5) / 2 + 2);
 	}
 	// AXE SIZE - TMP
-	mainBuffer.fill(255);
-	mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + sizeVal + " // " + size) + 8, valueHeight + 5, 0, 0, 0, 0);
-	mainBuffer.fill(0);
-	mainBuffer.text("size: " + sizeVal + " // " + size, 650 + 5, 35 + 2);
+	if (this._useSize) {
+		mainBuffer.fill(255);
+		mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + sizeVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text("size: " + sizeVal, 650 + 5, 35 + 2);
+	}
 	// AXE COLOR - TMP
-	mainBuffer.fill(255);
-	mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + colVal + " // " + col) + 8, valueHeight + 5, 0, 0, 0, 0);
-	mainBuffer.fill(0);
-	mainBuffer.text("color: " + colVal + " // " + col, 650 + 5, 10 + 2);
+	if (this._useColor) {
+		mainBuffer.fill(255);
+		mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + colVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.fill(0);
+		mainBuffer.text("color: " + colVal, 650 + 5, 10 + 2);
+	}
 
 	mainBuffer.strokeWeight(stdStrokeWeight, this._defaultAlphaValue);
     mainBuffer.stroke(0);
    	mainBuffer.textAlign(CENTER, CENTER);
-   	mainBuffer.rectMode(CORNER);		// Needed ?
   }
 
   void	adjustOpacity(int val) {
@@ -360,6 +367,10 @@ class    BubbleDrawer {
 
   void	useColor(boolean use) {
   	this._useColor = use;
+  }
+
+  void	useSize(boolean use) {
+  	this._useSize = use;
   }
 
   float calcValue(float max, int valueStep, int i, int min) {
