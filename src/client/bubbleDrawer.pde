@@ -52,7 +52,7 @@ void setup() {
 	mainBuffer.smooth(8);
 	mainBuffer.strokeWeight(stdStrokeWeight);
 	mainBuffer.colorMode(HSB, 255);
-	mainBuffer.circleMode(CENTER);
+	mainBuffer.ellipseMode(CENTER);
 	bd.clear();
 	noLoop();
 }
@@ -89,6 +89,8 @@ class    BubbleDrawer {
   private int	_defaultSaturation = 255;
   private int	_whiteSaturation = 0;
   private int	_defaultBrightness = 255;
+  private int 	_defaultColor = 142;
+  private boolean	_useColor = true;
 
   BubbleDrawer() {
   }
@@ -96,20 +98,20 @@ class    BubbleDrawer {
   void drawBubble(int posX, int posY, int size, int col, boolean clicked, boolean crossed) {
   	if (clicked) {
   		mainBuffer.stroke(0, 0, 0, this._defaultAlphaValue);
-  		mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
+  		mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
   	}
   	else {
       	mainBuffer.stroke(0, 0, 0, this._alphaValue);
-      	mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
+      	mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._alphaValue);
     }
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
   }
 
   void  drawHighlightBubble(int posX, int posY, int size, int col, boolean crossed) {
-    mainBuffer.fill(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
+    mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.ellipse(posX + offsetX, posY, size, size);
     mainBuffer.strokeWeight(5);
-    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, 100);
+    mainBuffer.stroke(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, 100);
     mainBuffer.noFill();
     mainBuffer.ellipse(posX + offsetX, posY, size + 12, size + 12);
     mainBuffer.strokeWeight(stdStrokeWeight);
@@ -137,7 +139,7 @@ class    BubbleDrawer {
   void  drawBubbleName(int posX, int posY, int size, int col, String name) {
 
     mainBuffer.strokeWeight(2);
-    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
+    mainBuffer.stroke(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.textSize(11);
     mainBuffer.fill(255, 255);
     mainBuffer.rectMode(CENTER);
@@ -173,7 +175,7 @@ class    BubbleDrawer {
   }
 
   void  drawLine(int beginX, int beginY, int endX, int endY, int col, boolean clicked) {
-    mainBuffer.stroke(col, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
+    mainBuffer.stroke(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.strokeWeight(3);
     mainBuffer.line(beginX + offsetX, beginY, endX + offsetX, endY);
     mainBuffer.stroke(0);
@@ -306,7 +308,7 @@ class    BubbleDrawer {
 	if (posX + offsetX + mainBuffer.textWidth(newX) + 8 > width) {
 		mainBuffer.rect(width - mainBuffer.textWidth(newX) - 9, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
-		mainBuffer.text(newX, width - mainBuffer.textWidth(newX) - 9, bubbleHeight + mainBuffer.textDescent());
+		mainBuffer.text(newX, width - mainBuffer.textWidth(newX) - 5, bubbleHeight + mainBuffer.textDescent());
 	}
 	else {
 		mainBuffer.rect(posX + offsetX - (mainBuffer.textWidth(newX) + 8) / 2, bubbleHeight + mainBuffer.textDescent() - 2, mainBuffer.textWidth(newX) + 8, valueHeight + 5, 0, 0, 0, 0);
@@ -354,6 +356,10 @@ class    BubbleDrawer {
 
   void	noBubbleSelected() {
   	this._alphaValue = this._defaultAlphaValue;
+  }
+
+  void	useColor(boolean use) {
+  	this._useColor = use;
   }
 
   float calcValue(float max, int valueStep, int i, int min) {

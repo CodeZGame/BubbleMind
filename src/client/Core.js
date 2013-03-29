@@ -80,6 +80,7 @@ function    GuiData() {
     this.entities = null;
     this.cursorPos = 0;
     this.cursorSpeed = 25;
+    this.colorActivated = true;
 }
 
 function	Bubble(posX, posY, size, col, name, year) {
@@ -161,7 +162,7 @@ function    setBeginAxes() {
         currentAxes.size = k;
     }
     else
-        setTimeout(setBeginAxes, 150);
+        setTimeout(setBeginAxes, 250);
 }
 
 function    launch() {
@@ -174,13 +175,13 @@ function    launch() {
         s = $(entityDiv);
         for (var b in guiData.entities) {
             var cb = "<label onmouseover=\"mouseOverCheckBox('";
-            cb += guiData.entities[b];
+            cb += escape(guiData.entities[b]);
             cb += "')\";><input type=\"checkbox\" id=\"entity[";
             cb += guiData.entities[b];
             cb += "]\" value=\"";
-            cb += guiData.entities[b];
+            cb += escape(guiData.entities[b]);
             cb += "\" onClick=\"selectBubbleCheckBox('";
-            cb += guiData.entities[b];
+            cb += escape(guiData.entities[b]);
             cb += "');\">";
             cb += guiData.entities[b];
             cb += "</label><br>";
@@ -210,7 +211,7 @@ function    launch() {
         runApplication();
     }
     else
-        setTimeout(launch, 150);
+        setTimeout(launch, 250);
 }
 
 function    setGuiEntities() {
@@ -873,6 +874,20 @@ function    ChangeOpacity(value) {
 
 function    AxeChanged(axe, idx) {
     loading(axe, idx);
+}
+
+function    ColorCheckBox() {
+    guiData.colorActivated = !guiData.colorActivated;
+    p.getBubbleDrawer().useColor(guiData.colorActivated);
+    if (guiData.colorActivated)
+    {
+        $("#selectColorValue").next("input").autocomplete("enable");
+    }
+    else
+    {
+        $("#selectColorValue").next("input").autocomplete("disable");
+    }
+    refreshDisplay();
 }
 
 function    DisableUI() {

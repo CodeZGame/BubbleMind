@@ -1,5 +1,3 @@
-var colorActivated = true;
-
 $(function() {
     runProcessing();
 
@@ -60,19 +58,3 @@ $(function() {
     $("#sizeSlider").slider();
 
 });
-
-function disableColor()
-{
-    colorActivated = !colorActivated;
-
-    if (colorActivated)
-    {
-        p.println("ON");
-        $("#selectColorValue").next("input").autocomplete("enable");
-    }
-    else
-    {
-        p.println("OFF");
-        $("#selectColorValue").next("input").autocomplete("disable");
-    }
-}
