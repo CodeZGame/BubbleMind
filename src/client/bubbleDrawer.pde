@@ -193,8 +193,6 @@ class    BubbleDrawer {
   void	drawScale(int axis, float min, float max, int steps) {
 	int	stepSize;
 	String value;
-	//float maxUp = ceil(abs(max) * 5 / 100 + max);
-	//float minDown = ceil(min - (abs(min) * 5 / 100));
 	float maxUp = max;
 	float minDown = min;
 	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps));
