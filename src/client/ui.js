@@ -1,5 +1,3 @@
-var colorActivated = true;
-
 $(function() {
     runProcessing();
 
@@ -49,7 +47,7 @@ $(function() {
         max: 255,
         value: 70,
         animate: "fast",
-        slide: function(event, ui) {
+        change: function(event, ui) {
             ChangeOpacity(ui.value);
         },
         slide: function(event, ui) {
@@ -57,22 +55,17 @@ $(function() {
         }
     });
     $("#opacitySlider").slider("disable");
-    $("#sizeSlider").slider();
+    $("#sizeSlider").slider({
+        min: 5,
+        max: 100,
+        value: 55,
+        animate: "fast",
+        change: function(event, ui) {
+            ChangeSize(ui.value);
+        },
+        slide: function(event, ui) {
+            ChangeSize(ui.value);
+        } 
+    });
 
 });
-
-function disableColor()
-{
-    colorActivated = !colorActivated;
-
-    if (colorActivated)
-    {
-        p.println("ON");
-        $("#selectColorValue").next("input").autocomplete("enable");
-    }
-    else
-    {
-        p.println("OFF");
-        $("#selectColorValue").next("input").autocomplete("disable");
-    }
-}

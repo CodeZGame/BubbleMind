@@ -5,7 +5,68 @@ class DataInserter {
 
 	private $_idFile;
 
-	public function InsertData($fileName, $entityColumn, $yearColumn, $sheet) {
+	public function InsertOCDE($fileName, $sheet) {
+		set_time_limit(2000);
+		$sql = MySqlConnection::getConnection();
+		//var_dump($sheet);
+
+		//insert file name
+		$query = "INSERT INTO file (name) VALUES ('" . mysql_real_escape_string($fileName) . "')";
+		(mysql_query($query) and $this->_idFile = mysql_insert_id())
+		or die('Query "' . $query . '" failed:</br>' . mysql_error());
+
+		//get years
+		$years = array();
+		foreach($sheet[0][0] as $key => $value) {
+			if ($key > 1) {
+				$years[] = $value;
+			}
+		}
+
+		//insert values
+		$flag = 0;
+		$idEntity = array();
+		$idEntry = array();
+		foreach($sheet[0] as $line) {
+			if ($flag != 0) {
+				foreach($line as $key => $value) {
+					if ($key == 0) {
+						$entity = mysql_real_escape_string($value);
+						//insert entity
+						if (!array_key_exists($entity, $idEntity))
+						{
+							$query = "INSERT INTO entities (idFile, name) VALUES ('" . $this->_idFile . "', '" . $entity . "')";
+							(mysql_query($query) and $idEntity[$entity] = mysql_insert_id())
+							or die('Query "' . $query . '" failed:</br>' . mysql_error());
+						}
+					}
+					elseif ($key == 1) {
+						$entry = mysql_real_escape_string($value);
+						//insert entrie
+						if (!array_key_exists($entry, $idEntry))
+						{
+							$query = "INSERT INTO entries (idFile, name) VALUES ('" . $this->_idFile . "', '" . $entry . "')";
+							(mysql_query($query) and $idEntry[$entry] = mysql_insert_id())
+							or die('Query "' . $query . '" failed:</br>' . mysql_error());
+						}
+					}
+					else
+					{
+						//insert value
+						if (!strcmp($value, ""))
+							$query = "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', NULL)";
+						else
+							$query = "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', '" . mysql_real_escape_string(str_replace(",", ".", $value)) . "')";
+						mysql_query($query) or die('Query "' . $query . '" failed:</br>' . mysql_error());
+					}
+				}
+			} else {
+				$flag = 1;
+			}
+		}
+	}
+
+	public function InsertOther($fileName, $entityColumn, $yearColumn, $sheet) {
 		$sql = MySqlConnection::getConnection();
 
 		//insert file name
@@ -26,7 +87,7 @@ class DataInserter {
 		//insert values
 		$flag = 0;
 		$idEntity = array();
-		foreach($sheet[0] as $line) {
+		foreach ($sheet[0] as $line) {
 			$it = 0;
 			if ($flag != 0) {
 				foreach($line as $key => $value) {
@@ -75,8 +136,8 @@ class DataInserter {
 			$entries[$line['name']] = $line['id'];
 		}
 
-		foreach($entities as $entity => $idEntity) {
-			foreach($entries as $entry => $idEntry) {
+		foreach ($entities as $entity => $idEntity) {
+			foreach ($entries as $entry => $idEntry) {
 				$values = array();
 				//get data for a specific entity and entry
 				$query = "SELECT id,date,value FROM data WHERE idEntity = '" . $idEntity . "' AND idEntry = '" . $idEntry . "' ORDER BY date";
@@ -95,7 +156,7 @@ class DataInserter {
 				while ($it < $len) {
 					while ($it < $len and $values[$it][1] !== null)
 						$it++;
-						
+
 					//check if it's possible de complete the missing data, then do it if possible
 					if (($itNextValue = $this->findNextValue($it, $values)) > 0) {
 						$nextValue = $values[$it - 1][1] + (($values[$itNextValue][1] - $values[$it - 1][1]) / ($values[$itNextValue][0] - $values[$it - 1][0]));
