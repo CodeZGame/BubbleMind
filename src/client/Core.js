@@ -715,7 +715,7 @@ function    retrieveEntriesFromDB() {
                 dataType: "json",
                 data: {idFile: 1},
                 type: "GET",
-                url: "/src/server/GetEntries.php",
+                url: "../server/GetEntries.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntries [" + errorThrown + "] [" + textStatus + "]");
                     // TODO something for better error handle
@@ -732,7 +732,7 @@ function    retrieveEntitiesFromDB() {
                 dataType: "json",
                 data: {idFile: 1},
                 type: "GET",
-                url: "/src/server/GetEntities.php",
+                url: "../server/GetEntities.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
                     // TODO something for better error handle
@@ -749,7 +749,7 @@ function    retrieveEntityByIdEntry(axe, idx) {
                 dataType: "json",
                 data: {idFile: 1, idEntry: idx},
                 type: "GET",
-                url: "/src/server/GetDataByIdEntry.php",
+                url: "../server/GetDataByIdEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
                     // TODO something for better error handle
@@ -766,7 +766,7 @@ function    retrieveYearAmpl(axe, idx) {
                 dataType: "json",
                 data: {idFile: 1, idEntry: idx},
                 type: "GET",
-                url: "/src/server/GetYearAmplByEntry.php",
+                url: "../server/GetYearAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetYearAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
                     // TODO something for better error handle
@@ -784,7 +784,7 @@ function    retrieveValueAmpl(axe, idx) {
                 dataType: "json",
                 data: {idFile: 1, idEntry: idx},
                 type: "GET",
-                url: "/src/server/GetValueAmplByEntry.php",
+                url: "../server/GetValueAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetValueAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
                     // TODO something for better error handle
