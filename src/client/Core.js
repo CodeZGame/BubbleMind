@@ -148,8 +148,8 @@ function    initAxes() {
 
 // To change if no color or no size
 function    setBeginAxes() {
-    var     k = 0;
-    var     nbEntries = 0;
+    var k = 0;
+    var nbEntries = 0;
     if (guiData.entries != null) {
         for (var entry in guiData.entries) {
             nbEntries = entry;
@@ -304,19 +304,19 @@ function    drawBubbles() {
         p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
         if (bubbles[highlight.bubble].crossed) {
             p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posX,
-                dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posY,
-                dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].size,
-                dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].col);
+                    dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posY,
+                    dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].size,
+                    dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].col);
         }
         else {
             p.getBubbleDrawer().drawCoordInfos(coordInfosTranslated(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.X][bubbles[highlight.bubble].name][year.current + 1]),
-                bubbles[highlight.bubble].posX,
-                coordInfosTranslated(dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current + 1]),
-                bubbles[highlight.bubble].posY,
-                coordInfosTranslated(dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current + 1]),
-                bubbles[highlight.bubble].size,
-                coordInfosTranslated(dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current + 1]),
-                bubbles[highlight.bubble].col);
+                    bubbles[highlight.bubble].posX,
+                    coordInfosTranslated(dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][year.current + 1]),
+                    bubbles[highlight.bubble].posY,
+                    coordInfosTranslated(dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][year.current + 1]),
+                    bubbles[highlight.bubble].size,
+                    coordInfosTranslated(dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current], dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][year.current + 1]),
+                    bubbles[highlight.bubble].col);
         }
     }
 }
@@ -334,7 +334,8 @@ function    drawHistoricalBubbles() {
     for (var prop in HistoricalMap) {
         HistoricalMap[prop].sort(sortBubblesYear);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
-            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos);
+            for (pos = 0; pos < bubbles.length && bubbles[pos].name != HistoricalMap[prop][j].name; ++pos)
+                ;
             if (j + 1 < HistoricalMap[prop].length) {
                 p.getBubbleDrawer().drawLine(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY,
                         HistoricalMap[prop][j + 1].posX, HistoricalMap[prop][j + 1].posY, HistoricalMap[prop][j].col);
@@ -347,7 +348,7 @@ function    drawHistoricalBubbles() {
         HistoricalMap[prop].sort(sortBubblesSize);
         for (j = 0; j < HistoricalMap[prop].length; ++j) {
             p.getBubbleDrawer().drawBubble(HistoricalMap[prop][j].posX, HistoricalMap[prop][j].posY, HistoricalMap[prop][j].size,
-                HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
+                    HistoricalMap[prop][j].col, true, HistoricalMap[prop][j].crossed);
         }
     }
 }
@@ -501,11 +502,11 @@ function    updateSelectBubble() {
 // Update values of bubbles if valid data
 // also add bubble to historicalMap if selected
 function    refreshBubbles() {
-    var     i;
-    var     x;
-    var     y;
-    var     size;
-    var     col;
+    var i;
+    var x;
+    var y;
+    var size;
+    var col;
     removeYearFromHistorical(year.current);
     for (i = 0; i < bubbles.length; ++i) {
         if (dataEntries[guiAxes.X][bubbles[i].name][year.current] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
@@ -582,9 +583,9 @@ function    updateAxeColor(value) {
 function    updateBubbleToLastAvailableYear(b) {
     for (var y = year.current; y > year.min; --y) {
         if ((dataEntries[guiAxes.X][b.name][y] && dataEntries[guiAxes.X][b.name][y] != null)
-            && (dataEntries[guiAxes.Y][b.name][y] && dataEntries[guiAxes.Y][b.name][y] != null)
-            && (dataEntries[guiAxes.COLOR][b.name][y] && dataEntries[guiAxes.COLOR][b.name][y] != null)
-            && (dataEntries[guiAxes.SIZE][b.name][y] && dataEntries[guiAxes.SIZE][b.name][y] != null)) {
+                && (dataEntries[guiAxes.Y][b.name][y] && dataEntries[guiAxes.Y][b.name][y] != null)
+                && (dataEntries[guiAxes.COLOR][b.name][y] && dataEntries[guiAxes.COLOR][b.name][y] != null)
+                && (dataEntries[guiAxes.SIZE][b.name][y] && dataEntries[guiAxes.SIZE][b.name][y] != null)) {
             b.posX = updateAxeX(dataEntries[guiAxes.X][b.name][y]);
             b.posY = updateAxeY(dataEntries[guiAxes.Y][b.name][y]);
             b.size = updateAxeSize(dataEntries[guiAxes.SIZE][b.name][y]);
@@ -628,8 +629,8 @@ function    sortBubblesYear(b1, b2) {
 }
 
 /*
-** HISTORICAL METHODS
-*/
+ ** HISTORICAL METHODS
+ */
 
 function    addToHistorical(bubble) {
     if (!(bubble.name in HistoricalMap))
