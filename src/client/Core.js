@@ -233,7 +233,6 @@ function	runApplication() {
     year.current = year.min;
     init = true;
     build_slider('#timeSlider', year.min, year.max, year.value, 1, 1);
-
     refreshBubbles();
     refreshDisplay();
 }
@@ -641,7 +640,9 @@ function    addToHistorical(bubble) {
 }
 
 function    addPreviousYearToHistory() {
-    var i;
+    var     i;
+    var     j;
+    var     found = false;
     var years = {};
     for (var i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].isClicked && bubbles[i].year != -1) {
@@ -650,10 +651,10 @@ function    addPreviousYearToHistory() {
     }
     for (var b in HistoricalMap) {
         if (HistoricalMap[b].length > 0) {
-            for (i = year.min; i <= year.current; ++i) {
-                years[i] = 0;
+            for (j = year.min; j <= year.current; ++j) {
+                years[j] = 0;
             }
-            for (var j = 0; j < HistoricalMap[b].length; ++j) {
+            for (j = 0; j < HistoricalMap[b].length; ++j) {
                 delete years[HistoricalMap[b][j].year];
             }
             for (var yearToAdd in years) {
@@ -910,12 +911,20 @@ function    DisableUI() {
     $("#sliderDiv").slider("disable");
     $("#speedSlider").slider("disable");
     $("#opacitySlider").slider("disable");
+    $("#selectAxeXValue").next("input").autocomplete("disable");
+    $("#selectAxeYValue").next("input").autocomplete("disable");
+    $("#selectColorValue").next("input").autocomplete("disable");
+    $("#selectSizeValue").next("input").autocomplete("disable");
 }
 
 function    EnableUI() {
     $("#sliderDiv").slider("enable");
     $("#speedSlider").slider("enable");
     $("#opacitySlider").slider("enable");
+    $("#selectAxeXValue").next("input").autocomplete("enable");
+    $("#selectAxeYValue").next("input").autocomplete("enable");
+    $("#selectColorValue").next("input").autocomplete("enable");
+    $("#selectSizeValue").next("input").autocomplete("enable");
 }
 
 /*
