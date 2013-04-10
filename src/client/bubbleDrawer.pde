@@ -344,9 +344,9 @@ class    BubbleDrawer {
 	// AXE SIZE - TMP
 	if (this._useSize) {
 		mainBuffer.fill(255);
-		mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + sizeVal) + 8, valueHeight + 5, 0, 0, 0, 0);
+		mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + round(sizeVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
-		mainBuffer.text("size: " + sizeVal, 650 + 5, 35 + 2);
+		mainBuffer.text("size: " + round(sizeVal), 650 + 5, 35 + 2);
 	}
 	// AXE COLOR - TMP
 	if (this._useColor) {
