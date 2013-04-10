@@ -32,7 +32,6 @@ var guiAxes = {
 
 Array.prototype.unset = function(val) {
     var idx = this.indexOf(val);
-    p.println("idx: " + idx);
     if (idx > -1) {
         this.splice(idx, 1);
     }
@@ -386,14 +385,14 @@ function	overOnPlot(mX, mY) {
     var resSize = 999999;
     var hist = null;
 
-    if (guiData.opacity != 0) {
+    //if (guiData.opacity != 0) {
         for (i = 0; i < bubbles.length; ++i)
             if (bubbles[i].draw && bubbles[i].size < resSize
                 && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2)) {
                 res = i;
-            resSize = bubbles[res].size;
+                resSize = bubbles[res].size;
             }
-    }
+    //}
     if (res == -1) {
         for (var prop in HistoricalMap) {
             for (j = 0; j < HistoricalMap[prop].length; ++j)
@@ -413,7 +412,9 @@ function	overOnPlot(mX, mY) {
         }
         else {
             highlight.inHist = null;
-            if (guiData.opacity != 0)
+            if (select != 0 && guiData.opacity == 0 && !bubbles[highlight.bubble].isClicked)
+                highlight.bubble = -1;
+            else
                 addToOverMap(bubbles[highlight.bubble]);
         }
     }
