@@ -1,3 +1,0 @@
-Bugs:
--Si la donne n'est plus disponible pour l'anne courante, le nom de la bulle n' est plus affiché (REGENE)
-
