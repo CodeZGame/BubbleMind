@@ -242,7 +242,6 @@ function	runApplication() {
     refreshDisplay();
 }
 
-// MAY NEED RESET OF SOME VAR TO CHECK SQL REQUEST IS OK
 function    loading(axe, idx) {
     if (!load.loading) {
         DisableUI();
@@ -333,7 +332,6 @@ function    coordInfosTranslated(currVal, nextVal) {
         return parseInt(currVal) + ((parseInt(nextVal) - parseInt(currVal)) * year.step);
 }
 
-// If bubbles is no longer an array, can optimize this without having to look for id in array
 function    drawHistoricalBubbles() {
     var pos = 0;
     for (var prop in HistoricalMap) {
@@ -389,14 +387,12 @@ function	overOnPlot(mX, mY) {
     var resSize = 999999;
     var hist = null;
 
-    //if (guiData.opacity != 0) {
-        for (i = 0; i < bubbles.length; ++i)
-            if (bubbles[i].draw && bubbles[i].size < resSize
-                && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2)) {
-                res = i;
-                resSize = bubbles[res].size;
-            }
-    //}
+    for (i = 0; i < bubbles.length; ++i)
+        if (bubbles[i].draw && bubbles[i].size < resSize
+            && overCircle(mX, mY, bubbles[i].posX, bubbles[i].posY, bubbles[i].size / 2)) {
+            res = i;
+            resSize = bubbles[res].size;
+        }
     if (res == -1) {
         for (var prop in HistoricalMap) {
             for (j = 0; j < HistoricalMap[prop].length; ++j)
@@ -732,7 +728,6 @@ function    retrieveEntriesFromDB() {
                 url: "../server/GetEntries.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntries [" + errorThrown + "] [" + textStatus + "]");
-                    // TODO something for better error handle
                 },
                 success: function(d) {
                     guiData.entries = d;
@@ -749,7 +744,6 @@ function    retrieveEntitiesFromDB() {
                 url: "../server/GetEntities.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
-                    // TODO something for better error handle
                 },
                 success: function(d) {
                     rawEntities = d;
@@ -766,7 +760,6 @@ function    retrieveEntityByIdEntry(axe, idx) {
                 url: "../server/GetDataByIdEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetEntities [" + errorThrown + "] [" + textStatus + "]");
-                    // TODO something for better error handle
                 },
                 success: function(data) {
                     dataEntries[axe] = data;
@@ -783,7 +776,6 @@ function    retrieveYearAmpl(axe, idx) {
                 url: "../server/GetYearAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetYearAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
-                    // TODO something for better error handle
                 },
                 success: function(data) {
                     entityYearMin[axe] = parseInt(data.min);
@@ -801,7 +793,6 @@ function    retrieveValueAmpl(axe, idx) {
                 url: "../server/GetValueAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error on GetValueAmplByEntry [" + errorThrown + "] [" + textStatus + "]");
-                    // TODO something for better error handle
                 },
                 success: function(data) {
                     var max = parseFloat(data.max);
