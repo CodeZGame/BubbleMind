@@ -204,7 +204,7 @@ class    BubbleDrawer {
 	float minDown = min;
 	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps));
 	int valueStep = abs(tmpValueStep);
-	mainBuffer.textSize(13);
+	mainBuffer.textSize(12);
 	mainBuffer.strokeWeight(2);
 	mainBuffer.stroke(0, 0, 87, 87);
 	// X AXIS -- Y GRID
@@ -214,10 +214,10 @@ class    BubbleDrawer {
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			value = calcValue(maxUp, valueStep, i, minDown);
+			value = truncValue(calcValue(maxUp, valueStep, i, minDown));
 			mainBuffer.fill(30, 70);
 			if (i == 1)
-				mainBuffer.text(minDown, stepSize - mainBuffer.textWidth(minDown) / 2, height - offsetY + textAscent() + 2);
+				mainBuffer.text(truncValue(minDown), stepSize - mainBuffer.textWidth(truncValue(minDown)) / 2, height - offsetY + textAscent() + 2);
 			mainBuffer.text(value, (i + 1) * stepSize - mainBuffer.textWidth(value) / 2, height - offsetY + textAscent() + 2);
 		}
 	}
@@ -228,19 +228,19 @@ class    BubbleDrawer {
 		mainBuffer.strokeWeight(stdStrokeWeight);
 		mainBuffer.fill(215, 30);
 		for (int i = 1; i < steps; ++i) {
-			value = calcValue(maxUp, valueStep, i, minDown);
+			value = truncValue(calcValue(maxUp, valueStep, i, minDown));
 			mainBuffer.fill(30, 70);
 			mainBuffer.pushMatrix();
 			mainBuffer.translate(offsetX - mainBuffer.textWidth(value) / 2 - 5, height - offsetY - stepSize * i);
 			mainBuffer.rotate(-0.6);
-			mainBuffer.text(value, 0, 0);
+			mainBuffer.text(value, 4, 0);
 			mainBuffer.popMatrix();
 			if (i == steps - 1)
 			{
 				mainBuffer.pushMatrix();
-				mainBuffer.translate(offsetX - mainBuffer.textWidth(minDown) / 2 - 5, stepSize * (i + 1));
+				mainBuffer.translate(offsetX - mainBuffer.textWidth(truncValue(minDown)) / 2 - 5, stepSize * (i + 1));
 				mainBuffer.rotate(-0.6);
-				mainBuffer.text(minDown, 0, 0);
+				mainBuffer.text(truncValue(minDown), 4, 0);
 				mainBuffer.popMatrix();
 			}
 		}
@@ -322,6 +322,21 @@ class    BubbleDrawer {
 
   void	useSize(boolean use) {
   	this._useSize = use;
+  }
+
+  String truncValue(value) {
+  	value = round(value);
+  	if (abs(value) >= 1000000000) {
+  		value = value / 1000000;
+  		value = round(value);
+  		value += "M";
+  	}
+  	else if (abs(value) >= 1000000) {
+  		value /= 1000;
+  		value = round(value);
+  		value += "k";
+  	}
+  	return value;
   }
 
   float calcValue(float max, int valueStep, int i, int min) {

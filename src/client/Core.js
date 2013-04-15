@@ -7,6 +7,7 @@ var rawEntities = null;
 
 var bubbles = new Array();
 var select = 0;
+var idFile = 1;
 
 var scales = new ScaleData();
 var guiData = new GuiData();
@@ -77,6 +78,7 @@ function    SelectAxes() {
 function    GuiData() {
     this.entries = null;
     this.entities = null;
+    this.files = null;
     this.cursorPos = 0;
     this.cursorSpeed = 20;
     this.colorActivated = true;
@@ -244,6 +246,8 @@ function	runApplication() {
 
 function    loading(axe, idx) {
     if (!load.loading) {
+        unselectAll();
+        p.getBubbleDrawer().noBubbleSelected();
         DisableUI();
         load.idx = idx;
         load.axe = axe;
@@ -496,7 +500,10 @@ function	unselectAll() {
     for (i = 0; i < bubbles.length; ++i) {
         bubbles[i].yearClick = -1;
         bubbles[i].isClicked = false;
+        document.getElementById("entity[" + [bubbles[i].name] + "]").checked = false;
     }
+    select = 0;
+    refreshDisplay();
 }
 
 function    updateSelectBubble() {
@@ -561,10 +568,10 @@ function    refreshBubbles() {
                     bubbles[i].yearClick = year.current;
                 if (bubbles[i].draw && bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
-                if (year.current + 1 < year.max && dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null
-                    || dataEntries[guiAxes.Y][bubbles[i].name] || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
-                    || dataEntries[guiAxes.COLOR][bubbles[i].name] || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null
-                    || dataEntries[guiAxes.SIZE][bubbles[i].name] || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null) {
+                if (year.current + 1 < year.max && (dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null
+                    || dataEntries[guiAxes.Y][bubbles[i].name] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
+                    || dataEntries[guiAxes.COLOR][bubbles[i].name] == null || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null
+                    || dataEntries[guiAxes.SIZE][bubbles[i].name] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)) {
                     if (bubbles[i].draw) {
                         bubbles[i].crossed = true;
                     }
@@ -600,6 +607,7 @@ function    updateAxeSize(value) {
 }
 
 function    updateAxeColor(value) {
+    console.log("value: " + value + " col: " + ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR])));
     return (value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
 
@@ -738,7 +746,7 @@ function    retrieveEntriesFromDB() {
     $.ajax(
             {
                 dataType: "json",
-                data: {idFile: 1},
+                data: {idFile: idFile},
                 type: "GET",
                 url: "../server/GetEntries.php",
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -754,7 +762,7 @@ function    retrieveEntitiesFromDB() {
     $.ajax(
             {
                 dataType: "json",
-                data: {idFile: 1},
+                data: {idFile: idFile},
                 type: "GET",
                 url: "../server/GetEntities.php",
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -770,7 +778,7 @@ function    retrieveEntityByIdEntry(axe, idx) {
     $.ajax(
             {
                 dataType: "json",
-                data: {idFile: 1, idEntry: idx},
+                data: {idFile: idFile, idEntry: idx},
                 type: "GET",
                 url: "../server/GetDataByIdEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -787,7 +795,7 @@ function    retrieveYearAmpl(axe, idx) {
     $.ajax(
             {
                 dataType: "json",
-                data: {idFile: 1, idEntry: idx},
+                data: {idFile: idFile, idEntry: idx},
                 type: "GET",
                 url: "../server/GetYearAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -804,7 +812,7 @@ function    retrieveValueAmpl(axe, idx) {
     $.ajax(
             {
                 dataType: "json",
-                data: {idFile: 1, idEntry: idx},
+                data: {idFile: idFile, idEntry: idx},
                 type: "GET",
                 url: "../server/GetValueAmplByEntry.php",
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -813,8 +821,8 @@ function    retrieveValueAmpl(axe, idx) {
                 success: function(data) {
                     var max = parseFloat(data.max);
                     var min = parseFloat(data.min);
-                    scales.mins[axe] = Math.ceil(min - (Math.abs(min) * 10 / 100));
-                    scales.maxs[axe] = Math.ceil((Math.abs(max) * 10 / 100) + Math.abs(max));
+                    scales.mins[axe] = min - (Math.abs(min) * 10 / 100);
+                    scales.maxs[axe] = (Math.abs(max) * 10 / 100) + Math.abs(max);
                 }
             });
 }
@@ -909,6 +917,20 @@ function    ChangeSize(value) {
     }
 }
 
+function    ChangeIdFile(id) {
+    idFile = id;
+    if (isPlaying) {
+        isPlaying = false;
+        $("#playButton").attr("value", "Play");
+    }
+    $("#sliderDiv").slider("value", $("#sliderDiv").slider("option", "min"));
+    p.getBubbleDrawer().clear();
+    p.getBubbleDrawer().loadingWindow();
+    p.getBubbleDrawer().display();
+    //loading(axe, idx);
+    //load ALL
+}
+
 function    AxeChanged(axe, idx) {
     if (isPlaying) {
         isPlaying = false;
@@ -964,7 +986,6 @@ function    DisableUI() {
 function    EnableUI() {
     $("#sliderDiv").slider("enable");
     $("#speedSlider").slider("enable");
-    $("#opacitySlider").slider("enable");
     $("#selectAxeXValue").next("input").autocomplete("enable");
     $("#selectAxeYValue").next("input").autocomplete("enable");
     $("#selectColorValue").next("input").autocomplete("enable");
