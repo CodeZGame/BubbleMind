@@ -30,7 +30,9 @@ if (isset($_GET['idFile']) and isset($_GET['idEntry']) and is_numeric($_GET['idF
 	$query = "SELECT idEntity, date, value FROM data WHERE idFile = '" . $_GET["idFile"] . "' AND idEntry = '" . $_GET['idEntry'] . "'";
  	$ret = mysql_query($query);
  	while ($line = mysql_fetch_assoc($ret)) {
- 		$data[$entities[$line['idEntity']]] = array($line['date'] => $line['value']);
+ 		if (!isset($data[$entities[$line['idEntity']]]))
+ 			$data[$entities[$line['idEntity']]] = array();
+ 		$data[$entities[$line['idEntity']]][$line['date']] = $line['value'];
  			//$entity[$line['date']] =  $line['value'];
 	}
  	
