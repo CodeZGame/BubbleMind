@@ -17,12 +17,14 @@ if (isset($_POST["format"])) {
 			}
 			else
 			{
+				set_time_limit(2000);
 				$parser = new Parser();
 				$insert = new DataInserter();
-				
+
 				move_uploaded_file($file["tmp_name"], "upload/" . $file["name"]);
 				$sheet = $parser->parse("upload/" . $file["name"]);
-				// dynamic $entityColumn and $yearColumn
+				
+				// TODO: dynamic $entityColumn and $yearColumn
 				
 				if ($_POST["format"] == "OCDE")
 					$insert->InsertOCDE($file["name"], $sheet);

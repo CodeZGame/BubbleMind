@@ -3,12 +3,10 @@ require_once 'mySqlConnection.php';
 
 class DataInserter {
 
-	private $_idFile;
+	private $_idFile = 1;
 
 	public function InsertOCDE($fileName, $sheet) {
-		set_time_limit(2000);
 		$sql = MySqlConnection::getConnection();
-		//var_dump($sheet);
 
 		//insert file name
 		$query = "INSERT INTO file (name) VALUES ('" . mysql_real_escape_string($fileName) . "')";
@@ -24,15 +22,17 @@ class DataInserter {
 		}
 
 		//insert values
+		$it = 0;
 		$flag = 0;
+		$querya = "";
 		$idEntity = array();
 		$idEntry = array();
 		foreach($sheet[0] as $line) {
 			if ($flag != 0) {
 				foreach($line as $key => $value) {
 					if ($key == 0) {
-						$entity = mysql_real_escape_string($value);
 						//insert entity
+						$entity = mysql_real_escape_string($value);
 						if (!array_key_exists($entity, $idEntity))
 						{
 							$query = "INSERT INTO entities (idFile, name) VALUES ('" . $this->_idFile . "', '" . $entity . "')";
@@ -41,8 +41,8 @@ class DataInserter {
 						}
 					}
 					elseif ($key == 1) {
-						$entry = mysql_real_escape_string($value);
 						//insert entrie
+						$entry = mysql_real_escape_string($value);
 						if (!array_key_exists($entry, $idEntry))
 						{
 							$query = "INSERT INTO entries (idFile, name) VALUES ('" . $this->_idFile . "', '" . $entry . "')";
@@ -52,18 +52,27 @@ class DataInserter {
 					}
 					else
 					{
+						if ($it > 10000) {
+							mysql_query("INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES " . $querya) or die('Query "' . "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES " . $querya . '" failed:</br>' . mysql_error());
+							$querya = "";
+							$it = 0;
+						}
+						$it++;
 						//insert value
+						if ($querya != "")
+							$querya .= ",";
 						if (!strcmp($value, ""))
-							$query = "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', NULL)";
+							$querya .= " ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', NULL)";
 						else
-							$query = "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', '" . mysql_real_escape_string(str_replace(",", ".", $value)) . "')";
-						mysql_query($query) or die('Query "' . $query . '" failed:</br>' . mysql_error());
+							$querya .= " ('" . $this->_idFile . "', '" . $idEntity[$entity] . "', '" . $idEntry[$entry] . "', '" . $years[$key - 2] . "', '" . mysql_real_escape_string(str_replace(",", ".", $value)) . "')";
 					}
 				}
 			} else {
 				$flag = 1;
 			}
 		}
+		if ($querya != "")
+			mysql_query("INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES " . $querya) or die('Query "' . "INSERT INTO data (idFile, idEntity, idEntry, date, value) VALUES " . $querya . '" failed:</br>' . mysql_error());
 	}
 
 	public function InsertOther($fileName, $entityColumn, $yearColumn, $sheet) {
@@ -120,6 +129,7 @@ class DataInserter {
 	}
 
 	public function CompleteData() {
+		$sql = MySqlConnection::getConnection();
 		//get entities from the file
 		$query = "SELECT id,name FROM entities WHERE idFile = '" . $this->_idFile . "'";
 		$ret = mysql_query($query);
@@ -129,55 +139,75 @@ class DataInserter {
 		}
 
 		//get entries from the file
-		$query = "SELECT id,name FROM entries WHERE idFile = '" . $this->_idFile . "'";
-		$ret = mysql_query($query);
+		$ret = mysql_query("SELECT id,name FROM entries WHERE idFile = '" . $this->_idFile . "'");
 		$entries = array();
 		while ($line = mysql_fetch_assoc($ret)) {
 			$entries[$line['name']] = $line['id'];
 		}
 
+		$data = array();
 		foreach ($entities as $entity => $idEntity) {
-			foreach ($entries as $entry => $idEntry) {
-				$values = array();
-				//get data for a specific entity and entry
-				$query = "SELECT id,date,value FROM data WHERE idEntity = '" . $idEntity . "' AND idEntry = '" . $idEntry . "' ORDER BY date";
-				$ret = mysql_query($query);
-				while ($line = mysql_fetch_assoc($ret)) {
-					if ($line['value'] === null)
-						$values[] = array(intval($line['date']), null, $line['id']);
-					else
-						$values[] = array(intval($line['date']), floatval($line['value']), $line['id']);
-				}
-				$it = 0;
-				$len = count($values);
-				//we cant complete null data while we havent one data yet.
-				while ($it < $len and $values[$it][1] === null)
-					$it++;
-				while ($it < $len) {
-					while ($it < $len and $values[$it][1] !== null)
-						$it++;
+			$query = "SELECT * FROM data WHERE idEntity = '" . $idEntity . "' ORDER BY idEntity, idEntry, date";
+			$ret = mysql_query($query);
 
-					//check if it's possible de complete the missing data, then do it if possible
-					if (($itNextValue = $this->findNextValue($it, $values)) > 0) {
-						$nextValue = $values[$it - 1][1] + (($values[$itNextValue][1] - $values[$it - 1][1]) / ($values[$itNextValue][0] - $values[$it - 1][0]));
-						$query = "UPDATE data SET idFile='" . $this->_idFile . "', idEntity='" . $idEntity . "', idEntry='" . $idEntry . "', date='" . $values[$it][0] . "', value='" . $nextValue . "' WHERE id='" . $values[$it][2] . "'";
-						mysql_query($query);
-						$values[$it] = array($values[$it][0], $nextValue);
+			while ($line = mysql_fetch_assoc($ret)) {
+				$data[$line['idEntry']][$line['date']][0] = $line['id'];
+				if ($line['value'] === null)
+					$data[$line['idEntry']][$line['date']][1] = null;
+				else
+					$data[$line['idEntry']][$line['date']][1] = $line['value'];
+			}
+
+			foreach ($data as $kentr => $entr) {
+				//we cant complete null data while we havent one data yet.
+				while (list($id, $val) = current($entr) and $val === null) {
+					list($var, $val) = next($entr);
+					if ($val !== null)
+						break;
+				}
+
+				//browse data we already have
+				while (list($id, $val) = current($entr)) {
+					while (list($id, $val) = current($entr) and $val !== null) {
+						list($id, $val) = next($entr);
 					}
-					$it++;
+
+					if (current($entr) and ($nextVal = $this->findNextValue($entr)) !== null) {
+						//							echo "dafuk ?</br>";
+						$prevDate = $val;
+						list($prevId, $prevVal) = prev($entr);
+						next($entr);
+						$nextValue = $prevVal + (($nextVal[1] - $prevVal) / ($nextVal[0] - $prevDate));
+						$query = "UPDATE data SET value='" . $nextValue . "' WHERE id='" . $id . "'";
+						//echo $query . "</br>";
+						mysql_query($query);
+						$entr[key($entr)][1] = $nextValue;
+					}
+					next($entr);
 				}
 			}
 		}
-
 	}
 
-	private function findNextValue($it, $values) {
-		$len = count($values);
-		while ($it < $len and $values[$it][1] === null)
+	private function findNextValue($entr) {
+		list($id, $val) = current($entr);
+
+		$it = 0;
+		$ret = array();
+		while (current($entr) and $val === null) {
+			list($id, $val) = next($entr);
+			$ret = array(key($entr), $val);
 			$it++;
-		if ($it >= $len)
-			return 0;
-		return $it;
+		}
+
+		while ($it > 0) {
+			prev($entr);
+			$it--;
+		}
+
+		if (!current($entr))
+			return null;
+		return $ret;
 	}
 
 }
