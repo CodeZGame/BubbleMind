@@ -17,15 +17,15 @@ $(function() {
                 AxeChanged(guiAxes.X, ui.item.id);
             });
 
-    $("#selectAxeXType").combobox();
-    $("#selectAxeXType").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
+//    $("#selectAxeXType").combobox();
+//    $("#selectAxeXType").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
 
     $("#selectAxeYValue").combobox();
     $("#selectAxeYValue").next("input").on("autocompleteselect",
             function(event, ui) {
                 AxeChanged(guiAxes.Y, ui.item.id);
             });
-    $("#selectAxeYType").combobox();
+//    $("#selectAxeYType").combobox();
 
     $("#selectColorValue").combobox();
     $("#selectColorValue").next("input").on("autocompleteselect",
@@ -54,6 +54,7 @@ $(function() {
             ChangeOpacity(ui.value);
         }
     });
+
     $("#opacitySlider").slider("disable");
     $("#sizeSlider").slider({
         min: 5,

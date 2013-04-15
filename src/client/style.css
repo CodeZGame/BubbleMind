@@ -133,18 +133,18 @@ html, body {
 
 #selectAxeXValueDiv {
     top:10px;
-    width:670px;
+    width:750px;
     height: 25px;
     float: left;
     position: relative;
 }
 
-#selectAxeXTypeDiv {
+/*#selectAxeXTypeDiv {
     width: 75px;
     float: left;
     top: 10px;
     position: relative;
-}
+}*/
 
 #selectAxeYValueDiv {
     transform: rotate(270deg);
@@ -153,13 +153,13 @@ html, body {
     -webkit-transform:rotate(270deg);
     -o-transform:rotate(270deg);
 
-    width: 470px;
-    left: -210px;
-    bottom: -295px;
+    width: 530px;
+    left: -245px;
+    bottom: -255px;
     position: relative; 
 }
 
-#selectAxeYTypeDiv {
+/*#selectAxeYTypeDiv {
     transform: rotate(270deg);
     -moz-transform:rotate(270deg);
     -ms-transform:rotate(-90deg);
@@ -170,4 +170,4 @@ html, body {
     bottom: -5px;
     left: -7px;
     position: relative; 
-}
+}*/

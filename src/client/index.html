@@ -26,15 +26,15 @@
         <div id="main_div">
             <div id="left_div">
                 <div id="selectAxeYValueDiv">
-                    <select id="selectAxeYValue" style="width:465px;" onchange="fonction(this);"></select>
+                    <select id="selectAxeYValue" style="width:530px;" onchange="fonction(this);"></select>
                 </div>
 
-                <div id="selectAxeYTypeDiv">
-                    <select id="selectAxeYType" style="width:60px;" onchange="fonction(this);">
-                        <option value="lin">lin</option>
-                        <option value="log">log</option>
-                    </select>
-                </div>
+                <!--                <div id="selectAxeYTypeDiv">
+                                    <select id="selectAxeYType" style="width:60px;" onchange="fonction(this);">
+                                        <option value="lin">lin</option>
+                                        <option value="log">log</option>
+                                    </select>
+                                </div>-->
             </div>
 
             <div id="center_div">
@@ -49,7 +49,12 @@
                     <div id="selectColorValueDiv">
                         <select id="selectColorValue" style="width:90%;"></select>
                     </div>
-                    <img src="img/gradient.png" align="right" style="right: 10%; top: 5%; position: relative; height: 65%">
+                    <div style="height: 100%; width: 100%">
+<!--                        <label id="bubbleColorValue" style="top: 30%; left: -40%; position: relative">testouiledwelol</label>-->
+                        <img src="img/gradient.png" align="right" style="right: 10%; top: 5%; position: relative; height: 60%">
+                        <label id="maxColorValue" style="right: -25px; top: -0.5%; position: relative">5522665</label>
+                        <label id="minColorValue" style="right: -25px; top: 60%; position: relative">565</label>
+                    </div>
                 </div>
                 <div id="opacitySlider"></div>
                 <div id="entityDiv" onMouseOut="mouveLeaveCheckBoxes();">
@@ -64,7 +69,7 @@
                     </div>
                     <div id="sizeSlider"></div>
                 </div>
-            </div>
+            </div>  
 
             <div id="bottom_div">
                 <div style="width:100px; float: left;">
@@ -72,14 +77,14 @@
                     <div id="speedSlider"></div>
                 </div>
                 <div id="selectAxeXValueDiv">
-                    <select id="selectAxeXValue" style="width:665px;" onchange="fonction(this);"></select>
+                    <select id="selectAxeXValue" style="width:750px;" onchange="fonction(this);"></select>
                 </div>
-                <div id="selectAxeXTypeDiv">
-                    <select id="selectAxeXType" style="width:70px;" onchange="fonction(this);">
-                        <option value="lin">lin</option>
-                        <option value="log">log</option>
-                    </select>
-                </div>
+                <!--                <div id="selectAxeXTypeDiv">
+                                    <select id="selectAxeXType" style="width:70px;" onchange="fonction(this);">
+                                        <option value="lin">lin</option>
+                                        <option value="log">log</option>
+                                    </select>
+                                </div>-->
                 <div id="timeSlider"></div>
             </div>
         </div>
