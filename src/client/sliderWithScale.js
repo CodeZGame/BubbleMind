@@ -46,7 +46,10 @@ function build_slider(slider_id, min, max, value, step, scaleStep)
         line = "<span style=\"display:inline-block;text-align:center;width: ";
         line += gap;
         line += "px;\">|</br>";
-        line += min + i * scaleStep;
+        if (max - min < 10 || i % 10 == 0)
+            line += min + i * scaleStep; // this one
+        else
+            line += "</br>"; // or that one
         line += "</span>";
         s.append(line);
     }
