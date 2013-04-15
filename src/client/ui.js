@@ -17,8 +17,8 @@ $(function() {
                 AxeChanged(guiAxes.X, ui.item.id);
             });
 
-//    $("#selectAxeXType").combobox();
-//    $("#selectAxeXType").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
+    $("#selectFile").combobox();
+    $("#selectFile").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
 
     $("#selectAxeYValue").combobox();
     $("#selectAxeYValue").next("input").on("autocompleteselect",
