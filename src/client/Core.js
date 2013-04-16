@@ -221,10 +221,17 @@ function    launch() {
             ++k;
         $("#selectSizeValue").next("input").autocomplete("option", "source", a);
         $("#selectSizeValue").next("input").attr("value", a[k].value);
+        var f = new Array();
+        for (var b in guiData.files) {
+            f.push({value: guiData.files[b], id: b});
+        }
+        
+        k = 0;
+        $("#selectFile").next("input").autocomplete({source: f});
+        $("#selectFile").next("input").attr("value", f[k].value);
 
         document.getElementById("minColorValue").innerHTML = scales.mins[guiAxes.COLOR];
         document.getElementById("maxColorValue").innerHTML = scales.maxs[guiAxes.COLOR];
-
         runApplication();
     }
     else
