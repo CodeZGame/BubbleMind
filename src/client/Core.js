@@ -245,6 +245,7 @@ function    launch() {
         $("#selectSizeValue").next("input").autocomplete("enable");
         document.getElementById("sizeCheckBox").checked = true;
         p.getBubbleDrawer().useSize(guiData.sizeActivated);
+        document.getElementById("deselectButton").disabled = true;
         runApplication();
     }
     else
@@ -648,7 +649,7 @@ function    updateAxeSize(value) {
 }
 
 function    updateAxeColor(value) {
-    return (value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
+    return (scales.maxs[guiAxes.COLOR] - value) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
 
 function    updateBubbleToLastAvailableYear(b) {
@@ -1062,7 +1063,6 @@ function    EnableUI() {
     $("#selectAxeYValue").next("input").autocomplete("enable");
     $("#selectColorValue").next("input").autocomplete("enable");
     $("#selectSizeValue").next("input").autocomplete("enable");
-    document.getElementById("deselectButton").disabled = false;
 }
 
 /*
