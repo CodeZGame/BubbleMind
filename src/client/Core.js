@@ -283,8 +283,11 @@ function    loading(axe, idx) {
         setMinMaxYear();
         year.current = year.min;
         init = true;
-
         build_slider('#timeSlider', year.min, year.max, year.value, 1, 1);
+        if (load.axe == guiAxes.COLOR) {
+            document.getElementById("minColorValue").innerHTML = scales.mins[guiAxes.COLOR];
+            document.getElementById("maxColorValue").innerHTML = scales.maxs[guiAxes.COLOR];
+        }  
         refreshBubbles();
         refreshDisplay();
         load.loading = false;

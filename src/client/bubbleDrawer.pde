@@ -51,7 +51,7 @@ void setup() {
 	mainBuffer.stroke(0);
 	mainBuffer.smooth(8);
 	mainBuffer.strokeWeight(stdStrokeWeight);
-	mainBuffer.colorMode(HSB, 255);
+	mainBuffer.colorMode(HSB, 360);				// TMP 255
 	mainBuffer.ellipseMode(CENTER);
 	bd.clear();
 	noLoop();
@@ -90,13 +90,13 @@ void mouseClicked() {
 }
 
 class    BubbleDrawer {
-  private int 	_defaultAlphaValue = 255;
-  private int 	_interfaceAlphaValue = 70;
-  private int 	_alphaValue = 255;
-  private int	_defaultSaturation = 255;
+  private int 	_defaultAlphaValue = 360;
+  private int 	_interfaceAlphaValue = 150;
+  private int 	_alphaValue = 360;
+  private int	_defaultSaturation = 360;
   private int	_whiteSaturation = 0;
-  private int	_defaultBrightness = 255;
-  private int 	_defaultColor = 142;
+  private int	_defaultBrightness = 360;
+  private int 	_defaultColor = 200;
   private boolean	_useColor = true;
   private int 	_defaultSize = 20;
   private boolean	_useSize = true;
@@ -147,7 +147,7 @@ class    BubbleDrawer {
     String year = str(date);
     float yearWidth = width - mainBuffer.textWidth(year) / 2;
     float yearHeight = height + offsetY - mainBuffer.textAscent() - mainBuffer.textDescent();
-    mainBuffer.fill(180);
+    mainBuffer.fill(250);
     mainBuffer.text(year, yearWidth, yearHeight);
   }
 
@@ -156,7 +156,7 @@ class    BubbleDrawer {
     mainBuffer.strokeWeight(2);
     mainBuffer.stroke(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
     mainBuffer.textSize(11);
-    mainBuffer.fill(255, 255);
+    mainBuffer.fill(360, 360);
     mainBuffer.rectMode(CENTER);
     float radius = size / 2;
     float nameHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
@@ -204,15 +204,15 @@ class    BubbleDrawer {
 	float minDown = min;
 	int tmpValueStep = ceil((abs(maxUp) + abs(minDown)) / (steps));
 	int valueStep = abs(tmpValueStep);
-	mainBuffer.textSize(12);
+	mainBuffer.textSize(13);
 	mainBuffer.strokeWeight(2);
-	mainBuffer.stroke(0, 0, 87, 87);
+	mainBuffer.stroke(0, 0, 270, 270);
 	// X AXIS -- Y GRID
 	if (axis == 0) {
 		stepSize = bubbleWidth / steps;
 		mainBuffer.line(offsetX - 1, height - offsetY + 1, width, height - offsetY + 1);
 		mainBuffer.strokeWeight(stdStrokeWeight);
-		mainBuffer.fill(215, 30);
+		mainBuffer.fill(255, 70);
 		for (int i = 1; i < steps; ++i) {
 			value = truncValue(calcValue(maxUp, valueStep, i, minDown));
 			mainBuffer.fill(30, 70);
@@ -226,7 +226,7 @@ class    BubbleDrawer {
 		stepSize = bubbleHeight / steps;
 		mainBuffer.line(offsetX - 1, 0, offsetX - 1, bubbleHeight);
 		mainBuffer.strokeWeight(stdStrokeWeight);
-		mainBuffer.fill(215, 30);
+		mainBuffer.fill(255, 70);
 		for (int i = 1; i < steps; ++i) {
 			value = truncValue(calcValue(maxUp, valueStep, i, minDown));
 			mainBuffer.fill(30, 70);
@@ -253,7 +253,7 @@ class    BubbleDrawer {
     mainBuffer.strokeWeight(1.5);
     mainBuffer.stroke(0);
     mainBuffer.textSize(13);
-    mainBuffer.fill(255);
+    mainBuffer.fill(360);
     (int)yVal;
     (int)xVal;
     float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
@@ -272,7 +272,7 @@ class    BubbleDrawer {
 	}
 	// AXE Y
 	int newY = round(yVal);
-	mainBuffer.fill(255);
+	mainBuffer.fill(360);
 	if (mainBuffer.textWidth(newY) + 8 > offsetX) {
 		mainBuffer.rect(0, posY - (valueHeight + 5) / 2, mainBuffer.textWidth(newY) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
@@ -285,14 +285,14 @@ class    BubbleDrawer {
 	}
 	// AXE SIZE - TMP
 	/*if (this._useSize) {
-		mainBuffer.fill(255);
+		mainBuffer.fill(360);
 		mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + round(sizeVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
 		mainBuffer.text("size: " + round(sizeVal), 650 + 5, 35 + 2);
 	}
 	// AXE COLOR - TMP
 	if (this._useColor) {
-		mainBuffer.fill(255);
+		mainBuffer.fill(360);
 		mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + round(colVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
 		mainBuffer.text("color: " + round(colVal), 650 + 5, 10 + 2);
@@ -367,11 +367,11 @@ class    BubbleDrawer {
   }
 
   void	loadingWindow() {
-    mainBuffer.textSize(20);
+    mainBuffer.textSize(22);
   	float valueHeight = mainBuffer.textAscent() + mainBuffer.textDescent();
-  	mainBuffer.stroke(100);
+  	mainBuffer.stroke(150);
   	mainBuffer.strokeWeight(2);
-  	mainBuffer.fill(220);
+  	mainBuffer.fill(320);
 	mainBuffer.rect(bubbleWidth / 2 - loadingSizeX / 2, bubbleHeight / 2 - loadingSizeY / 2, loadingSizeX, loadingSizeY, 20, 20, 20, 20);
 	mainBuffer.fill(0);
   	mainBuffer.textAlign(LEFT, TOP);
@@ -386,6 +386,6 @@ class    BubbleDrawer {
   }
   
   void  clear() {
-    mainBuffer.background(255, 0, 255, 255); // alpha value to 110 for "speed effect"
+    mainBuffer.background(360, 0, 360, 360); // alpha value to 110 for "speed effect"
   }
 }
