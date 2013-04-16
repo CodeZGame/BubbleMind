@@ -9,8 +9,6 @@ $(function() {
         animate: "slow"
     });
 
-//$("#speedSlider").slider().next("ui-slider-handle").css("width" , "2px");
-
     $("#selectAxeXValue").combobox();
     $("#selectAxeXValue").next("input").on("autocompleteselect",
             function(event, ui) {
