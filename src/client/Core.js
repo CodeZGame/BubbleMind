@@ -121,6 +121,7 @@ function	initProcessing() {
         p.getBubbleDrawer().loadingWindow();
         p.getBubbleDrawer().display();
         p.bindJavascript(this);
+        retrieveFilesFromDB();
         initData();
         launch();
     }
@@ -131,8 +132,8 @@ function	initProcessing() {
 function    initData() {
     retrieveEntriesFromDB();
     retrieveEntitiesFromDB();
-    initAxes();
     setBeginAxes();
+    initAxes();
     scales.steps[guiAxes.X] = 10;
     scales.steps[guiAxes.Y] = 10;
 }
@@ -174,7 +175,7 @@ function    setBeginAxes() {
 }
 
 function    launch() {
-    if (guiData.entries != null && rawEntities != null && dataEntries[guiAxes.X] != null
+    if (guiData.files != null && guiData.entries != null && rawEntities != null && dataEntries[guiAxes.X] != null
             && dataEntries[guiAxes.Y] != null && dataEntries[guiAxes.SIZE] != null && dataEntries[guiAxes.COLOR] != null
             && entityYearMin[guiAxes.X] != null && entityYearMin[guiAxes.Y] != null && entityYearMin[guiAxes.SIZE] != null && entityYearMin[guiAxes.COLOR] != null
             && scales.mins[guiAxes.X] != null && scales.mins[guiAxes.Y] != null && scales.mins[guiAxes.SIZE] != null && scales.mins[guiAxes.COLOR] != null) {
@@ -231,6 +232,7 @@ function    setGuiEntities() {
 }
 
 function    createBubbles() {
+    bubbles = [];
     for (var prop in guiData.entities) {
         bubbles.push(new Bubble(0, 0, 0, 0, guiData.entities[prop], 0));
     }
@@ -247,7 +249,6 @@ function	runApplication() {
 function    loading(axe, idx) {
     if (!load.loading) {
         unselectAll();
-        p.getBubbleDrawer().noBubbleSelected();
         DisableUI();
         load.idx = idx;
         load.axe = axe;
@@ -311,7 +312,7 @@ function    drawBubbles() {
     else if (highlight.bubble != -1) {
         p.getBubbleDrawer().drawHighlightBubble(bubbles[highlight.bubble].posX, bubbles[highlight.bubble].posY, bubbles[highlight.bubble].size, bubbles[highlight.bubble].col, bubbles[highlight.bubble].crossed);
         if (bubbles[highlight.bubble].crossed) {
-            p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posX,
+            p.getBubbleDrawer().drawCoordInfos(dataEntries[guiAxes.X][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posX ,
                 dataEntries[guiAxes.Y][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].posY,
                 dataEntries[guiAxes.SIZE][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].size,
                 dataEntries[guiAxes.COLOR][bubbles[highlight.bubble].name][bubbles[highlight.bubble].year], bubbles[highlight.bubble].col);
@@ -331,9 +332,9 @@ function    drawBubbles() {
 
 function    coordInfosTranslated(currVal, nextVal) {
     if (year.step == 0)
-        return parseInt(currVal);
+        return parseFloat(currVal);
     else
-        return parseInt(currVal) + ((parseInt(nextVal) - parseInt(currVal)) * year.step);
+        return parseFloat(currVal) + ((parseFloat(nextVal) - parseFloat(currVal)) * year.step);
 }
 
 function    drawHistoricalBubbles() {
@@ -503,6 +504,7 @@ function	unselectAll() {
         document.getElementById("entity[" + [bubbles[i].name] + "]").checked = false;
     }
     select = 0;
+    p.getBubbleDrawer().noBubbleSelected();
     refreshDisplay();
 }
 
@@ -607,7 +609,6 @@ function    updateAxeSize(value) {
 }
 
 function    updateAxeColor(value) {
-    console.log("value: " + value + " col: " + ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR])));
     return (value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
 
@@ -742,6 +743,22 @@ function    sortHistoricalBubblesBySize() {
  ** DATABASE COMMUNICATIONS
  */
 
+function    retrieveFilesFromDB() {
+    $.ajax(
+            {
+                dataType: "json",
+                data: {},
+                type: "GET",
+                url: "../server/GetFiles.php",
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error on GetFiles [" + errorThrown + "] [" + textStatus + "]");
+                },
+                success: function(d) {
+                    guiData.files = d;
+                }
+            });
+}
+
 function    retrieveEntriesFromDB() {
     $.ajax(
             {
@@ -786,7 +803,6 @@ function    retrieveEntityByIdEntry(axe, idx) {
                 },
                 success: function(data) {
                     dataEntries[axe] = data;
-                    console.log(dataEntries[axe]);
                 }
             });
 }
@@ -842,6 +858,8 @@ function    MoveCursor(pos, step) {
 
 function    selectBubbleCheckBox(name) {
     if (!load.loading) {
+        ChangeIdFile(1)       // TMP
+        return ;            // TMP
         name = unescape(name);
         for (var i = 0; i < bubbles.length; ++i) {
             if (bubbles[i].name == name) {
@@ -918,6 +936,7 @@ function    ChangeSize(value) {
 }
 
 function    ChangeIdFile(id) {
+    DisableUI();
     idFile = id;
     if (isPlaying) {
         isPlaying = false;
@@ -927,8 +946,29 @@ function    ChangeIdFile(id) {
     p.getBubbleDrawer().clear();
     p.getBubbleDrawer().loadingWindow();
     p.getBubbleDrawer().display();
-    //loading(axe, idx);
-    //load ALL
+    resetData();
+    initData();
+    launch();
+    EnableUI();
+}
+
+function    resetData() {
+    guiData.entries = null;
+    guiData.entities = null;
+    rawEntities = null;
+    entityYearMin = [];
+    entityYearMax = [];
+    scales = new ScaleData();
+    guiData = new GuiData();
+    currentAxes = new SelectAxes();
+    year = new YearData();
+    highlight = new HighlightedData();
+    load = new LoadingValues();
+    HistoricalMap = {};
+    OverMap = {};
+    dataEntries = [];
+    $(entityDiv).empty();
+    $('#timeSlider').empty();
 }
 
 function    AxeChanged(axe, idx) {
