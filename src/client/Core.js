@@ -239,6 +239,12 @@ function    launch() {
 
         document.getElementById("minColorValue").innerHTML = scales.mins[guiAxes.COLOR];
         document.getElementById("maxColorValue").innerHTML = scales.maxs[guiAxes.COLOR];
+        document.getElementById("colorCheckBox").checked = true;
+        $("#selectColorValue").next("input").checked = true;
+        p.getBubbleDrawer().useColor(guiData.colorActivated);
+        $("#selectSizeValue").next("input").autocomplete("enable");
+        document.getElementById("sizeCheckBox").checked = true;
+        p.getBubbleDrawer().useSize(guiData.sizeActivated);
         runApplication();
     }
     else
@@ -642,8 +648,6 @@ function    updateAxeSize(value) {
 }
 
 function    updateAxeColor(value) {
-    //if ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]) < 0)
-        //console.log("value: " + value + " col: " + ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR])));
     return (value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
 
