@@ -222,8 +222,8 @@ function    launch() {
         $("#selectSizeValue").next("input").autocomplete("option", "source", a);
         $("#selectSizeValue").next("input").attr("value", a[k].value);
 
-        document.getElementById("minColorValue").innerHTML = 0;
-        document.getElementById("maxColorValue").innerHTML = 100;
+        document.getElementById("minColorValue").innerHTML = scales.mins[guiAxes.COLOR];
+        document.getElementById("maxColorValue").innerHTML = scales.maxs[guiAxes.COLOR];
 
         runApplication();
     }
@@ -264,9 +264,13 @@ function    loading(axe, idx) {
         retrieveEntityByIdEntry(axe, idx);
         retrieveValueAmpl(axe, idx);
         retrieveYearAmpl(axe, idx);
-        retrieveValueAmpl(axe, idx);
     }
     if (dataEntries[load.axe] != null && entityYearMin[load.axe] != null && scales.mins[load.axe] != null) {
+        setMinMaxYear();
+        year.current = year.min;
+        init = true;
+
+        build_slider('#timeSlider', year.min, year.max, year.value, 1, 1);
         refreshBubbles();
         refreshDisplay();
         load.loading = false;
@@ -644,14 +648,16 @@ function    updateBubbleToLastAvailableYear(b) {
 // select the highest year value between the two lower
 // select the lowest year value between the two higher
 function    setMinMaxYear() {
-    if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
+    year.min = Math.max(Math.max(Math.max(entityYearMin[guiAxes.X], entityYearMin[guiAxes.Y]), entityYearMin[guiAxes.COLOR]), entityYearMin[guiAxes.SIZE]);
+    year.max = Math.min(Math.min(Math.min(entityYearMax[guiAxes.X], entityYearMax[guiAxes.Y]), entityYearMax[guiAxes.COLOR]), entityYearMax[guiAxes.SIZE]);
+    /*if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
         year.min = entityYearMin[guiAxes.Y];
     else
         year.min = entityYearMin[guiAxes.X];
     if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
         year.max = entityYearMax[guiAxes.X];
     else
-        year.max = entityYearMax[guiAxes.Y];
+        year.max = entityYearMax[guiAxes.Y];*/
 }
 
 function	refreshDisplay() {
@@ -991,6 +997,7 @@ function    AxeChanged(axe, idx) {
     p.getBubbleDrawer().clear();
     p.getBubbleDrawer().loadingWindow();
     p.getBubbleDrawer().display();
+    $('#timeSlider').empty();
     loading(axe, idx);
 }
 

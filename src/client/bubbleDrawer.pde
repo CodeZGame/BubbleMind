@@ -284,7 +284,7 @@ class    BubbleDrawer {
 		mainBuffer.text(newY, offsetX - mainBuffer.textWidth(newY) - 5, posY - (valueHeight + 5) / 2 + 2);
 	}
 	// AXE SIZE - TMP
-	if (this._useSize) {
+	/*if (this._useSize) {
 		mainBuffer.fill(255);
 		mainBuffer.rect(650, 35, mainBuffer.textWidth("size: " + round(sizeVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
@@ -296,7 +296,7 @@ class    BubbleDrawer {
 		mainBuffer.rect(650, 10, mainBuffer.textWidth("color: " + round(colVal)) + 8, valueHeight + 5, 0, 0, 0, 0);
 		mainBuffer.fill(0);
 		mainBuffer.text("color: " + round(colVal), 650 + 5, 10 + 2);
-	}
+	}*/
 
 	mainBuffer.strokeWeight(stdStrokeWeight, this._defaultAlphaValue);
     mainBuffer.stroke(0);
