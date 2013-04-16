@@ -536,7 +536,7 @@ function	unselectAll() {
         document.getElementById("entity[" + [bubbles[i].name] + "]").checked = false;
     }
     select = 0;
-    p.getBubbleDrawer().noBubbleSelected();
+    updateSelectBubble();
     refreshDisplay();
 }
 
@@ -715,10 +715,10 @@ function    addPreviousYearToHistory() {
     var years = {};
     for (var i = 0; i < bubbles.length; ++i) {
         if (bubbles[i].isClicked && bubbles[i].yearClick <= year.current) {
-            if (dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][bubbles[i].yearClick] == null
-                    || dataEntries[guiAxes.Y][bubbles[i].name] == null || dataEntries[guiAxes.Y][bubbles[i].name][bubbles[i].yearClick] == null
-                    || dataEntries[guiAxes.COLOR][bubbles[i].name] == null || dataEntries[guiAxes.COLOR][bubbles[i].name][bubbles[i].yearClick] == null
-                    || dataEntries[guiAxes.SIZE][bubbles[i].name] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][bubbles[i].yearClick] == null) {
+            if (dataEntries[guiAxes.X][bubbles[i].name] != null || dataEntries[guiAxes.X][bubbles[i].name][bubbles[i].yearClick] != null
+                    || dataEntries[guiAxes.Y][bubbles[i].name] != null || dataEntries[guiAxes.Y][bubbles[i].name][bubbles[i].yearClick] != null
+                    || dataEntries[guiAxes.COLOR][bubbles[i].name] != null || dataEntries[guiAxes.COLOR][bubbles[i].name][bubbles[i].yearClick] != null
+                    || dataEntries[guiAxes.SIZE][bubbles[i].name] != null || dataEntries[guiAxes.SIZE][bubbles[i].name][bubbles[i].yearClick] != null) {
                 addToHistorical(new Bubble(updateAxeX(dataEntries[guiAxes.X][bubbles[i].name][bubbles[i].yearClick]), updateAxeY(dataEntries[guiAxes.Y][bubbles[i].name][bubbles[i].yearClick]),
                         updateAxeSize(dataEntries[guiAxes.SIZE][bubbles[i].name][bubbles[i].yearClick]), updateAxeColor(dataEntries[guiAxes.COLOR][bubbles[i].name][bubbles[i].yearClick]),
                         bubbles[i].name, bubbles[i].yearClick, bubbles[i].yearClick));
