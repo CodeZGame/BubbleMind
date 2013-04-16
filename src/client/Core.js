@@ -68,10 +68,10 @@ function    ScaleData() {
 }
 
 function    SelectAxes() {
-    this.x = 1;
-    this.y = 2;
-    this.color = 3;
-    this.size = 4;
+    this.x = -1;
+    this.y = -1;
+    this.color = -1;
+    this.size = -1;
 }
 
 // Data shared between core and gui
@@ -139,28 +139,35 @@ function    initData() {
 }
 
 function    initAxes() {
-    retrieveYearAmpl(guiAxes.X, currentAxes.x);
-    retrieveYearAmpl(guiAxes.Y, currentAxes.y);
-    retrieveYearAmpl(guiAxes.SIZE, currentAxes.size);
-    retrieveYearAmpl(guiAxes.COLOR, currentAxes.color);
-    retrieveEntityByIdEntry(guiAxes.X, currentAxes.x);
-    retrieveEntityByIdEntry(guiAxes.Y, currentAxes.y);
-    retrieveEntityByIdEntry(guiAxes.SIZE, currentAxes.size);
-    retrieveEntityByIdEntry(guiAxes.COLOR, currentAxes.color);
-    retrieveValueAmpl(guiAxes.X, currentAxes.x);
-    retrieveValueAmpl(guiAxes.Y, currentAxes.y);
-    retrieveValueAmpl(guiAxes.SIZE, currentAxes.size);
-    retrieveValueAmpl(guiAxes.COLOR, currentAxes.color);
+    if (currentAxes.x != -1 && currentAxes.y != -1 && currentAxes.color != -1 && currentAxes.size != -1) {
+        retrieveYearAmpl(guiAxes.X, currentAxes.x);
+        retrieveYearAmpl(guiAxes.Y, currentAxes.y);
+        retrieveYearAmpl(guiAxes.SIZE, currentAxes.size);
+        retrieveYearAmpl(guiAxes.COLOR, currentAxes.color);
+        retrieveEntityByIdEntry(guiAxes.X, currentAxes.x);
+        retrieveEntityByIdEntry(guiAxes.Y, currentAxes.y);
+        retrieveEntityByIdEntry(guiAxes.SIZE, currentAxes.size);
+        retrieveEntityByIdEntry(guiAxes.COLOR, currentAxes.color);
+        retrieveValueAmpl(guiAxes.X, currentAxes.x);
+        retrieveValueAmpl(guiAxes.Y, currentAxes.y);
+        retrieveValueAmpl(guiAxes.SIZE, currentAxes.size);
+        retrieveValueAmpl(guiAxes.COLOR, currentAxes.color);
+    }
+    else
+        setTimeout(initAxes, 250);
 }
 
 // To change if no color or no size
 function    setBeginAxes() {
-    var k = 0;
+    var k = 9999999;
     var nbEntries = 0;
     if (guiData.entries != null) {
         for (var entry in guiData.entries) {
+            k = Math.min(k, entry);
             nbEntries = entry;
         }
+        if (k != 9999999)
+            nbEntries = k + parseInt(nbEntries);
         currentAxes.x = k++;
         currentAxes.y = k;
         if (k + 1 < nbEntries)
@@ -522,6 +529,8 @@ function    drawScales() {
 
 function	unselectAll() {
     for (i = 0; i < bubbles.length; ++i) {
+        if (bubbles[i].isClicked)
+            removeFromHistorical(bubbles[i].name);
         bubbles[i].yearClick = -1;
         bubbles[i].isClicked = false;
         document.getElementById("entity[" + [bubbles[i].name] + "]").checked = false;
@@ -535,10 +544,12 @@ function    updateSelectBubble() {
     if (select > 0) {
         $("#opacitySlider").slider("enable");
         p.getBubbleDrawer().bubbleSelected();
+        document.getElementById("deselectButton").disabled = false;
     }
     else {
         $("#opacitySlider").slider("disable");
         p.getBubbleDrawer().noBubbleSelected();
+        document.getElementById("deselectButton").disabled = true;
     }
 }
 
@@ -552,14 +563,10 @@ function    refreshBubbles() {
     var col;
     removeYearFromHistorical(year.current);
     for (i = 0; i < bubbles.length; ++i) {
-        //console.log("name: " + bubbles[i].name);
-        //console.log("data: " + dataEntries[guiAxes.X][bubbles[i].name]);
         if (dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][year.current] == null
                 || dataEntries[guiAxes.Y][bubbles[i].name] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current] == null
                 || dataEntries[guiAxes.COLOR][bubbles[i].name] == null || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current] == null
                 || dataEntries[guiAxes.SIZE][bubbles[i].name] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current] == null) {
-            /*console.log("NOT DRAW name: " + bubbles[i].name + " x: " + dataEntries[guiAxes.X][bubbles[i].name] + " y: " + dataEntries[guiAxes.Y][bubbles[i].name] + " color: " + dataEntries[guiAxes.COLOR][bubbles[i].name]
-             + " size: " + dataEntries[guiAxes.SIZE][bubbles[i].name]);*/
             if (!updateBubbleToLastAvailableYear(bubbles[i])) {
                 if (bubbles[i].crossed == false || bubbles[i].year > year.current) {
                     bubbles[i].draw = false;
@@ -593,7 +600,7 @@ function    refreshBubbles() {
                     bubbles[i].yearClick = year.current;
                 if (bubbles[i].draw && bubbles[i].isClicked && bubbles[i].year == year.current)
                     addToHistorical(bubbles[i]);
-                if (year.current + 1 < year.max && (dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null
+                if (year.current + 1 <= year.max && (dataEntries[guiAxes.X][bubbles[i].name] == null || dataEntries[guiAxes.X][bubbles[i].name][year.current + 1] == null
                         || dataEntries[guiAxes.Y][bubbles[i].name] == null || dataEntries[guiAxes.Y][bubbles[i].name][year.current + 1] == null
                         || dataEntries[guiAxes.COLOR][bubbles[i].name] == null || dataEntries[guiAxes.COLOR][bubbles[i].name][year.current + 1] == null
                         || dataEntries[guiAxes.SIZE][bubbles[i].name] == null || dataEntries[guiAxes.SIZE][bubbles[i].name][year.current + 1] == null)) {
@@ -632,6 +639,8 @@ function    updateAxeSize(value) {
 }
 
 function    updateAxeColor(value) {
+    //if ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]) < 0)
+        //console.log("value: " + value + " col: " + ((value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR])));
     return (value - scales.mins[guiAxes.COLOR]) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
 
@@ -657,14 +666,6 @@ function    updateBubbleToLastAvailableYear(b) {
 function    setMinMaxYear() {
     year.min = Math.max(Math.max(Math.max(entityYearMin[guiAxes.X], entityYearMin[guiAxes.Y]), entityYearMin[guiAxes.COLOR]), entityYearMin[guiAxes.SIZE]);
     year.max = Math.min(Math.min(Math.min(entityYearMax[guiAxes.X], entityYearMax[guiAxes.Y]), entityYearMax[guiAxes.COLOR]), entityYearMax[guiAxes.SIZE]);
-    /*if (entityYearMin[guiAxes.X] < entityYearMin[guiAxes.Y])
-        year.min = entityYearMin[guiAxes.Y];
-    else
-        year.min = entityYearMin[guiAxes.X];
-    if (entityYearMax[guiAxes.X] < entityYearMax[guiAxes.Y])
-        year.max = entityYearMax[guiAxes.X];
-    else
-        year.max = entityYearMax[guiAxes.Y];*/
 }
 
 function	refreshDisplay() {
@@ -882,8 +883,6 @@ function    MoveCursor(pos, step) {
 
 function    selectBubbleCheckBox(name) {
     if (!load.loading) {
-        ChangeIdFile(1)       // TMP
-        return;            // TMP
         name = unescape(name);
         for (var i = 0; i < bubbles.length; ++i) {
             if (bubbles[i].name == name) {
@@ -1046,6 +1045,7 @@ function    DisableUI() {
     $("#selectAxeYValue").next("input").autocomplete("disable");
     $("#selectColorValue").next("input").autocomplete("disable");
     $("#selectSizeValue").next("input").autocomplete("disable");
+    document.getElementById("deselectButton").disabled = true;
 }
 
 function    EnableUI() {
@@ -1055,6 +1055,7 @@ function    EnableUI() {
     $("#selectAxeYValue").next("input").autocomplete("enable");
     $("#selectColorValue").next("input").autocomplete("enable");
     $("#selectSizeValue").next("input").autocomplete("enable");
+    document.getElementById("deselectButton").disabled = false;
 }
 
 /*
