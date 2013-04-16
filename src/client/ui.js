@@ -17,8 +17,6 @@ $(function() {
 
     $("#selectFile").combobox();
     $("#selectFile").next("input").autocomplete("option", "position", {my : "right top", at: "right bottom" });
-    $("#selectFile").next("input").autocomplete({source: guiData.files});
-    $("#selectFile").next("input").attr("value", guiDat);
 
     $("#selectAxeYValue").combobox();
     $("#selectAxeYValue").next("input").on("autocompleteselect",

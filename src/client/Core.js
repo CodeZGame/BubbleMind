@@ -747,7 +747,6 @@ function    retrieveFilesFromDB() {
     $.ajax(
             {
                 dataType: "json",
-                data: {},
                 type: "GET",
                 url: "../server/GetFiles.php",
                 error: function(jqXHR, textStatus, errorThrown) {
