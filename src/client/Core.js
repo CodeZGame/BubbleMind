@@ -221,6 +221,10 @@ function    launch() {
             ++k;
         $("#selectSizeValue").next("input").autocomplete("option", "source", a);
         $("#selectSizeValue").next("input").attr("value", a[k].value);
+
+        document.getElementById("minColorValue").innerHTML = 0;
+        document.getElementById("maxColorValue").innerHTML = 100;
+
         runApplication();
     }
     else
