@@ -246,6 +246,8 @@ function    launch() {
         document.getElementById("sizeCheckBox").checked = true;
         p.getBubbleDrawer().useSize(guiData.sizeActivated);
         document.getElementById("deselectButton").disabled = true;
+        p.getBubbleDrawer().noBubbleSelected();
+        p.getBubbleDrawer().resetSize();
         runApplication();
     }
     else
@@ -959,10 +961,19 @@ function    ChangeOpacity(value) {
 }
 
 function    ChangeSize(value) {
-    guiData.cursorSize = value;
-    if (!isPlaying) {
-        refreshBubbles();
-        refreshDisplay();
+    if (document.getElementById("sizeCheckBox").checked == true) {
+        guiData.cursorSize = value;
+        if (!isPlaying) {
+            refreshBubbles();
+            refreshDisplay();
+        }
+    }
+    else {
+        p.getBubbleDrawer().setSize(value);
+        if (!isPlaying) {
+            refreshBubbles();
+            refreshDisplay();
+        }
     }
 }
 

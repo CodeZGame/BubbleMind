@@ -98,6 +98,7 @@ class    BubbleDrawer {
   private int	_defaultBrightness = 360;
   private int 	_defaultColor = 200;
   private boolean	_useColor = true;
+  private int 	_interfaceSizeValue = 20;
   private int 	_defaultSize = 20;
   private boolean	_useSize = true;
 
@@ -105,7 +106,7 @@ class    BubbleDrawer {
   }
 
   void drawBubble(int posX, int posY, int size, int col, boolean clicked, boolean crossed) {
-  	this._useSize ? size : size = this._defaultSize;
+  	this._useSize ? size : size = this._interfaceSizeValue;
   	if (clicked) {
   		mainBuffer.stroke(0, 0, 0, this._defaultAlphaValue);
   		mainBuffer.fill(this._useColor ? col : this._defaultColor, this._defaultSaturation, this._defaultBrightness, this._defaultAlphaValue);
@@ -322,6 +323,14 @@ class    BubbleDrawer {
 
   void	useSize(boolean use) {
   	this._useSize = use;
+  }
+
+  void	setSize(size) {
+  	this._interfaceSizeValue = size;
+  }
+
+  void	resetSize() {
+  	this._interfaceSizeValue = this._defaultSize;
   }
 
   String truncValue(value) {
