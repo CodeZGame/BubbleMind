@@ -233,7 +233,7 @@ function    launch() {
             f.push({value: guiData.files[b], id: b});
         }
         
-        k = 0;
+        k = idFile - 1;
         $("#selectFile").next("input").autocomplete({source: f});
         $("#selectFile").next("input").attr("value", f[k].value);
 
