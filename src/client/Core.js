@@ -121,7 +121,6 @@ function	initProcessing() {
         p.getBubbleDrawer().loadingWindow();
         p.getBubbleDrawer().display();
         p.bindJavascript(this);
-        retrieveFilesFromDB();
         initData();
         launch();
     }
@@ -130,6 +129,7 @@ function	initProcessing() {
 }
 
 function    initData() {
+    retrieveFilesFromDB();
     retrieveEntriesFromDB();
     retrieveEntitiesFromDB();
     setBeginAxes();
