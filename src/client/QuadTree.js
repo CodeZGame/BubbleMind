@@ -1,3 +1,4 @@
+// Not use, a Quadtree to check collisions between bubbles and mouse
 
 function QuadTree(rect, levelLimit)
 {

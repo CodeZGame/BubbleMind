@@ -1,4 +1,4 @@
-
+// A JavaScript combobox
 
 
 (function($) {

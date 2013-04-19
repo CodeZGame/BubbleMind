@@ -103,16 +103,27 @@ function	Bubble(posX, posY, size, col, name, year, yearClicked) {
     this.draw = true;
 }
 
+/*
+ ** A debug function
+ */
+
 Bubble.prototype.print = function() {
     p.println("bubble: x->" + this.posX + " y->" + this.posY + " size->" + this.size
             + " col->" + this.col + " name->" + this.name + " year->" + this.year
             + " clicked->" + this.isClicked);
 }
 
+/*
+ ** Run the Processing.js components
+ */
 
 function	runProcessing() {
     initProcessing();
 }
+
+/*
+ ** Initialises the Processing.js canvas
+ */
 
 function	initProcessing() {
     p = Processing.getInstanceById('ProcessingCanvas');
@@ -128,6 +139,10 @@ function	initProcessing() {
         setTimeout(initProcessing, 250);
 }
 
+/*
+ ** Initialises the datas
+ */
+
 function    initData() {
     retrieveFilesFromDB();
     retrieveEntriesFromDB();
@@ -137,6 +152,10 @@ function    initData() {
     scales.steps[guiAxes.X] = 10;
     scales.steps[guiAxes.Y] = 10;
 }
+
+/*
+ ** Initialises the axes
+ */
 
 function    initAxes() {
     if (currentAxes.x != -1 && currentAxes.y != -1 && currentAxes.color != -1 && currentAxes.size != -1) {
@@ -157,7 +176,10 @@ function    initAxes() {
         setTimeout(initAxes, 250);
 }
 
-// To change if no color or no size
+/*
+ ** To change if no color or no size
+ */
+
 function    setBeginAxes() {
     var k = 9999999;
     var nbEntries = 0;
@@ -180,6 +202,10 @@ function    setBeginAxes() {
     else
         setTimeout(setBeginAxes, 250);
 }
+
+/*
+ ** Launch the application, set the GUI, and load the data
+ */
 
 function    launch() {
     if (guiData.files != null && guiData.entries != null && rawEntities != null && dataEntries[guiAxes.X] != null
@@ -254,9 +280,17 @@ function    launch() {
         setTimeout(launch, 250);
 }
 
+/*
+ ** Set the GUI Entities
+ */
+
 function    setGuiEntities() {
     guiData.entities = jQuery.extend({}, rawEntities);
 }
+
+/*
+ ** Retrieve the data and create the bubbles
+ */
 
 function    createBubbles() {
     bubbles = [];
@@ -265,6 +299,10 @@ function    createBubbles() {
     }
 }
 
+/*
+ ** Run the application
+ */
+
 function	runApplication() {
     year.current = year.min;
     init = true;
@@ -272,6 +310,10 @@ function	runApplication() {
     refreshBubbles();
     refreshDisplay();
 }
+
+/*
+ ** Load axe data
+ */
 
 function    loading(axe, idx) {
     if (!load.loading) {
@@ -309,6 +351,10 @@ function    loading(axe, idx) {
     }
 }
 
+/*
+ ** Clear data from an axe
+ */
+
 function    clearDataForLoading(axe) {
     delete dataEntries[axe];
     entityYearMin[axe] = null;
@@ -316,6 +362,10 @@ function    clearDataForLoading(axe) {
     entityYearMax[axe] = null;
     scales.maxs[axe] = null;
 }
+
+/*
+ ** Draw the bubbles
+ */
 
 function    drawBubbles() {
     // Print historical bubbles
@@ -379,6 +429,10 @@ function    coordInfosTranslated(currVal, nextVal) {
         return parseFloat(currVal) + ((parseFloat(nextVal) - parseFloat(currVal)) * year.step);
 }
 
+/*
+ ** Draw bubbles from historicals
+ */
+
 function    drawHistoricalBubbles() {
     var pos = 0;
     for (var prop in HistoricalMap) {
@@ -407,6 +461,10 @@ function    addToOverMap(b) {
     OverMap[b.name] = (jQuery.extend({}, b));
 }
 
+/*
+ ** Draw bubbles names
+ */
+
 function    drawBubblesNames() {
     var highlightName = null;
     for (var b in OverMap) {
@@ -427,6 +485,10 @@ function    drawBubblesNames() {
         p.getBubbleDrawer().drawBubbleName(bubble.posX, bubble.posY, bubble.size, bubble.col, bubble.year);
     }
 }
+
+/*
+ ** Called when the mouse is over the plot
+ */
 
 function	overOnPlot(mX, mY) {
     var i;
@@ -471,7 +533,10 @@ function	overOnPlot(mX, mY) {
     }
 }
 
-// Test for mouse over bubble
+/*
+ ** Test for mouse over bubble
+ */
+
 function	overCircle(mX, mY, x, y, radius) {
     var disX = x - mX;
     var disY = y - mY;
@@ -484,7 +549,10 @@ function	overCircle(mX, mY, x, y, radius) {
     return false;
 }
 
-// If user click on a bubble
+/*
+ ** Called if user click on a bubble
+ */
+
 function	clickOnPlot() {
     var i;
     var found = false;
@@ -530,14 +598,26 @@ function	clickOnPlot() {
     refreshDisplay();
 }
 
+/*
+ ** Called when the mouse moves
+ */
+
 function    mouveMove() {
     refreshDisplay();
 }
+
+/*
+ ** Draw the scales X and Y
+ */
 
 function    drawScales() {
     p.getBubbleDrawer().drawScale(guiAxes.X, scales.mins[guiAxes.X], scales.maxs[guiAxes.X], scales.steps[guiAxes.X]);
     p.getBubbleDrawer().drawScale(guiAxes.Y, scales.mins[guiAxes.Y], scales.maxs[guiAxes.Y], scales.steps[guiAxes.Y]);
 }
+
+/*
+ ** Unselect all the bubbles (called by the button)
+ */
 
 function	unselectAll() {
     for (i = 0; i < bubbles.length; ++i) {
@@ -552,6 +632,10 @@ function	unselectAll() {
     refreshDisplay();
 }
 
+/*
+ ** Update selected bubbles
+ */
+
 function    updateSelectBubble() {
     if (select > 0) {
         $("#opacitySlider").slider("enable");
@@ -565,8 +649,11 @@ function    updateSelectBubble() {
     }
 }
 
-// Update values of bubbles if valid data
-// also add bubble to historicalMap if selected
+/*
+ ** Update values of bubbles if valid data
+ ** also add bubble to historicalMap if selected
+ */
+
 function    refreshBubbles() {
     var i;
     var x;
@@ -638,6 +725,10 @@ function    refreshBubbles() {
     addPreviousYearToHistory();
 }
 
+/*
+ ** The following four functions udpate axes
+ */
+
 function    updateAxeX(value) {
     return (value - scales.mins[guiAxes.X]) * p.getBubbleWidth() / (scales.maxs[guiAxes.X] - scales.mins[guiAxes.X]);
 }
@@ -653,6 +744,10 @@ function    updateAxeSize(value) {
 function    updateAxeColor(value) {
     return (scales.maxs[guiAxes.COLOR] - value) * 255 / (scales.maxs[guiAxes.COLOR] - scales.mins[guiAxes.COLOR]);
 }
+
+/*
+ ** Update the bubble with datas from the last available year
+ */
 
 function    updateBubbleToLastAvailableYear(b) {
     for (var y = year.current; y > year.min; --y) {
@@ -671,12 +766,19 @@ function    updateBubbleToLastAvailableYear(b) {
     return false;
 }
 
-// select the highest year value between the two lower
-// select the lowest year value between the two higher
+/*
+ ** Select the highest year value between the two lower
+ ** Select the lowest year value between the two higher
+ */
+
 function    setMinMaxYear() {
     year.min = Math.max(Math.max(Math.max(entityYearMin[guiAxes.X], entityYearMin[guiAxes.Y]), entityYearMin[guiAxes.COLOR]), entityYearMin[guiAxes.SIZE]);
     year.max = Math.min(Math.min(Math.min(entityYearMax[guiAxes.X], entityYearMax[guiAxes.Y]), entityYearMax[guiAxes.COLOR]), entityYearMax[guiAxes.SIZE]);
 }
+
+/*
+ ** Refresh display
+ */
 
 function	refreshDisplay() {
     p.getBubbleDrawer().clear();
@@ -688,6 +790,10 @@ function	refreshDisplay() {
     p.getBubbleDrawer().display();
 }
 
+/*
+ ** Refresh display without overviewed bubble
+ */
+
 function    refreshDisplayNoOver() {
     p.getBubbleDrawer().clear();
     drawScales();
@@ -697,10 +803,17 @@ function    refreshDisplayNoOver() {
     p.getBubbleDrawer().display();
 }
 
+/*
+ ** Used to sort bubbles by size
+ */
 
 function    sortBubblesSize(b1, b2) {
     return b2.size - b1.size;
 }
+
+/*
+ ** Used to sort bubbles by year
+ */
 
 function    sortBubblesYear(b1, b2) {
     return b1.year - b2.year;
@@ -708,6 +821,10 @@ function    sortBubblesYear(b1, b2) {
 
 /*
  ** HISTORICAL METHODS
+ */
+
+/*
+ ** add a bubble to the historical
  */
 
 function    addToHistorical(bubble) {
@@ -718,6 +835,10 @@ function    addToHistorical(bubble) {
             return;
     HistoricalMap[bubble.name].push(jQuery.extend({}, bubble));
 }
+
+/*
+ ** Add a previous year to the history
+ */
 
 function    addPreviousYearToHistory() {
     var j;
@@ -757,6 +878,10 @@ function    addPreviousYearToHistory() {
     }
 }
 
+/*
+ ** Remove a year from historial
+ */
+
 function    removeYearFromHistorical(y) {
     for (var b in HistoricalMap) {
         for (var i = 0; i < HistoricalMap[b].length; ++i) {
@@ -766,17 +891,31 @@ function    removeYearFromHistorical(y) {
     }
 }
 
+/*
+ ** Remove an element from historical
+ */
+
 function    removeFromHistorical(n) {
     delete HistoricalMap[n];
 }
+
+/*
+ ** Sort all the bubbles from historical
+ */
 
 function    sortHistoricalBubblesBySize() {
     for (var prop in HistoricalMap)
         HistoricalMap[prop].sort(sortBubblesSize);
 }
 
+
+
 /*
  ** DATABASE COMMUNICATIONS
+ */
+
+/*
+ ** Retrieve the list of files from the server
  */
 
 function    retrieveFilesFromDB() {
@@ -794,6 +933,10 @@ function    retrieveFilesFromDB() {
             });
 }
 
+/*
+ ** Retrieve all the entries from the server
+ */
+
 function    retrieveEntriesFromDB() {
     $.ajax(
             {
@@ -809,6 +952,10 @@ function    retrieveEntriesFromDB() {
                 }
             });
 }
+
+/*
+ ** Retrieve all the entities from the server
+ */
 
 function    retrieveEntitiesFromDB() {
     $.ajax(
@@ -826,7 +973,11 @@ function    retrieveEntitiesFromDB() {
             });
 }
 
-function    retrieveEntityByIdEntry(axe, idx) {
+/*
+ ** Retrieve an entity from the server
+ */
+
+        function    retrieveEntityByIdEntry(axe, idx) {
     $.ajax(
             {
                 dataType: "json",
@@ -841,6 +992,10 @@ function    retrieveEntityByIdEntry(axe, idx) {
                 }
             });
 }
+
+/*
+ ** Retrieve the years amplitudes from the server
+ */
 
 function    retrieveYearAmpl(axe, idx) {
     $.ajax(
@@ -858,6 +1013,10 @@ function    retrieveYearAmpl(axe, idx) {
                 }
             });
 }
+
+/*
+ ** Retrieve the amplitudes values from the server
+ */
 
 function    retrieveValueAmpl(axe, idx) {
     $.ajax(
@@ -882,6 +1041,10 @@ function    retrieveValueAmpl(axe, idx) {
  ** GUI METHODS
  */
 
+/*
+ ** Called when the mouse moves over the plot
+ */
+
 // 0 -> X AXIS || 1 -> Y AXIS
 function    MoveCursor(pos, step) {
     guiData.cursorPos = pos;
@@ -890,6 +1053,10 @@ function    MoveCursor(pos, step) {
     refreshBubbles();
     refreshDisplay();
 }
+
+/*
+ ** Called when the mouse select an item of the checkBoxes list
+ */
 
 function    selectBubbleCheckBox(name) {
     if (!load.loading) {
@@ -914,6 +1081,10 @@ function    selectBubbleCheckBox(name) {
     }
 }
 
+/*
+ ** Called when the mouse is over the checkBoxes list
+ */
+
 function    mouseOverCheckBox(name) {
     if (!load.loading) {
         name = unescape(name);
@@ -931,15 +1102,27 @@ function    mouseOverCheckBox(name) {
     }
 }
 
+/*
+ ** Called when the mouse leaves the checkBoxes list
+ */
+
 function    mouveLeaveCheckBoxes() {
     highlight.bubble = -1;
     highlight.inHist = null;
     refreshDisplay();
 }
 
+/*
+ ** Called when the spped changed (when the value of the speedSlider change)
+ */
+
 function    SetSpeed(speed) {
     guiData.cursorSpeed = speed;
 }
+
+/*
+ ** Call when the "Play" button is clicked
+ */
 
 function    SetPlayState() {
     isPlaying = !isPlaying;
@@ -953,12 +1136,20 @@ function    SetPlayState() {
     }
 }
 
+/*
+ ** Called when the opacity of the bubbles changed (when the value of the opacitySlider change)
+ */
+
 function    ChangeOpacity(value) {
     guiData.opacity = value;
     p.getBubbleDrawer().adjustOpacity(value);
     if (!isPlaying)
         refreshDisplay();
 }
+
+/*
+ ** Called when the size of the bubbles changed (when the value of the sizeSlider change)
+ */
 
 function    ChangeSize(value) {
     if (document.getElementById("sizeCheckBox").checked == true) {
@@ -977,6 +1168,10 @@ function    ChangeSize(value) {
     }
 }
 
+/*
+ ** Called when an other file is selectionned
+ */
+
 function    ChangeIdFile(id) {
     DisableUI();
     idFile = id;
@@ -993,6 +1188,10 @@ function    ChangeIdFile(id) {
     launch();
     EnableUI();
 }
+
+/*
+ ** reset all datas
+ */
 
 function    resetData() {
     guiData.entries = null;
@@ -1013,6 +1212,10 @@ function    resetData() {
     $('#timeSlider').empty();
 }
 
+/*
+ ** Called when an Axe is selectionned
+ */
+
 function    AxeChanged(axe, idx) {
     if (isPlaying) {
         isPlaying = false;
@@ -1025,6 +1228,10 @@ function    AxeChanged(axe, idx) {
     $('#timeSlider').empty();
     loading(axe, idx);
 }
+
+/*
+ ** Enable or diable the Color of the bubble (call with a checkBox)
+ */
 
 function    ColorCheckBox(e) {
     guiData.colorActivated = !guiData.colorActivated;
@@ -1041,6 +1248,10 @@ function    ColorCheckBox(e) {
         refreshDisplay();
 }
 
+/*
+ ** Enable or diable the Size of the bubble (call with a checkBox)
+ */
+
 function    SizeCheckBox() {
     guiData.sizeActivated = !guiData.sizeActivated;
     p.getBubbleDrawer().useSize(guiData.sizeActivated);
@@ -1056,6 +1267,10 @@ function    SizeCheckBox() {
         refreshDisplay();
 }
 
+/*
+ ** Disable the GUI
+ */
+
 function    DisableUI() {
     $("#sliderDiv").slider("disable");
     $("#speedSlider").slider("disable");
@@ -1066,6 +1281,10 @@ function    DisableUI() {
     $("#selectSizeValue").next("input").autocomplete("disable");
     document.getElementById("deselectButton").disabled = true;
 }
+
+/*
+ ** Enable the GUI
+ */
 
 function    EnableUI() {
     $("#sliderDiv").slider("enable");

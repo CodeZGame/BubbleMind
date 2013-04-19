@@ -1,6 +1,10 @@
 $(function() {
     runProcessing();
 
+    /*
+     ** Set the speedSlider
+     */
+
     $("#speedSlider").slider({
         orientation: "vertical",
         min: 1,
@@ -8,6 +12,10 @@ $(function() {
         value: 20,
         animate: "slow"
     });
+
+    /*
+     ** Set all the comboboxes 
+     */
 
     $("#selectAxeXValue").combobox();
     $("#selectAxeXValue").next("input").on("autocompleteselect",
@@ -23,7 +31,6 @@ $(function() {
             function(event, ui) {
                 AxeChanged(guiAxes.Y, ui.item.id);
             });
-//    $("#selectAxeYType").combobox();
 
     $("#selectColorValue").combobox();
     $("#selectColorValue").next("input").on("autocompleteselect",
@@ -44,6 +51,10 @@ $(function() {
             function(event, ui) {
                 ChangeIdFile(ui.item.id);
             });
+
+    /*
+     ** Set the opacity slider
+     */
 
     $("#opacitySlider").slider({
         min: 0,

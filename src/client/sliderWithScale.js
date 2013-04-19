@@ -1,3 +1,7 @@
+/*
+ ** A slider with a scale (Use to show years) 
+ */
+
 var totalsteps;
 var nbsteps;
 
